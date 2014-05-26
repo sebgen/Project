@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="EventSys">
+      <UniqueIdentifier>{7041aeca-4c03-4b36-bcf4-68ae972e9782}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -72,6 +75,18 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventSys\EventManager.h">
+      <Filter>EventSys</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSys\EventManagerImpl.h">
+      <Filter>EventSys</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSys\Events.h">
+      <Filter>EventSys</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSys\stdafx.h">
+      <Filter>EventSys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -124,6 +139,15 @@
     </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSys\EventManager.cpp">
+      <Filter>EventSys</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSys\EventManagerImpl.cpp">
+      <Filter>EventSys</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSys\Events.cpp">
+      <Filter>EventSys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -160,7 +160,7 @@ float4 PS_main(PSIn input) : SV_Target
 	float4 spec = float4(0,0,0,0);
 	float4 A,D,S;
 
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < nroflights; i++)
 	{
 		float3 lightToEye = plights[i].Position_Range.xyz - gEyePosW.xyz;
 		float l = length(lightToEye);

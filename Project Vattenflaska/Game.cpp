@@ -3,15 +3,176 @@
 HRESULT Game::Update( float deltaTime )
 {
 	HRESULT hr = S_OK;
+	POINT pos= m_input->GetMousePos();
 
 	UpdateCbCamera();
 	UpdateCbLight( deltaTime );  /// NY
 
+	
+
 	m_currentRoom->Update( deltaTime, m_camera );
+
+	handleMovement(deltaTime);
+	m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
 
 	return hr;
 }
+void Game::handleMovement(float deltaTime)
+{
+	
+	/// TEST
+			//================================================================================
+			if ( isWalking )
+			{
+				animationTimer +=deltaTime;
 
+				if( isForward )
+				{
+					if( animationTimer >= 0.01f )
+					{
+						//m_navMesh->moveForward(moveFactor);
+						m_camera->Walk( moveFactor );
+						animationTimer = 0.0f;
+
+						if ( moveUnits <= 1  )
+						{
+							moveUnits = nrOfMovement;
+							//m_navMesh->moveDone();
+							isWalking = false;
+							isForward = false;
+						}
+						else
+						{
+							moveUnits--;
+						
+						}
+							
+					}			
+				}
+				else if( isBackward )
+				{
+					if( animationTimer >= 0.01f )
+					{
+						m_camera->Walk( -moveFactor );
+						//m_navMesh->moveBackWard(moveFactor);
+						animationTimer = 0.0f;
+
+						if ( moveUnits <= 1 )
+						{
+							moveUnits  = nrOfMovement;
+							//m_navMesh->moveDone();
+							isWalking  = false;
+							isBackward = false;
+						}
+						else
+						{
+							moveUnits--;
+							
+						}
+					}
+				}
+			}
+
+
+			else if( isStrafing )
+			{
+				animationTimer += m_gameTime->GetDeltaTime();
+
+				if( isRight )
+				{
+					if( animationTimer >= 0.01f )
+					{
+
+						//m_navMesh->moveRight(moveFactor);
+						m_camera->Strafe( moveFactor );
+						animationTimer = 0.0f;
+
+						if ( moveUnits <= 1 )
+						{
+							moveUnits = nrOfMovement;
+							//m_navMesh->moveDone();
+							isStrafing = false;
+							isRight    = false;
+						}
+						else
+						{
+							moveUnits--;
+							
+						}
+					}
+				}
+				else if( isLeft )
+				{
+					if( animationTimer >= 0.01f )
+					{
+
+						//m_navMesh->moveLeft(moveFactor);
+						m_camera->Strafe( -moveFactor );
+						animationTimer = 0.0f;
+
+						if ( moveUnits <= 1 )
+						{
+							moveUnits  = nrOfMovement;
+							//m_navMesh->moveDone();
+							isStrafing = false;
+							isLeft	   = false;
+						}
+						else
+						{
+							moveUnits--;
+							
+						}
+					}
+				}
+			}
+
+			else if( isRotating )
+			{
+				animationTimer +=deltaTime;
+
+				if( isRotatingLeft )
+				{
+					if( animationTimer >= 0.01f )
+					{
+						m_camera->RotateY( XMConvertToRadians(-rotationDegree));
+						animationTimer=0;
+
+						if ( moveUnits <= 1 )
+						{
+							moveUnits  = nrOfMovement;
+							isRotating = false;
+							isRotatingLeft = false;
+							//m_testLever->IsRotating( false );
+						}
+						else
+							moveUnits--;
+					}
+				}
+				else if( isRotatingRight )
+				{
+					if( animationTimer >= 0.01f )
+					{
+						m_camera->RotateY( XMConvertToRadians(rotationDegree));
+						animationTimer=0;
+						if ( moveUnits <= 1 )
+						{
+							
+							moveUnits  = nrOfMovement;
+							isRotating = false;
+							isRotatingRight    = false;
+						}
+						else
+							moveUnits--;
+					}
+				}
+			}
+			else
+			{
+				// Process input
+				//OutputDebugString("inne i handlemovement\n");
+				HandleMovementBools(isWalking, isForward, isBackward, isStrafing, isRight, isLeft, isRotating, isRotatingLeft, isRotatingRight );
+			}
+}
 HRESULT Game::Draw( float deltaTime )
 {
 	HRESULT hr = S_OK;
@@ -299,18 +460,23 @@ int Game::Run()
 
 
 	//-----CAMERA MOVEMENT---------
-	bool isWalking   = false;
-	bool isForward	 = false;
-	bool isBackward  = false;
+	 isWalking   = false;
+	 isForward	 = false;
+	 isBackward  = false;
 
-	bool isStrafing  = false;
-	bool isRight	 = false;
-	bool isLeft		 = false;
+	 isStrafing  = false;
+	 isRight	 = false;
+	 isLeft		 = false;
 
-	bool isRotating  = false;
 
-	float moveFactor = 0.5f;
-	float moveUnits  = 10.0f;
+	 isRotating  = false;
+	 isRotatingLeft= false;
+	 isRotatingRight= false;
+
+	 moveUnits  = 20.0f;
+	 moveFactor = 1/moveUnits;
+	 nrOfMovement = moveUnits;
+	 rotationDegree=90/moveUnits;
 	//-----------------------------
 
 	//-------GATE CONTROLS---------
@@ -320,7 +486,7 @@ int Game::Run()
 	//-----------------------------
 
 	//---------ANIMATION-----------
-	float animationTimer = 0.0f;
+	 animationTimer = 0.0f;
 	//-----------------------------
 
 
@@ -334,161 +500,35 @@ int Game::Run()
 		else
 		{
 				
-			GetCursorPos( &p );
-			m_input->MouseMove( msg.wParam, p.x, p.y, m_camera );
+			//GetCursorPos( &p );
+			//m_input->MouseMove( msg.wParam, p.x, p.y, m_camera );
+
 
 			// See GameTime.cpp for implementation
 			m_gameTime->Tick();
 
-			/// TEST
-			//================================================================================
-			if ( isWalking )
-			{
-				animationTimer += m_gameTime->GetDeltaTime();
+		
+			////---------- GATE ---------------
+			//if( isOpening )
+			//{
+			//	if( !m_currentRoom->GetDoor()->IsOpen() )
+			//	{
+			//		m_currentRoom->GetDoor()->OpenDoor();
+			//		isOpening = false;
+			//	}			
+			//}
 
-				if( isForward )
-				{
-					if( animationTimer >= 0.01f )
-					{
-						m_camera->Walk( moveFactor );
-						animationTimer = 0.0f;
-
-						if ( moveUnits <= 0 )
-						{
-							moveUnits = 10.0f;
-							isWalking = false;
-							isForward = false;
-						}
-						else
-							moveUnits--;
-					}			
-				}
-				else if( isBackward )
-				{
-					if( animationTimer >= 0.01f )
-					{
-						m_camera->Walk( -moveFactor );
-						animationTimer = 0.0f;
-
-						if ( moveUnits <= 0 )
-						{
-							moveUnits  = 10.0f;
-							isWalking  = false;
-							isBackward = false;
-						}
-						else
-							moveUnits--;
-					}
-				}
-			}
-
-
-			else if( isStrafing )
-			{
-				animationTimer += m_gameTime->GetDeltaTime();
-
-				if( isRight )
-				{
-					if( animationTimer >= 0.01f )
-					{
-						m_camera->Strafe( moveFactor );
-						animationTimer = 0.0f;
-
-						if ( moveUnits <= 0 )
-						{
-							moveUnits = 10.0f;
-							isStrafing = false;
-							isRight    = false;
-						}
-						else
-							moveUnits--;
-					}
-				}
-				else if( isLeft )
-				{
-					if( animationTimer >= 0.01f )
-					{
-						m_camera->Strafe( -moveFactor );
-						animationTimer = 0.0f;
-
-						if ( moveUnits <= 0 )
-						{
-							moveUnits  = 10.0f;
-							isStrafing = false;
-							isLeft	   = false;
-						}
-						else
-							moveUnits--;
-					}
-				}
-			}
-
-			else if( isRotating )
-			{
-				animationTimer += m_gameTime->GetDeltaTime();
-				double radians = (XM_PIDIV2 / 10);
-
-				if( isRight )
-				{
-					if( animationTimer >= 0.01f )
-					{
-						m_camera->RotateY( radians );
-
-						if ( moveUnits <= 1 )
-						{
-							moveUnits  = 10.0f;
-							isRotating = false;
-							isRight    = false;
-
-						}
-						else
-							moveUnits--;
-					}
-				}
-				else if( isLeft )
-				{
-					if( animationTimer >= 0.01f )
-					{
-						m_camera->RotateY( -radians );
-						
-						if ( moveUnits <= 1 )
-						{
-							moveUnits  = 10.0f;
-							isRotating = false;
-							isRight    = false;
-						}
-						else
-							moveUnits--;
-					}
-				}
-			}
-			else
-			{
-				// Process input
-				HandleInput( msg.message, msg.wParam, msg.lParam, m_gameTime->GetDeltaTime(), isWalking, isForward, isBackward, isStrafing, isRight, isLeft, isRotating, isOpening, isClosing );
-			}
-
-			//---------- GATE ---------------
-			if( isOpening )
-			{
-				if( !m_currentRoom->GetDoor()->IsOpen() )
-				{
-					m_currentRoom->GetDoor()->OpenDoor();
-					isOpening = false;
-				}			
-			}
-
-			if( isClosing )
-			{
-				//m_scene->GetGate()->ChangeYCoordinate( -0.10f );
-				if( gateUnits <= 0 )
-				{
-					gateUnits = 220.0f;
-					isClosing = false;
-				}
-				else
-					gateUnits -= 10.0f;			
-			}
+			//if( isClosing )
+			//{
+			//	//m_scene->GetGate()->ChangeYCoordinate( -0.10f );
+			//	if( gateUnits <= 0 )
+			//	{
+			//		gateUnits = 220.0f;
+			//		isClosing = false;
+			//	}
+			//	else
+			//		gateUnits -= 10.0f;			
+			//}
 			//----------------------------------------
 
 			//================================================================================
@@ -496,6 +536,7 @@ int Game::Run()
 			// Lock height every frame
 			m_camera->SetHeight( 1.6f );
 
+			HandleInput( msg.message, msg.wParam, msg.lParam );
 			// Update game logic
 			Update( m_gameTime->GetDeltaTime() );
 

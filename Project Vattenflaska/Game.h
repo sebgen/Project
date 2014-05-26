@@ -31,7 +31,28 @@ class Game : public Application
 		ID3D11VertexShader*		m_vertexShader;
 		ID3D11PixelShader*		m_pixelShader;
 
+		
+		//-----CAMERA MOVEMENT---------
+		bool isWalking;
+		bool isForward;
+		bool isBackward;
 
+		bool isStrafing;
+		bool isRight;
+		bool isLeft;
+
+		bool isRotating;
+		bool isRotatingLeft;
+		bool isRotatingRight;
+
+		float moveFactor;
+		float moveUnits;
+		float nrOfMovement;
+		float animationTimer;
+		float rotationDegree;
+		//------------
+
+		//picking stuff
 		//-------
 		// Game |
 		//-------
@@ -64,6 +85,8 @@ class Game : public Application
 		Game();
 		~Game();
 
+
+		void handleMovement(float deltaTime);
 		HRESULT InitializeGame();
 		int Run();
 		void Shutdown(); // Release all COM-objects and deallocate member pointers

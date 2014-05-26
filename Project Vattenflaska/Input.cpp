@@ -63,7 +63,7 @@ HRESULT Input::Initialize( HWND hwnd )
 
 // FPS camera controls
 // Not final
-void Input::MouseMove( WPARAM btnState, int x, int y, Camera* camera )
+void Input::MouseMove( bool btnState, int x, int y, Camera* camera )
 {
 	//if( ( btnState & MK_RBUTTON ) != 0 )
 	//{
@@ -78,19 +78,19 @@ void Input::MouseMove( WPARAM btnState, int x, int y, Camera* camera )
 	//m_MousePos.x = x;
 	//m_MousePos.y = y;
 
-	if ( ( btnState & MK_LBUTTON ) != 0 )
+	if ( btnState)
 	{
 		// Make each pixel correspond to a quarter of a degree.
 		float dx = DirectX::XMConvertToRadians( 
-							0.25f * static_cast<float>( x - m_MousePos.x ) );
+							0.25f * static_cast<float>( x - m_tempPos.x ) );
 		float dy = DirectX::XMConvertToRadians(
-							0.25f * static_cast<float>( y - m_MousePos.y ) );
+							0.25f * static_cast<float>( y - m_tempPos.y ) );
 
 		camera->Pitch( dy );
 		camera->RotateY( dx );
 	}
-	m_MousePos.x = x;
-	m_MousePos.y = y;
+	m_tempPos.x = x;
+	m_tempPos.y = y;
 
 	camera->UpdateViewMatrix();
 

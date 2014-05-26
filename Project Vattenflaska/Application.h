@@ -59,8 +59,8 @@ class Application
 		HRESULT Update( float deltaTime );
 		HRESULT Draw( float deltaTime );
 
-		void HandleInput( UINT msg, WPARAM wParam, LPARAM lParam, float deltaTime, bool& isWalking, bool& isForward, bool& isBackward, bool& isStrafing, bool& isRight, bool& isLeft, bool& isRotating, bool& isOpening, bool& isClosing );
-
+		void HandleInput( UINT msg, WPARAM wParam, LPARAM lParam);
+		void HandleMovementBools(bool& isWalking, bool& isForward, bool& isBackward, bool& isStrafing, bool& isRight, bool& isLeft, bool& isRotating, bool& isRotatingLeft, bool& isRotatingRight );
 	public:
 		LRESULT CALLBACK WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 

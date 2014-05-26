@@ -47,6 +47,7 @@ private:
 
 	POINT m_MousePos;			// Mouse screen coordinates
 	POINT m_MousePosRaw;		// high-definition mouse data
+	POINT m_tempPos;
 	RAWINPUTDEVICE m_Rid[1];		// for high-definition mouse (change to 2 for hd keyboard and use "m_Rid[1].usUsage = RAW_INPUT_KEYBOARD")
 	bool m_MouseCaptured;		// true if mouse captured
 	bool m_MouseLButton;		// True if left mouse button down
@@ -63,7 +64,7 @@ public:
 //==================================================================
 
 	// FPS camera controls
-	void MouseMove( WPARAM btnState, int x, int y, Camera* camera );
+	void MouseMove( bool btnState, int x, int y, Camera* camera );
 
 	// Reads mouse screen position into m_MousePos
 	void MousePosition( LPARAM lParam );

@@ -63,74 +63,99 @@ LRESULT CALLBACK Application::WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
 
-void Application::HandleInput( UINT msg, WPARAM wParam, LPARAM lParam, float deltaTime, bool& isWalking, bool& isForward, bool& isBackward, bool& isStrafing, bool& isRight, bool& isLeft, bool& isRotating, bool& isOpening, bool& isClosing )
+void Application::HandleInput( UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	//switch ( msg )
-	//	{
 
-	//			// Key down
-	//		case WM_KEYDOWN: case WM_SYSKEYDOWN:
-	//			m_input->KeyDown( wParam );
-	//			if( GetAsyncKeyState( 'W' ) )
-	//				m_scene->GetCamera()->Walk( 10 );
-	//			return;
+	
+	switch ( msg )
+		{
 
-	//			// Key up
-	//		case WM_KEYUP: case WM_SYSKEYUP:
-	//			m_input->KeyUp( wParam );
-	//			return;
+				// Mouse move
+			case WM_MOUSEMOVE:
+				m_input->MousePosition( lParam );
+				return;
 
-	//			// Mouse move
-	//		case WM_MOUSEMOVE:
-	//			m_input->MousePosition( lParam );
-	//			return;
+				// Mouse move raw
+			case WM_INPUT:
+				m_input->MousePositionRaw( lParam );
+				return;
 
-	//			// Mouse move raw
-	//		case WM_INPUT:
-	//			//m_input->MousePositionRaw( lParam );
-	//			return;
+				// Mouse left button down
+			case WM_LBUTTONDOWN:                   
+                m_input->SetMouseLButton( true );
+				m_input->MousePosition( lParam );             
+                return;
 
-	//			// Mouse left button down
-	//		case WM_LBUTTONDOWN:                   
- //               m_input->SetMouseLButton( true );
-	//			m_input->MousePosition( lParam );             
- //               return;
+				// Mouse left button up
+            case WM_LBUTTONUP:                     
+                m_input->SetMouseLButton( false );
+				m_input->MousePosition( lParam );             
+                return;
 
-	//			// Mouse left button up
- //           case WM_LBUTTONUP:                     
- //               m_input->SetMouseLButton( false );
-	//			m_input->MousePosition( lParam );             
- //               return;
+				// Mouse right button down
+			case WM_RBUTTONDOWN:                    
+                m_input->SetMouseRButton( true );
+                m_input->MousePosition( lParam );             
+                return;
 
-	//			// Mouse right button down
-	//		case WM_RBUTTONDOWN:                    
- //               m_input->SetMouseRButton( true );
- //               m_input->MousePosition( lParam );             
- //               return;
-
-	//			// Mouse right button up
- //           case WM_RBUTTONUP:                      
- //               m_input->SetMouseRButton( false );
- //               m_input->MousePosition( lParam );             
- //               return;
+				// Mouse right button up
+            case WM_RBUTTONUP:                      
+                m_input->SetMouseRButton( false );
+                m_input->MousePosition( lParam );             
+                return;
+			
+	}
+	//	// Input test 
+	//if( GetAsyncKeyState('W') & 0x8000 )
+	//{
+	//	isWalking = true;
+	//	isForward = true;
 	//}
 
-
-	//// Input test 
-	//if( GetAsyncKeyState('W') & 0x8000 )
-	//	m_scene->GetCamera()->Walk( 5.0f * deltaTime ); 
-
 	//if( GetAsyncKeyState('S') & 0x8000 )
-	//	m_scene->GetCamera()->Walk( -5.0f * deltaTime );
+	//{
+	//	isWalking  = true;
+	//	isBackward = true;
+	//}
 
 	//if( GetAsyncKeyState('A') & 0x8000 ) 
-	//	m_scene->GetCamera()->Strafe( -5.0f * deltaTime );
+	//{
+	//	isStrafing = true;
+	//	isLeft	   = true;
+	//}
 	//
 	//if( GetAsyncKeyState('D') & 0x8000 )
-	//	m_scene->GetCamera()->Strafe( 5.0f * deltaTime );
+	//{
+	//	isStrafing = true;
+	//	isRight	   = true;
+	//}
 
-		// Input test 
-	if( GetAsyncKeyState('W') & 0x8000 )
+	//if( GetAsyncKeyState('E') & 0x8000 )
+	//{
+	//	isRotating = true;
+	//	isRight	   = true;
+	//}
+
+	//if( GetAsyncKeyState('Q') & 0x8000 )
+	//{
+	//	isRotating = true;
+	//	isLeft	   = true;
+	//}
+
+	//if( GetAsyncKeyState('G') & 0x8000 )
+	//{
+	//	isOpening = true;
+	//}
+
+	//if( GetAsyncKeyState('C') & 0x8000 )
+	//{
+	//	isClosing = true;
+	//}
+}
+
+void Application::HandleMovementBools( bool& isWalking, bool& isForward, bool& isBackward, bool& isStrafing, bool& isRight, bool& isLeft, bool& isRotating, bool& isRotatingLeft, bool& isRotatingRight)
+{
+		if( GetAsyncKeyState('W') & 0x8000 )
 	{
 		isWalking = true;
 		isForward = true;
@@ -153,30 +178,18 @@ void Application::HandleInput( UINT msg, WPARAM wParam, LPARAM lParam, float del
 		isStrafing = true;
 		isRight	   = true;
 	}
-
 	if( GetAsyncKeyState('E') & 0x8000 )
 	{
 		isRotating = true;
-		isRight	   = true;
+			isRotatingRight	   = true;
 	}
 
 	if( GetAsyncKeyState('Q') & 0x8000 )
 	{
 		isRotating = true;
-		isLeft	   = true;
-	}
-
-	if( GetAsyncKeyState('G') & 0x8000 )
-	{
-		isOpening = true;
-	}
-
-	if( GetAsyncKeyState('C') & 0x8000 )
-	{
-		isClosing = true;
+		isRotatingLeft	   = true;
 	}
 }
-
 Application::Application()
 {
 	//--------

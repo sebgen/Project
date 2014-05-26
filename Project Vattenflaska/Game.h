@@ -16,7 +16,7 @@
 #include "Application.h"
 #include "ImportReader.h"
 #include "Camera.h"
-
+#include "Picking.h"
 class Game : public Application
 {
 	private:
@@ -52,7 +52,10 @@ class Game : public Application
 		float rotationDegree;
 		//------------
 
+		
 		//picking stuff
+		bool m_checkRClicked;
+
 		//-------
 		// Game |
 		//-------
@@ -60,6 +63,7 @@ class Game : public Application
 		std::vector<Room*>	m_rooms;
 		Room*				m_currentRoom;
 		Camera*				m_camera;
+		Picking*			m_picker;
 
 		//------------
 		std::vector<GlobalLight> m_lights;

@@ -49,7 +49,7 @@ public:
 	bool testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLOAT3 p0, XMFLOAT3 p1, XMFLOAT3 p2, float& dist);
 	bool testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin);
 	int testIntersectMenu(int mouseX, int mouseY, int state);
-	bool testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin, std::vector<MeshInfo> info);
+	bool testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin, std::vector<MeshInfo> info, int &hitMesh);
 
 };
 #endif

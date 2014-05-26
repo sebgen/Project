@@ -38,9 +38,14 @@ void Room::AddContent( TestObject* object )
 	m_roomContent.push_back( object );
 }
 
-Lever* Room::GetLever( int index ) const
+std::vector<MeshInfo> Room::GetLever() 
 {
-	return m_levers.at( index );
+	std::vector<MeshInfo> temp;
+	for(int i=0; i< m_levers.size(); i++)
+	{
+		temp.push_back(m_levers.at(i)->getInfo());
+	}
+	return temp;
 }
 
 Door* Room::GetDoor() const

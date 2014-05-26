@@ -21,7 +21,7 @@ class Lever : public DrawableObject
 		Lever();
 		Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo );
 		~Lever();
-
+		MeshInfo getInfo();
 		virtual HRESULT Update( float deltaTime, Camera* camera );
 		virtual HRESULT Draw( float deltaTime );
 		

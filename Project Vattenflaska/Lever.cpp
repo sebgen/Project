@@ -19,7 +19,10 @@ Lever::Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 
 Lever::~Lever()
 {}
-
+MeshInfo Lever::getInfo()
+{
+	return m_meshInfo;
+}
 //void Lever::RotateLever( float angle )
 //{
 //	m_leverWorld = XMMatrixRotationZ( angle );

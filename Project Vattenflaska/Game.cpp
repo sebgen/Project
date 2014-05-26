@@ -8,7 +8,31 @@ HRESULT Game::Update( float deltaTime )
 	UpdateCbCamera();
 	UpdateCbLight( deltaTime );  /// NY
 
-	
+	if(m_input->GetMouseRButton())
+	{
+		if(m_checkRClicked==false)
+		{
+			int whatMeshHit;
+			XMFLOAT4X4 world;
+			XMMATRIX I=XMMatrixIdentity();
+			XMStoreFloat4x4(&world, I);
+			m_checkRClicked=true;
+			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
+			{
+						
+				OutputDebugString("hit\n");
+				//hit 
+			}
+			else
+			{
+				//miss
+			}
+		}
+	}
+	if(!m_input->GetMouseRButton())
+	{
+		m_checkRClicked=false;
+	}
 
 	m_currentRoom->Update( deltaTime, m_camera );
 
@@ -429,9 +453,10 @@ HRESULT Game::InitializeGame()
 	//----------------------------
 	m_gameTime = new GameTime();
 	m_camera = new Camera();
+	m_picker=new Picking();
 	InitializeShaders();
 
-
+	m_picker->Initialize(SCREEN_WIDTH,SCREEN_HEIGHT);
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -477,6 +502,8 @@ int Game::Run()
 	 moveFactor = 1/moveUnits;
 	 nrOfMovement = moveUnits;
 	 rotationDegree=90/moveUnits;
+
+	 m_checkRClicked=false;
 	//-----------------------------
 
 	//-------GATE CONTROLS---------

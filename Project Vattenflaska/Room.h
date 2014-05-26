@@ -43,7 +43,7 @@ class Room
 		void AddLight( const GlobalLight& light ); // Adds a pointlight to the room
 		void AddContent( TestObject* object ); // Adds content to the room
 
-		Lever* GetLever( int index ) const;
+		std::vector<MeshInfo> GetLever();
 		Door* GetDoor() const;
 		const std::vector<GlobalLight>& GetLights() const;
 

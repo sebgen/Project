@@ -201,7 +201,7 @@ void DrawableObject::SetObjectData( MeshInfo meshInfo )
 	vbd.CPUAccessFlags		= 0;
 	vbd.MiscFlags			= 0;
 
-	if( m_meshInfo.groupName == "gate_barsShape" )
+	if( m_meshInfo.groupName == "door_gateShape" )
 	{
 		vbd.Usage			= D3D11_USAGE_DYNAMIC;
 		vbd.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;

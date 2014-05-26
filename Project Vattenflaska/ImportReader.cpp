@@ -162,7 +162,7 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 		// Add door to room
 		else if( m_meshInfo.at(i).groupName.find( "gate" ) != std::string::npos )
 		{
-			Door* d = new Door( device, deviceContext, m_meshInfo.at(i) );
+			Door* d = new Door( device, deviceContext, m_meshInfo.at(i), m_em );
 			tempRoom->AddDoor( d );
 		}
 

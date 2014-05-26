@@ -9,7 +9,7 @@ Door::Door()
 	m_moveUnits		 = 0;
 }
 
-Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo )
+Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em )
 {
 	m_device		= device;
 	m_deviceContext = deviceContext;
@@ -19,6 +19,15 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_isOpen		 = false;
 	m_animationTimer = 0.0f;
 	m_moveUnits		 = 0;
+
+	m_em = em;
+
+	// Create Lever
+	m_em->VAddListener(
+		   std::bind(	&Door::OpenDoor,
+						this,
+						std::placeholders::_1),
+						EvtData_Unlock_Door::sk_EventType);
 }
 
 Door::~Door()
@@ -26,11 +35,13 @@ Door::~Door()
 
 }
 
-void Door::OpenDoor()
+void Door::OpenDoor( IEventDataPtr pEventData )
 {
-	m_isOpening = true;
-	m_moveUnits = 1000;
-
+	if( EvtData_Unlock_Door::sk_EventType == pEventData ->VGetEventType() )
+	{
+		m_isOpening = true;
+		m_moveUnits = 1000;
+	}
 }
 
 void Door::RaiseDoor()

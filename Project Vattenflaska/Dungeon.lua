@@ -27,7 +27,7 @@ function PullLever( name )
 		ResetLevers()
 	end
 	
-	if count == #solution-1 then
+	if count == #solution then
 		Game.OpenDoor()
 	end
 end

@@ -24,13 +24,14 @@ class Door : public DrawableObject
 		bool  m_isOpen;    // True when door is fully open
 		float m_animationTimer; // Makes sure that animation is equal on all systems
 		int   m_moveUnits; // Number of units the door will move
+		EventManager*	m_em;
 
 	public:
 		Door();
-		Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo );
+		Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em  );
 		~Door();
 
-		void OpenDoor(); // Tell Door to open
+		void OpenDoor( IEventDataPtr pEventData ); // Tell Door to open
 		void RaiseDoor();
 		void UpdateAndSetVertexBuffer();
 

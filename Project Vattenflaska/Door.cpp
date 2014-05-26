@@ -39,6 +39,7 @@ void Door::OpenDoor( IEventDataPtr pEventData )
 {
 	if( EvtData_Unlock_Door::sk_EventType == pEventData ->VGetEventType() )
 	{
+		m_isOpen = true;
 		m_isOpening = true;
 		m_moveUnits = 1000;
 	}
@@ -58,32 +59,32 @@ void Door::UpdateAndSetVertexBuffer()
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT hr = m_deviceContext->Map( m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource );
 
-	if(SUCCEEDED(hr))
-	{
-		memcpy(mappedResource.pData, &m_meshInfo.vertices, m_meshInfo.vertexCount * sizeof( Vertex ) );
-		m_deviceContext->Unmap( m_vertexBuffer, 0 );
+	//if(SUCCEEDED(hr))
+	//{
+	//	memcpy(mappedResource.pData, &m_meshInfo.vertices, m_meshInfo.vertexCount * sizeof( Vertex ) );
+	//	m_deviceContext->Unmap( m_vertexBuffer, 0 );
 
-		 //Vertex Buffer is set in Draw
-	}
+	//	 //Vertex Buffer is set in Draw
+	//}
 
-	//// Töm buffern
-	//m_vertexBuffer->Release();
+	// Töm buffern
+	m_vertexBuffer->Release();
 
-	//// Skapa buffer (DESC)
-	//D3D11_BUFFER_DESC vbd;
- //   vbd.Usage = D3D11_USAGE_DEFAULT;
-	//vbd.ByteWidth = sizeof(Vertex) * m_meshInfo.vertexCount;
- //   vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
- //   vbd.CPUAccessFlags = 0;
- //   vbd.MiscFlags = 0;
-	//vbd.StructureByteStride = 0;
+	// Skapa buffer (DESC)
+	D3D11_BUFFER_DESC vbd;
+    vbd.Usage = D3D11_USAGE_DEFAULT;
+	vbd.ByteWidth = sizeof(Vertex) * m_meshInfo.vertexCount;
+    vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    vbd.CPUAccessFlags = 0;
+    vbd.MiscFlags = 0;
+	vbd.StructureByteStride = 0;
 
-	//// Lägg i buffer
-	//D3D11_SUBRESOURCE_DATA vinitData;
-	//vinitData.pSysMem = &m_meshInfo.vertices;
+	// Lägg i buffer
+	D3D11_SUBRESOURCE_DATA vinitData;
+	vinitData.pSysMem = &m_meshInfo.vertices;
 
-	//// Skicka in nya listan med uppdaterade värden
-	//HRESULT hr = m_device->CreateBuffer( &vbd, &vinitData, &m_vertexBuffer );
+	// Skicka in nya listan med uppdaterade värden
+	 hr = m_device->CreateBuffer( &vbd, &vinitData, &m_vertexBuffer );
 }
 
 bool Door::IsOpen() const
@@ -127,32 +128,33 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 HRESULT Door::Draw( float deltaTime )
 {
 	HRESULT hr = S_OK;
+	if( !m_isOpen )
+	{
+		UpdateAndSetConstantBuffer();
+		UpdateLightConstantBuffer();
 
-	UpdateAndSetConstantBuffer();
-	UpdateLightConstantBuffer();
-
-	///TEST!
-	UINT32 vertexSize	= sizeof( Vertex );
-	UINT32 offset		= 0;
-	ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
-	m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
+		///TEST!
+		UINT32 vertexSize	= sizeof( Vertex );
+		UINT32 offset		= 0;
+		ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
+		m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
 
 
-	m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
-	m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
+		m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
+		m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
 
-	// Texture
-	if( m_meshInfo.textureName.size() != 0 )
-		m_deviceContext->PSSetShaderResources( 0, 1, &m_shaderResourceView );
+		// Texture
+		if( m_meshInfo.textureName.size() != 0 )
+			m_deviceContext->PSSetShaderResources( 0, 1, &m_shaderResourceView );
 
-	if( m_meshInfo.normalMapName.size() != 0 )
-		m_deviceContext->PSSetShaderResources(1, 1, &m_normalmapRCV);
+		if( m_meshInfo.normalMapName.size() != 0 )
+			m_deviceContext->PSSetShaderResources(1, 1, &m_normalmapRCV);
 
-	if( m_meshInfo.specularMapName.size() != 0 )
-		m_deviceContext->PSSetShaderResources(2, 1, &m_specularmapRCV);;
+		if( m_meshInfo.specularMapName.size() != 0 )
+			m_deviceContext->PSSetShaderResources(2, 1, &m_specularmapRCV);;
 
-	m_deviceContext->Draw( m_meshInfo.vertexCount, 0 );
-	
+		m_deviceContext->Draw( m_meshInfo.vertexCount, 0 );
+	}
 	return hr;
 }
 

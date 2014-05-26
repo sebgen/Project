@@ -76,8 +76,12 @@ void Lever::PullLever()
 	if( !m_isOn )
 		m_isOn = true;
 
-	IEventDataPtr e(GCC_NEW EvtData_Lever_Pull( this ) );
-	m_em->VQueueEvent( e );
+	// DEBUG =======================================
+	IEventDataPtr d(GCC_NEW EvtData_Unlock_Door() );
+	m_em->VQueueEvent( d );
+	//==============================================
+	//IEventDataPtr e(GCC_NEW EvtData_Lever_Pull( this ) );
+	//m_em->VQueueEvent( e );
 }
 
 bool Lever::IsOn() const 

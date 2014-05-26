@@ -76,5 +76,8 @@ class DrawableObject
 		virtual HRESULT Draw( float deltaTime ) = 0;
 
 		void Shutdown();
+
+		//Debug
+		std::string DebugName();
 };
 #endif

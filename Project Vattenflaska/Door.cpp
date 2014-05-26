@@ -55,35 +55,35 @@ void Door::RaiseDoor()
 
 void Door::UpdateAndSetVertexBuffer()
 {
-	//D3D11_MAPPED_SUBRESOURCE mappedResource;
-	//HRESULT hr = m_deviceContext->Map( m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource );
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	HRESULT hr = m_deviceContext->Map( m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource );
 
-	//if(SUCCEEDED(hr))
-	//{
-	//	memcpy(mappedResource.pData, &m_meshInfo.vertices, m_meshInfo.vertexCount * sizeof( Vertex ) );
-	//	m_deviceContext->Unmap( m_vertexBuffer, 0 );
+	if(SUCCEEDED(hr))
+	{
+		memcpy(mappedResource.pData, &m_meshInfo.vertices, m_meshInfo.vertexCount * sizeof( Vertex ) );
+		m_deviceContext->Unmap( m_vertexBuffer, 0 );
 
-	//	 //Vertex Buffer is set in Draw
-	//}
+		 //Vertex Buffer is set in Draw
+	}
 
-	// Töm buffern
-	m_vertexBuffer->Release();
+	//// Töm buffern
+	//m_vertexBuffer->Release();
 
-	// Skapa buffer (DESC)
-	D3D11_BUFFER_DESC vbd;
-    vbd.Usage = D3D11_USAGE_DEFAULT;
-	vbd.ByteWidth = sizeof(Vertex) * m_meshInfo.vertexCount;
-    vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vbd.CPUAccessFlags = 0;
-    vbd.MiscFlags = 0;
-	vbd.StructureByteStride = 0;
+	//// Skapa buffer (DESC)
+	//D3D11_BUFFER_DESC vbd;
+ //   vbd.Usage = D3D11_USAGE_DEFAULT;
+	//vbd.ByteWidth = sizeof(Vertex) * m_meshInfo.vertexCount;
+ //   vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+ //   vbd.CPUAccessFlags = 0;
+ //   vbd.MiscFlags = 0;
+	//vbd.StructureByteStride = 0;
 
-	// Lägg i buffer
-	D3D11_SUBRESOURCE_DATA vinitData;
-	vinitData.pSysMem = &m_meshInfo.vertices;
+	//// Lägg i buffer
+	//D3D11_SUBRESOURCE_DATA vinitData;
+	//vinitData.pSysMem = &m_meshInfo.vertices;
 
-	// Skicka in nya listan med uppdaterade värden
-	HRESULT hr = m_device->CreateBuffer( &vbd, &vinitData, &m_vertexBuffer );
+	//// Skicka in nya listan med uppdaterade värden
+	//HRESULT hr = m_device->CreateBuffer( &vbd, &vinitData, &m_vertexBuffer );
 }
 
 bool Door::IsOpen() const
@@ -94,6 +94,8 @@ bool Door::IsOpen() const
 HRESULT Door::Update( float deltaTime, Camera* camera )
 {	
 	HRESULT hr = S_OK;
+
+	//XMStoreFloat4x4( &m_CBmatrices.worldMatrix, XMMatrixRotationY( 0.1 ) );
 
 	if( m_isOpening && !m_isOpen )
 	{

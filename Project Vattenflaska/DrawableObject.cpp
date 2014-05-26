@@ -289,3 +289,9 @@ void DrawableObject::Shutdown()
 	SAFE_RELEASE( m_normalmapRCV );
 	SAFE_RELEASE( m_specularmapRCV );
 }
+
+//Debug
+std::string DrawableObject::DebugName()
+{
+	return m_meshInfo.groupName;
+}

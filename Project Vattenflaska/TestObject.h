@@ -16,5 +16,6 @@ class TestObject : public DrawableObject
 		virtual HRESULT Draw( float deltaTime );
 
 		void Shutdown();
+
 };
 #endif

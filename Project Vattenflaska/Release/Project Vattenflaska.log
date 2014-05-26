@@ -1,0 +1,52 @@
+﻿Build started 2014-05-26 14:00:51.
+     1>Project "C:\Simon\Litet Spelprojekt\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp ImportReader.cpp Room.cpp main.cpp
+         Game.cpp
+     1>Game.cpp(158): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(161): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Game.cpp(180): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(435): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Game.cpp(452): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Game.cpp(522): warning C4018: '<' : signed/unsigned mismatch
+         ImportReader.cpp
+     1>ImportReader.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(151): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(182): warning C4018: '<' : signed/unsigned mismatch
+         Room.cpp
+     1>Room.cpp(61): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(64): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(67): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(70): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(81): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(84): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(87): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(90): warning C4018: '<' : signed/unsigned mismatch
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
+         Release\Camera.obj
+         Release\Door.obj
+         Release\DrawableObject.obj
+         Release\Game.obj
+         Release\GameTime.obj
+         Release\GlobalLight.obj
+         Release\ImportReader.obj
+         Release\Input.obj
+         Release\Lever.obj
+         Release\main.obj
+         Release\Menu.obj
+         Release\Picking.obj
+         Release\Room.obj
+         Release\TestObject.obj
+         Release\Torch.obj
+         Release\Wheel.obj
+         "C:\Simon\Litet Spelprojekt\DirectXTK\Bin\Desktop_2012\Win32\Release\DirectXTK.lib"
+         Generating code
+         Finished generating code
+         Project Vattenflaska.vcxproj -> C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.exe
+     1>Done Building Project "C:\Simon\Litet Spelprojekt\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.38

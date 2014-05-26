@@ -8,11 +8,19 @@
   2014-05-14
   Created by Simon Johanson
 
+  2014-04-26
+  Edited by Sebastian Genlund
+  Added EventManager & Lua
+
 *************************************************************************/
 
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include "EventSys/EventManagerImpl.h"
+#include "EventSys/Events.h"
+#include "LuaEngine.h"
+#include "LuaWrapper.h"
 #include "Application.h"
 #include "ImportReader.h"
 #include "Camera.h"
@@ -65,6 +73,9 @@ class Game : public Application
 		Camera*				m_camera;
 		Picking*			m_picker;
 
+		EventManager*		m_em;
+		LuaEngine*			m_le;
+
 		//------------
 		std::vector<GlobalLight> m_lights;
 
@@ -91,7 +102,7 @@ class Game : public Application
 
 
 		void handleMovement(float deltaTime);
-		HRESULT InitializeGame();
+		HRESULT InitializeGame( EventManager* em );
 		int Run();
 		void Shutdown(); // Release all COM-objects and deallocate member pointers
 };

@@ -19,9 +19,40 @@ HRESULT Game::Update( float deltaTime )
 			m_checkRClicked=true;
 			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
 			{
-						
+				m_currentRoom->GetALever( whatMeshHit )->PullLever();
+
+				//====================================================================================
+				//										DEBUG
+				//====================================================================================
+				std::string index = std::to_string( whatMeshHit );
+				OutputDebugString( index.c_str() );
+				OutputDebugString( (m_currentRoom->GetALever( whatMeshHit )->GetName().c_str() ) );
 				OutputDebugString("hit\n");
-				//hit 
+				std::string ison = std::to_string( m_currentRoom->GetALever( whatMeshHit )->IsOn() );
+				OutputDebugString( ison.c_str() );
+				OutputDebugString("hit\n");
+
+				ison = std::to_string( m_currentRoom->GetALever( 2 )->IsOn() );
+				OutputDebugString("\nLever 1: ");
+				OutputDebugString( ison.c_str() );
+
+				ison = std::to_string( m_currentRoom->GetALever( 1 )->IsOn() );
+				OutputDebugString("\nLever 2: ");
+				OutputDebugString( ison.c_str() );
+
+				ison = std::to_string( m_currentRoom->GetALever( 0 )->IsOn() );
+				OutputDebugString("\nLever 3: ");
+				OutputDebugString( ison.c_str() );
+
+				ison = std::to_string( m_currentRoom->GetALever( 3 )->IsOn() );
+				OutputDebugString("\nLever 4: ");
+				OutputDebugString( ison.c_str() );
+
+				ison = std::to_string( m_currentRoom->GetALever( 4 )->IsOn() );
+				OutputDebugString("\nLever 5: ");
+				OutputDebugString( ison.c_str() );
+
+				//====================================================================================
 			}
 			else
 			{
@@ -426,12 +457,17 @@ Game::Game()
 	m_importReader		= nullptr;
 	m_currentRoom		= nullptr;
 	m_camera			= nullptr;
+
+	m_le				= nullptr;
+	m_em				= nullptr;
 }
 
 Game::~Game()
-{}
+{
+	delete m_le;
+}
 
-HRESULT Game::InitializeGame()
+HRESULT Game::InitializeGame( EventManager* em )
 {
 	HRESULT hr = S_OK;
 
@@ -458,10 +494,22 @@ HRESULT Game::InitializeGame()
 
 	m_picker->Initialize(SCREEN_WIDTH,SCREEN_HEIGHT);
 
+	// Event
+	m_em = em;
+
+	// Lua
+	m_le = new LuaEngine();
+	LuaWrapper::Instance()->Initialize( m_le, m_em );
+
+	//===========================
+	// Init Scripts --Dungeon.lua
+	//===========================
+	LuaWrapper::Instance()->InitDungeonMeta();
+
 	//=================================
 	//          LOAD LEVELS          ||
 	//=================================
-	m_importReader = new ImportReader();
+	m_importReader = new ImportReader( m_em );
 
 	//---------------------
 	// Load Torture Level |
@@ -526,39 +574,8 @@ int Game::Run()
 		}
 		else
 		{
-				
-			//GetCursorPos( &p );
-			//m_input->MouseMove( msg.wParam, p.x, p.y, m_camera );
-
-
 			// See GameTime.cpp for implementation
 			m_gameTime->Tick();
-
-		
-			////---------- GATE ---------------
-			//if( isOpening )
-			//{
-			//	if( !m_currentRoom->GetDoor()->IsOpen() )
-			//	{
-			//		m_currentRoom->GetDoor()->OpenDoor();
-			//		isOpening = false;
-			//	}			
-			//}
-
-			//if( isClosing )
-			//{
-			//	//m_scene->GetGate()->ChangeYCoordinate( -0.10f );
-			//	if( gateUnits <= 0 )
-			//	{
-			//		gateUnits = 220.0f;
-			//		isClosing = false;
-			//	}
-			//	else
-			//		gateUnits -= 10.0f;			
-			//}
-			//----------------------------------------
-
-			//================================================================================
 
 			// Lock height every frame
 			m_camera->SetHeight( 1.6f );
@@ -569,6 +586,9 @@ int Game::Run()
 
 			// Render frame
 			Draw( m_gameTime->GetDeltaTime() );
+
+			// Update events
+			m_em->VUpdate();
 		}
 	}
 

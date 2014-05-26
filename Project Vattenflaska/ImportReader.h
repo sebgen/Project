@@ -1,6 +1,8 @@
 #ifndef _IMPORTREADER_H_
 #define _IMPORTREADER_H_
 
+#include "EventSys/EventManagerImpl.h"
+#include "EventSys/Events.h"
 #include "TestObject.h"
 #include "Room.h"
 
@@ -11,6 +13,7 @@ class ImportReader
 		std::vector<MeshInfo>  m_meshInfo;
 		std::vector<LightInfo> m_lights;
 		std::vector<CameraInfo> m_cameras;
+		EventManager*			m_em;
 
 	private:
 		void ImportMeshes( std::fstream &fin );
@@ -21,7 +24,7 @@ class ImportReader
 		bool OpenFile( std::string fileName );
 
 	public:
-		ImportReader();
+		ImportReader( EventManager* em );
 		~ImportReader();
 		
 		bool LoadObject( ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<Room*>& rooms, std::string fileName );

@@ -86,6 +86,8 @@
     <ClInclude Include="ImportReader.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Lever.h" />
+    <ClInclude Include="LuaEngine.h" />
+    <ClInclude Include="LuaWrapper.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="Room.h" />
@@ -109,6 +111,8 @@
     <ClCompile Include="ImportReader.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Lever.cpp" />
+    <ClCompile Include="LuaEngine.cpp" />
+    <ClCompile Include="LuaWrapper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Picking.cpp" />
@@ -123,6 +127,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dungeon.lua" />
     <None Include="PixelShader.sh" />
     <None Include="Shaders.sh" />
     <None Include="VertexShader.sh" />

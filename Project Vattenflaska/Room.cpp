@@ -58,6 +58,16 @@ const std::vector<GlobalLight>& Room::GetLights() const
 	return m_lights;
 }
 
+Lever* Room::GetALever( int index ) const
+{
+	return m_levers.at( index );
+}
+
+std::vector<Lever*> Room::GetLevers() const
+{
+	return m_levers;
+}
+
 HRESULT Room::Update( float deltaTime, Camera* camera )
 {	
 	HRESULT hr = S_OK;

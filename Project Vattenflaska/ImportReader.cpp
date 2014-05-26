@@ -111,8 +111,10 @@ void ImportReader::GetTextures( MeshInfo &m, std::fstream &fin )
 		m.specularMapName = type; 
 }
 
-ImportReader::ImportReader()
-{}
+ImportReader::ImportReader( EventManager* em )
+{
+	m_em = em;
+}
 
 ImportReader::~ImportReader()
 {}
@@ -153,7 +155,7 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 		// Add lever to room
 		if( m_meshInfo.at(i).groupName.find( "leverShape" ) != std::string::npos )
 		{
-			Lever* l = new Lever( device, deviceContext, m_meshInfo.at(i) );
+			Lever* l = new Lever( device, deviceContext, m_meshInfo.at(i), m_em );
 			tempRoom->AddLever( l );
 		}
 

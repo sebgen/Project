@@ -47,6 +47,9 @@ class Room
 		Door* GetDoor() const;
 		const std::vector<GlobalLight>& GetLights() const;
 
+		Lever* GetALever( int index ) const;
+		std::vector<Lever*> GetLevers() const;
+
 		HRESULT Update( float deltaTime, Camera* camera );
 		HRESULT Draw( float deltaTime );
 

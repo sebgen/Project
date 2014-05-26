@@ -16,6 +16,12 @@
     <Filter Include="EventSys">
       <UniqueIdentifier>{7041aeca-4c03-4b36-bcf4-68ae972e9782}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lua">
+      <UniqueIdentifier>{36787eab-6d84-494f-82ce-016f7f0031b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Scripts">
+      <UniqueIdentifier>{679e6b4e-2307-41c4-bd6c-42769c4f612f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -87,6 +93,12 @@
     <ClInclude Include="EventSys\stdafx.h">
       <Filter>EventSys</Filter>
     </ClInclude>
+    <ClInclude Include="LuaEngine.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaWrapper.h">
+      <Filter>Lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -149,6 +161,12 @@
     <ClCompile Include="EventSys\Events.cpp">
       <Filter>EventSys</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEngine.cpp">
+      <Filter>Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaWrapper.cpp">
+      <Filter>Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders.sh">
@@ -159,6 +177,9 @@
     </None>
     <None Include="PixelShader.sh">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dungeon.lua">
+      <Filter>Resource Files\Scripts</Filter>
     </None>
   </ItemGroup>
 </Project>

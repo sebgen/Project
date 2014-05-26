@@ -3,18 +3,22 @@
 Lever::Lever()
 	:DrawableObject()
 {
-	/*m_isActive		= false;
-	m_isRotating	= false;*/
-
 }
 
-Lever::Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo )
+Lever::Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em  )
 {
-	/*m_isActive		= false;
-	m_isRotating	= false;*/
 	m_device		= device;
 	m_deviceContext = deviceContext;
 	SetObjectData( meshInfo );
+
+	// Lua / Event
+	m_isOn = false;
+	m_name = meshInfo.groupName;
+	m_em = em;
+
+	// Send event: EvtData_Lever_Created
+	IEventDataPtr e(GCC_NEW EvtData_Lever_Created( this ) );
+	m_em->VQueueEvent( e );
 }
 
 Lever::~Lever()
@@ -23,57 +27,11 @@ MeshInfo Lever::getInfo()
 {
 	return m_meshInfo;
 }
-//void Lever::RotateLever( float angle )
-//{
-//	m_leverWorld = XMMatrixRotationZ( angle );
-//}
-//
-//bool Lever::IsActive() const
-//{
-//	return m_isActive;
-//}
-//
-//bool Lever::IsRotating( bool state )
-//{
-//	m_isRotating = state;
-//	return m_isRotating;
-//}
+
 
 HRESULT Lever::Update( float deltaTime, Camera* camera )
 {
 	HRESULT hr = S_OK;
-
-
-	//// Lever is in UPPER state
-	//if ( m_isRotating && !m_isActive )
-	//{
-	//	m_rotationTimer += deltaTime;
-
-	//	// Rotation is finished
-	//	if ( m_rotationTimer >= 1.0f )
-	//	{
-	//		m_rotationTimer = 0.0f;
-	//		m_isActive		= true;
-	//		m_isRotating	= false;
-	//	}
-	//	else
-	//		RotateLever( 1.0f );
-	//}
-	//// Lever is in LOWER state
-	//else if( m_isRotating && m_isActive )
-	//{
-	//	m_rotationTimer += deltaTime;
-
-	//	// Rotation is finished
-	//	if ( m_rotationTimer >= 1.0f )
-	//	{
-	//		m_rotationTimer = 0.0f;
-	//		m_isActive		= false;
-	//		m_isRotating	= false;
-	//	}
-	//	else
-	//		RotateLever( -1.0f );
-	//}
 
 	return hr;
 }
@@ -89,8 +47,6 @@ HRESULT Lever::Draw( float deltaTime )
 	UINT32 offset		= 0;
 	ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
 	m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
-
-	//OutputDebugString("sett constatbuffer to lever\n");
 
 	m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
 	m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
@@ -112,4 +68,29 @@ HRESULT Lever::Draw( float deltaTime )
 void Lever::Shutdown()
 {
 	DrawableObject::Shutdown();
+}
+
+// Lua / Event
+void Lever::PullLever()
+{
+	if( !m_isOn )
+		m_isOn = true;
+
+	IEventDataPtr e(GCC_NEW EvtData_Lever_Pull( this ) );
+	m_em->VQueueEvent( e );
+}
+
+bool Lever::IsOn() const 
+{
+	return m_isOn;
+}
+
+std::string Lever::GetName() const
+{
+	return m_name;
+}
+
+void Lever::ResetLever()
+{
+	m_isOn = false;
 }

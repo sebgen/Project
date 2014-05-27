@@ -47,6 +47,31 @@ void LuaWrapper::CreateLever( IEventDataPtr pEventData )
 	}
 }
 
+void LuaWrapper::CreateWheel( IEventDataPtr pEventData )
+{
+	if( EvtData_Wheel_Created::sk_EventType == pEventData->VGetEventType() )
+	{
+		shared_ptr<EvtData_Wheel_Created> wheel = std::static_pointer_cast<EvtData_Wheel_Created>( pEventData );
+
+		if( wheel->GetWheel()->GetWheelType() == MusicWheel )
+			lua_getglobal( m_L, "SetMusicWheel" );
+		else if( wheel->GetWheel()->GetWheelType() == BoilerWheel )
+			lua_getglobal( m_L, "SetBoilerWheel" );
+		else if( wheel->GetWheel()->GetWheelType() == ButtonWheel )
+			lua_getglobal( m_L, "SetButtonWheel" );
+		Wheel** wheelPtr = reinterpret_cast<Wheel**>( lua_newuserdata( m_L, sizeof( Wheel* ) ) );
+		*wheelPtr = wheel->GetWheel();
+			luaL_getmetatable( m_L, "WheelMeta" );
+			lua_setmetatable( m_L, -2 );
+		int err = lua_pcall( m_L, 1, 0, 0 );
+		if( err )
+		{
+			OutputDebugString( "\nError creating wheel: ");
+			OutputDebugString( lua_tostring( m_L, -1 ) );
+		}
+	}
+}
+
 void LuaWrapper::PullLever( IEventDataPtr pEventData )
 {
 	if( EvtData_Lever_Pull::sk_EventType == pEventData->VGetEventType() )

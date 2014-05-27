@@ -18,6 +18,7 @@
 #include "EventSys/Events.h"
 #include "LuaEngine.h"
 #include "Lever.h"
+#include "Wheel.h"
 
 class LuaWrapper
 {
@@ -37,7 +38,9 @@ public: // Singleton public
 
 public: // Lua wrapper
 	void CreateLever( IEventDataPtr pEventData );
+	void CreateWheel( IEventDataPtr pEventData );
 	void PullLever( IEventDataPtr pEventData );
+	void RotateWheel( IEventDataPtr pEventData );
 	void CreateEvtOpenDoor();
 
 public: // Init metadata for scripts

@@ -190,8 +190,8 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 
 
 	rooms.push_back( tempRoom );
-	m_lights.clear();
-	m_cameras.clear();
+	//m_lights.clear();
+	//m_cameras.clear();
 	m_meshInfo.clear();
 	return true;
 }

@@ -27,6 +27,7 @@
 #include "Picking.h"
 #include "Menu.h"
 #include "NavMesh.h"
+#include "Sound.h"
 class Game : public Application
 {
 	private:

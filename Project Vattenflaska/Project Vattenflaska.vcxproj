@@ -39,8 +39,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\Lua;$(SolutionDir)\DirectXTK\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Lua;$(SolutionDir)\DirectXTK\Inc;$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <LibraryPath>$(SolutionDir)\Debug;$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
+    <ExecutablePath>$(ExecutablePath);$(DXSDK_DIR)Utilities\bin\x86</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)\Lua;$(SolutionDir)\DirectXTK\Inc;$(IncludePath)</IncludePath>
@@ -93,6 +94,7 @@
     <ClInclude Include="NavMeshObject.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Vertex.h" />
@@ -121,11 +123,15 @@
     <ClCompile Include="NavMeshObject.cpp" />
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Wheel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DirectXTK\Audio\DirectXTKAudio_Desktop_2012_DXSDK.vcxproj">
+      <Project>{4f150a30-cecb-49d1-8283-6a3f57438cf5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\DirectXTK\DirectXTK_Desktop_2012.vcxproj">
       <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
     </ProjectReference>

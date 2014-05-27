@@ -30,7 +30,10 @@ TestObject::~TestObject()
 //{
 //
 //}
-
+MeshInfo TestObject::getInfo()
+{
+	return m_meshInfo;
+}
 HRESULT TestObject::Update( float deltaTime, Camera* camera )
 {
 	HRESULT hr = S_OK;

@@ -41,9 +41,12 @@ void Room::AddContent( TestObject* object )
 std::vector<MeshInfo> Room::getDoorMesh()
 {
 	std::vector<MeshInfo> temp;
-	for(int i=0; i< m_doors.size(); i++)
+	for(int i=0; i< m_roomContent.size(); i++)
 	{
-		temp.push_back(m_doors.at(i)->getInfo());
+		if(m_roomContent.at(i)->GetGroupName()=="door_exitShape")
+		{
+			temp.push_back(m_roomContent.at(i)->getInfo());
+		}
 	}
 	return temp;
 }

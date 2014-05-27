@@ -15,6 +15,8 @@ class TestObject : public DrawableObject
 		virtual HRESULT Update( float deltaTime, Camera* camera );
 		virtual HRESULT Draw( float deltaTime );
 
+		MeshInfo getInfo();
+
 		void Shutdown();
 
 };

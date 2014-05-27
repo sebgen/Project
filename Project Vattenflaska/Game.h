@@ -60,6 +60,8 @@ class Game : public Application
 		float rotationDegree;
 		//------------
 
+		int currentLevel;
+
 		
 		//picking stuff
 		bool m_checkRClicked;
@@ -92,6 +94,8 @@ class Game : public Application
 
 		HRESULT CreateCbCameraBuffer();
 		void UpdateCbCamera();
+
+		void loadNextLevel();
 
 		HRESULT Update( float deltaTime );
 		HRESULT Draw( float deltaTime );

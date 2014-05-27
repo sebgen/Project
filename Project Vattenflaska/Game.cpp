@@ -54,6 +54,11 @@ HRESULT Game::Update( float deltaTime )
 
 				//====================================================================================
 			}
+			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit))
+			{
+				OutputDebugString("door hit\n");
+				loadNextLevel();
+			}
 			else
 			{
 				//miss
@@ -514,7 +519,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "tortureLevelFirstDraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -522,7 +527,33 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	return hr;
 }
+void Game::loadNextLevel()
+{
+	if(currentLevel==0)
+	{
+		//load level 0;
+		OutputDebugString("load martin\n");
+		m_currentRoom = m_rooms.at(currentLevel);
+		currentLevel++;
+		return;
 
+	}
+	if(currentLevel==1)
+	{
+		OutputDebugString("load cave\n");
+		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" );
+		m_currentRoom = m_rooms.at(currentLevel);
+		currentLevel++;
+		return;
+	}
+	if(currentLevel==2)
+	{
+		OutputDebugString("load maze\n");
+		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
+		m_currentRoom = m_rooms.at(currentLevel);
+		currentLevel=0;
+	}
+}
 int Game::Run()
 {
 	MSG msg = {0};
@@ -553,7 +584,7 @@ int Game::Run()
 
 	 m_checkRClicked=false;
 	//-----------------------------
-
+	 currentLevel=1;
 	//-------GATE CONTROLS---------
 	bool  isOpening = false;
 	bool  isClosing = false;

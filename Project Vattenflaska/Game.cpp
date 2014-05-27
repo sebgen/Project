@@ -328,7 +328,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer
@@ -623,7 +623,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -647,8 +647,13 @@ void Game::loadNextLevel()
 	if(currentLevel==1)
 	{
 		OutputDebugString("load cave\n");
+		m_rooms.clear();
 		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" );
-		m_currentRoom = m_rooms.at(currentLevel);
+		m_currentRoom = m_rooms.at(0);
+		SAFE_RELEASE(m_cbCamera);
+		SAFE_RELEASE(m_cbLight);
+		CreateCbLightBuffer();  /// NY
+		CreateCbCameraBuffer();
 		currentLevel++;
 		return;
 	}

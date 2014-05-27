@@ -35,7 +35,24 @@ using namespace DirectX;
 #pragma comment( lib, "d3d11.lib")
 #pragma comment( lib, "d3dcompiler.lib")
 
-
+//menu defines
+	//start menu
+	//menu defines
+	//start menu
+	static const int MENU=0;
+	static const int PLAY=1;
+	static const int START_PLAY=2;
+	static const int START_OPTION=3;
+	static const int START_EXIT=4;
+	//option
+	static const int OPTION=5;
+	static const int OPTION_MUTE=6;
+	static const int OPTION_UNMUTE=7;
+	static const int OPTION_BACK=8;
+	//paus 
+	static const int PAUS=9;
+	static const int PAUS_RESUME=10;
+	static const int PAUS_EXIT=11;
 
 struct MeshInfo
 {

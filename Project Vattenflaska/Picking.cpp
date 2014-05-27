@@ -48,7 +48,6 @@ bool Picking::testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLO
 
 	if(a > -FLT_MIN && a < FLT_MIN)
 	{
-		OutputDebugString("false in first check\n");
 		return false;
 		
 	}
@@ -62,7 +61,6 @@ bool Picking::testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLO
 
 	if(u < 0.0f)
 	{
-		OutputDebugString("false in 2 check\n");
 		return false;
 		
 	}
@@ -76,7 +74,6 @@ bool Picking::testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLO
 
 	if(v < 0.0f || u+v > 1.0f)
 	{
-		OutputDebugString("false in 3 check\n");
 		return false;
 		
 	}
@@ -86,10 +83,8 @@ bool Picking::testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLO
 	if(t > 0.000001)
 	{
 		dist=t;
-		OutputDebugString("false in 4 check\n");
 		return true;
 	}
-	OutputDebugString("no one was false");
 	return false;
 }
 bool Picking::testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float& height)

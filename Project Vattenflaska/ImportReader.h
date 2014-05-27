@@ -6,6 +6,7 @@
 #include "TestObject.h"
 #include "Room.h"
 #include "NavMeshObject.h"
+#include "Wheel.h"
 
 class ImportReader
 {

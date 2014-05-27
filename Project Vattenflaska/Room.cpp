@@ -23,6 +23,11 @@ void Room::AddLever( Lever* lever )
 	m_levers.push_back( lever );
 }
 
+void Room::AddWheel( Wheel* wheel )
+{
+	m_wheels.push_back( wheel );
+}
+
 void Room::AddTorch( Torch* torch )
 {
 	m_torches.push_back( torch );
@@ -60,6 +65,17 @@ std::vector<MeshInfo> Room::GetLever()
 	}
 	return temp;
 }
+
+std::vector<MeshInfo> Room::GetWheel()
+{
+	std::vector<MeshInfo> temp;
+	for(int i=0; i< m_wheels.size(); i++)
+	{
+		temp.push_back(m_levers.at(i)->getInfo());
+	}
+	return temp;
+}
+
 
 Door* Room::GetDoor() const
 {

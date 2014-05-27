@@ -163,6 +163,13 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 			tempRoom->AddLever( l );
 		}
 
+		// Add wheel to room
+		else if( m_meshInfo.at(i).groupName.find( "heel" ) != std::string::npos )
+		{
+			Wheel* w = new Wheel( device, deviceContext, m_meshInfo.at(i), m_em );
+			tempRoom->AddWheel( w );
+		}
+
 		// Add door to room
 		else if( m_meshInfo.at(i).groupName.find( "gate" ) != std::string::npos )
 		{

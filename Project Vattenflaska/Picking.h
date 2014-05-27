@@ -2,7 +2,7 @@
 #define PICKING_H
 
 #include "3DLibs.h"
-
+#include <DirectXCollision.h>
 class Picking
 {
 private:
@@ -50,6 +50,7 @@ public:
 	bool testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin);
 	int testIntersectMenu(int mouseX, int mouseY, int state);
 	bool testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin, std::vector<MeshInfo> info, int &hitMesh);
+	bool testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float &height);
 
 };
 #endif

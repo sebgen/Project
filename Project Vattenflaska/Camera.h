@@ -40,6 +40,11 @@ public:
 	void Strafe( float d );
 	void Walk( float d );
 
+	void setCameraPos(XMFLOAT3 pos);
+	//fake move
+	XMFLOAT3 fakeWalk(float d);
+	XMFLOAT3 fakeStrafe(float d);
+
 	void SetHeight( float y );
 
 	// Rotate

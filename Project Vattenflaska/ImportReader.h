@@ -5,7 +5,7 @@
 #include "EventSys/Events.h"
 #include "TestObject.h"
 #include "Room.h"
-
+#include "NavMeshObject.h"
 
 class ImportReader
 {
@@ -21,12 +21,13 @@ class ImportReader
 		void ImportLights( std::fstream &fin );
 		void GetVertices( MeshInfo &m, std::fstream &fin );
 		void GetTextures( MeshInfo &m, std::fstream &fin );
-		bool OpenFile( std::string fileName );
+		bool OpenFile( std::string fileName, bool isNavMesh );
 
 	public:
 		ImportReader( EventManager* em );
 		~ImportReader();
 		
 		bool LoadObject( ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<Room*>& rooms, std::string fileName );
+		bool LoadNavMeshObject( ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<NavMeshObject*>& navMeshObj, std::string fileName );
 };
 #endif

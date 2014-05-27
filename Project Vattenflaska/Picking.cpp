@@ -92,6 +92,45 @@ bool Picking::testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLO
 	OutputDebugString("no one was false");
 	return false;
 }
+bool Picking::testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float& height)
+{
+	//m_UpDirection( 0.0f, 1.0f, 0.0f ),
+	XMFLOAT3 xdir(0.0f, -1.0f, 0.0f);
+	XMVECTOR org=XMLoadFloat3(&eyepos);
+	XMVECTOR dir=XMLoadFloat3(&xdir);
+	for(int i=0; i < info.size(); i++)
+	{
+		if(info.at(i).Intersects(org, dir, dist))
+		{
+			height=info.at(i).Center.y;
+			return true;
+		}
+	}
+	return false;
+	
+		/*std::vector<Vertex> vertexinfo=info.vertices;
+		int nrOfVert=info.vertexCount;
+		XMFLOAT3 p0;
+		XMFLOAT3 p1;
+		XMFLOAT3 p2;
+		
+		for(int k=0; k<nrOfVert-3; k+=3)
+		{
+			p0=XMFLOAT3 (vertexinfo.at(k).position.x, vertexinfo.at(k).position.y, vertexinfo.at(k).position.z);
+			p1=XMFLOAT3 (vertexinfo.at(k+1).position.x, vertexinfo.at(k+1).position.y, vertexinfo.at(k+1).position.z);
+			p2=XMFLOAT3 (vertexinfo.at(k+2).position.x, vertexinfo.at(k+2).position.y, vertexinfo.at(k+2).position.z);
+
+
+			if(TriangleTests::Intersects(org, dir, XMLoadFloat3(&p0), XMLoadFloat3(&p1), XMLoadFloat3(&p2), dist))
+			{
+				int alla=k;
+				return true;
+			}
+			
+		}
+	
+	return false;*/
+}
 bool Picking::testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin)
 {
 	updateMatrix(_projMatrix, _viewMatrix, _worldMatrix, _orgin);

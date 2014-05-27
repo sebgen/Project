@@ -48,10 +48,33 @@ void Camera::Walk( float d )
 	XMStoreFloat3( &m_EyePos, XMVectorMultiplyAdd( s, l, p ) );
 
 }
+void Camera::setCameraPos(XMFLOAT3 pos)
+{
+	m_EyePos=pos;
+}
+XMFLOAT3 Camera::fakeWalk(float d)
+{
+	XMVECTOR s = XMVectorReplicate( d );
+	XMVECTOR l = XMLoadFloat3( &m_FocusPos );
+	XMVECTOR p = XMLoadFloat3( &m_EyePos );
+	XMFLOAT3 returner;
+	XMStoreFloat3(&returner, XMVectorMultiplyAdd(s, l, p));
+	//XMStoreFloat3( &m_EyePos, XMVectorMultiplyAdd( s, l, p ) );
+	return returner;
+}
+XMFLOAT3 Camera::fakeStrafe( float d )
+{
+	XMVECTOR s = XMVectorReplicate( d );
+	XMVECTOR r = XMLoadFloat3( &m_RightDirection );
+	XMVECTOR p = XMLoadFloat3( &m_EyePos );
+	XMFLOAT3 returner;
+	XMStoreFloat3( &returner, XMVectorMultiplyAdd( s, r, p ) );
 
+	return returner;
+}
 void Camera::SetHeight( float y )
 {
-	m_EyePos.y = y;
+	m_EyePos.y = y+1.6f;
 }
 
 void Camera::Pitch( float angle )

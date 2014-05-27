@@ -179,14 +179,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						//m_navMesh->moveForward(moveFactor);
-						m_camera->Walk( moveFactor );
+						m_navMesh->moveForward(moveFactor);
+						//m_camera->Walk( moveFactor );
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1  )
 						{
 							moveUnits = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isWalking = false;
 							isForward = false;
 						}
@@ -202,14 +202,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						m_camera->Walk( -moveFactor );
-						//m_navMesh->moveBackWard(moveFactor);
+						//m_camera->Walk( -moveFactor );
+						m_navMesh->moveBackWard(moveFactor);
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1 )
 						{
 							moveUnits  = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isWalking  = false;
 							isBackward = false;
 						}
@@ -232,14 +232,14 @@ void Game::handleMovement(float deltaTime)
 					if( animationTimer >= 0.01f )
 					{
 
-						//m_navMesh->moveRight(moveFactor);
-						m_camera->Strafe( moveFactor );
+						m_navMesh->moveRight(moveFactor);
+						//m_camera->Strafe( moveFactor );
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1 )
 						{
 							moveUnits = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isStrafing = false;
 							isRight    = false;
 						}
@@ -255,14 +255,14 @@ void Game::handleMovement(float deltaTime)
 					if( animationTimer >= 0.01f )
 					{
 
-						//m_navMesh->moveLeft(moveFactor);
-						m_camera->Strafe( -moveFactor );
+						m_navMesh->moveLeft(moveFactor);
+						//m_camera->Strafe( -moveFactor );
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1 )
 						{
 							moveUnits  = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isStrafing = false;
 							isLeft	   = false;
 						}
@@ -328,7 +328,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer
@@ -599,6 +599,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_camera = new Camera();
 	m_picker=new Picking();
 	m_menu= new Menu();
+	m_navMesh=new NavMesh();
 	InitializeShaders();
 
 	m_picker->Initialize(SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -629,6 +630,15 @@ HRESULT Game::InitializeGame( EventManager* em )
 	CreateCbLightBuffer();  /// NY
 	CreateCbCameraBuffer();
 
+	m_navMesh->init(m_picker, m_camera);
+
+	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshLevel1");
+	
+
+	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+	m_navMesh->createTile();
+	m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+
 	return hr;
 }
 void Game::loadNextLevel()
@@ -654,6 +664,18 @@ void Game::loadNextLevel()
 		SAFE_RELEASE(m_cbLight);
 		CreateCbLightBuffer();  /// NY
 		CreateCbCameraBuffer();
+
+		m_navMesh->clear();
+		m_NavMeshes.clear();
+		
+		m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave");
+	
+
+		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+		m_navMesh->createTile();
+		m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+
+		m_camera->RotateY(XMConvertToRadians(90));
 		currentLevel++;
 		return;
 	}
@@ -723,7 +745,7 @@ int Game::Run()
 			m_gameTime->Tick();
 
 			// Lock height every frame
-			m_camera->SetHeight( 1.6f );
+			//m_camera->SetHeight( 1.6f );
 
 			HandleInput( msg.message, msg.wParam, msg.lParam );
 			// Update game logic

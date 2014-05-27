@@ -119,7 +119,7 @@ ImportReader::ImportReader( EventManager* em )
 ImportReader::~ImportReader()
 {}
 
-bool ImportReader::OpenFile( std::string fileName )
+bool ImportReader::OpenFile( std::string fileName, bool isNavMesh )
 {
 	std::fstream fin;
 
@@ -130,10 +130,14 @@ bool ImportReader::OpenFile( std::string fileName )
 		std::cout << "ERROR: Couldn't open file: " << fileName << std::endl;
 		return false;
 	}
-	
 	ImportMeshes( fin );
-	ImportCameras( fin );
-	ImportLights( fin );
+	if(!isNavMesh)
+	{
+		ImportCameras( fin );
+		ImportLights( fin );
+	}
+	
+	
 	fin.close();
 
 	return true;
@@ -142,7 +146,7 @@ bool ImportReader::OpenFile( std::string fileName )
 bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<Room*>& rooms, std::string fileName )
 {
 	// Read file and store all mesh info
-	if( !OpenFile( fileName ) )
+	if( !OpenFile( fileName, false) )
 		return false;
 
 	//=====================================
@@ -192,6 +196,20 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 	rooms.push_back( tempRoom );
 	//m_lights.clear();
 	//m_cameras.clear();
+	m_meshInfo.clear();
+	return true;
+}
+bool ImportReader::LoadNavMeshObject( ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<NavMeshObject*>& navMeshObj, std::string fileName )
+{
+	if( !OpenFile( fileName, true ) )
+		return false;
+
+	for (int i = 0; i < m_meshInfo.size(); i++)
+	{
+		NavMeshObject* N = new NavMeshObject( device, deviceContext );
+		N->setObjectData( m_meshInfo.at(i) );
+		navMeshObj.push_back( N );
+	}
 	m_meshInfo.clear();
 	return true;
 }

@@ -89,6 +89,8 @@
     <ClInclude Include="LuaEngine.h" />
     <ClInclude Include="LuaWrapper.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="NavMesh.h" />
+    <ClInclude Include="NavMeshObject.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="TestObject.h" />
@@ -115,6 +117,8 @@
     <ClCompile Include="LuaWrapper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="NavMesh.cpp" />
+    <ClCompile Include="NavMeshObject.cpp" />
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="TestObject.cpp" />

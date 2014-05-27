@@ -26,6 +26,7 @@
 #include "Camera.h"
 #include "Picking.h"
 #include "Menu.h"
+#include "NavMesh.h"
 class Game : public Application
 {
 	private:
@@ -81,6 +82,10 @@ class Game : public Application
 		Camera*				m_camera;
 		Picking*			m_picker;
 		Menu*				m_menu;
+		NavMesh*			m_navMesh;
+		std::vector<NavMeshObject*> m_NavMeshes;
+		MeshInfo navInfo;
+
 
 		EventManager*		m_em;
 		LuaEngine*			m_le;

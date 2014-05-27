@@ -25,6 +25,7 @@
 #include "ImportReader.h"
 #include "Camera.h"
 #include "Picking.h"
+#include "Menu.h"
 class Game : public Application
 {
 	private:
@@ -59,7 +60,9 @@ class Game : public Application
 		float animationTimer;
 		float rotationDegree;
 		//------------
-
+		//MENU STUFF
+		int menuState;
+		bool m_checkClicked;
 		int currentLevel;
 
 		
@@ -74,6 +77,7 @@ class Game : public Application
 		Room*				m_currentRoom;
 		Camera*				m_camera;
 		Picking*			m_picker;
+		Menu*				m_menu;
 
 		EventManager*		m_em;
 		LuaEngine*			m_le;
@@ -96,6 +100,7 @@ class Game : public Application
 		void UpdateCbCamera();
 
 		void loadNextLevel();
+		void handleMenu(POINT pos);
 
 		HRESULT Update( float deltaTime );
 		HRESULT Draw( float deltaTime );

@@ -7,6 +7,7 @@ HRESULT Game::Update( float deltaTime )
 
 	UpdateCbCamera();
 	UpdateCbLight( deltaTime );  /// NY
+	
 
 	if(m_input->GetMouseRButton())
 	{
@@ -69,13 +70,101 @@ HRESULT Game::Update( float deltaTime )
 	{
 		m_checkRClicked=false;
 	}
-
-	m_currentRoom->Update( deltaTime, m_camera );
+	if(menuState==PLAY)
+	{
+		m_currentRoom->Update( deltaTime, m_camera );
+	}
+	
 
 	handleMovement(deltaTime);
+	handleMenu(pos);
 	m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
 
 	return hr;
+}
+void Game::handleMenu(POINT pos)
+{
+	if(menuState!=PLAY)
+	{
+		int thumbprintState=m_picker->testIntersectMenu(pos.x, pos.y, menuState);
+		m_menu->setThumbState(thumbprintState);
+	}
+	if(m_input->GetMouseLButton())
+	{
+		if(m_checkClicked==false)
+		{
+			m_checkClicked=true;
+			
+			int menuChoice=m_picker->testIntersectMenu(pos.x, pos.y, menuState);
+			if(menuChoice>-1)
+			{
+				OutputDebugString("missade inte\n");
+
+				//start menu
+				if(menuChoice==START_PLAY)
+				{
+					OutputDebugString("klickade play\n");
+					menuState=PLAY;
+					m_menu->setMenuState(PLAY);
+					//loadNextLevel();
+					
+				}
+				else if(menuChoice==START_OPTION)
+				{
+					OutputDebugString("klickade option\n");
+					menuState=OPTION;
+					m_menu->setMenuState(OPTION);
+				}
+				else if(menuChoice==START_EXIT)
+				{
+					OutputDebugString("klickade exit\n");
+					exit(0);
+				}
+
+				//Option menu
+				else if(menuChoice==OPTION_MUTE)
+				{
+					OutputDebugString("klickade option mute\n");
+					//menuState=MENU;
+					//m_menu->setState(MENU);
+				}
+				else if(menuChoice==OPTION_UNMUTE)
+				{
+					OutputDebugString("klickade option unmute\n");
+					//menuState=MENU;
+					//m_menu->setState(MENU);
+				}
+				else if(menuChoice==OPTION_BACK)
+				{
+					OutputDebugString("klickade option back\n");
+					menuState=MENU;
+					m_menu->setMenuState(MENU);
+				}
+
+				//paus menu
+				else if(menuChoice==PAUS_RESUME)
+				{
+					OutputDebugString("klickade paus resume\n");
+					menuState=MENU;
+					m_menu->setMenuState(MENU);
+				}
+				else if(menuChoice==PAUS_EXIT)
+				{
+					OutputDebugString("klickade paus exit\n");
+					exit(0);
+					
+				}
+
+			}
+			
+			
+		}
+		
+	}
+	if(!m_input->GetMouseLButton())
+	{
+		m_checkClicked=false;
+	}
 }
 void Game::handleMovement(float deltaTime)
 {
@@ -246,7 +335,6 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->ClearDepthStencilView( m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 	//========== START ===============
-
 	m_deviceContext->RSSetState( m_rasterizerState );
 
 	//---------------
@@ -268,9 +356,24 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->PSSetShader( m_pixelShader, nullptr, 0 );
 	//---------------------------------------------
 
-	// Render Room
+	
 	m_currentRoom->Draw( deltaTime );
 
+	
+
+
+
+	POINT pos=m_input->GetMousePos();
+
+	float pointX =(+2.0f * (float) pos.x / SCREEN_WIDTH -1.0f);
+	float pointY =(-2.0f * (float) pos.y / SCREEN_HEIGHT +1.0f);
+	XMMATRIX pm = m_camera->Proj();
+	XMFLOAT4X4 projMatrix1;
+	XMStoreFloat4x4(&projMatrix1, pm);
+	pointX /= projMatrix1._11;
+	pointY /= projMatrix1._22;
+
+	m_menu->Render(pos.x, pos.y, pointX, pointY, true, 0);
 	//========== END ===============
 
 	// Swap Front and Back Bufffer
@@ -495,10 +598,11 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_gameTime = new GameTime();
 	m_camera = new Camera();
 	m_picker=new Picking();
+	m_menu= new Menu();
 	InitializeShaders();
 
 	m_picker->Initialize(SCREEN_WIDTH,SCREEN_HEIGHT);
-
+	m_menu->init(m_deviceContext, m_device);
 	// Event
 	m_em = em;
 
@@ -532,8 +636,10 @@ void Game::loadNextLevel()
 	if(currentLevel==0)
 	{
 		//load level 0;
+		
 		OutputDebugString("load martin\n");
 		m_currentRoom = m_rooms.at(currentLevel);
+		
 		currentLevel++;
 		return;
 
@@ -583,6 +689,8 @@ int Game::Run()
 	 rotationDegree=90/moveUnits;
 
 	 m_checkRClicked=false;
+	 menuState=MENU;
+	 m_checkClicked=false;
 	//-----------------------------
 	 currentLevel=1;
 	//-------GATE CONTROLS---------

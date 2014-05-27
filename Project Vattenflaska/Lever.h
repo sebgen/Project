@@ -27,6 +27,7 @@ class Lever : public DrawableObject
 		bool			m_isOn;
 		std::string		m_name;
 		EventManager*	m_em;
+		float			m_rotationX;
 
 	public:
 		Lever();

@@ -3,6 +3,7 @@
 Lever::Lever()
 	:DrawableObject()
 {
+	m_rotationX = 0.0f;
 }
 
 Lever::Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em  )
@@ -10,6 +11,7 @@ Lever::Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 	m_device		= device;
 	m_deviceContext = deviceContext;
 	SetObjectData( meshInfo );
+	m_rotationX = 0.0f;
 
 	// Lua / Event
 	m_isOn = false;

@@ -65,6 +65,9 @@ class Game : public Application
 		bool m_checkClicked;
 		int currentLevel;
 
+
+		//templösning för picka door
+		std::vector<MeshInfo> doorMesh;
 		
 		//picking stuff
 		bool m_checkRClicked;

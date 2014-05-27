@@ -29,7 +29,10 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 						std::placeholders::_1),
 						EvtData_Unlock_Door::sk_EventType);
 }
-
+MeshInfo Door::getInfo()
+{
+	return m_meshInfo;
+}
 Door::~Door()
 {
 

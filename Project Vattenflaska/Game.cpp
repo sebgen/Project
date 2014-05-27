@@ -623,7 +623,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -660,8 +660,9 @@ void Game::loadNextLevel()
 	if(currentLevel==2)
 	{
 		OutputDebugString("load maze\n");
+		m_rooms.clear();
 		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
-		m_currentRoom = m_rooms.at(currentLevel);
+		m_currentRoom = m_rooms.at(0);
 		currentLevel=0;
 	}
 }

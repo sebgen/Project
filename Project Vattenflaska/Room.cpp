@@ -38,6 +38,16 @@ void Room::AddContent( TestObject* object )
 	m_roomContent.push_back( object );
 }
 
+std::vector<MeshInfo> Room::getDoorMesh()
+{
+	std::vector<MeshInfo> temp;
+	for(int i=0; i< m_doors.size(); i++)
+	{
+		temp.push_back(m_doors.at(i)->getInfo());
+	}
+	return temp;
+}
+
 std::vector<MeshInfo> Room::GetLever() 
 {
 	std::vector<MeshInfo> temp;

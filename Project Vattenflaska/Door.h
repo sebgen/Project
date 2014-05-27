@@ -36,7 +36,7 @@ class Door : public DrawableObject
 		void UpdateAndSetVertexBuffer();
 
 		bool IsOpen() const;
-
+		MeshInfo getInfo();
 		virtual HRESULT Update( float deltaTime, Camera* camera );
 		virtual HRESULT Draw( float deltaTime );
 

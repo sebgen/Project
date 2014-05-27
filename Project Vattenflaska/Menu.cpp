@@ -2,7 +2,7 @@
 
 Menu::Menu()
 {
-	menuState=PLAY;
+	menuState=MENU;
 	dist=0;
 }
 Menu::~Menu()

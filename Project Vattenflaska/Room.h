@@ -44,6 +44,7 @@ class Room
 		void AddContent( TestObject* object ); // Adds content to the room
 
 		std::vector<MeshInfo> GetLever();
+		std::vector<MeshInfo> getDoorMesh();
 		Door* GetDoor() const;
 		const std::vector<GlobalLight>& GetLights() const;
 

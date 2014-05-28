@@ -27,8 +27,8 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_sound->init();
 	m_isOpeningSoundPlaying	= false;
 
-	//m_sound->addSoundEffect( L"chain.wav", "isOpeningSound" );
-	//m_sound->addSoundEffect( L"isOpen.wav", "isOpenSound" );
+	m_sound->addSoundEffect( L"doorIsOpening.wav", "isOpeningSound" );
+	m_sound->addSoundEffect( L"doorIsOpen.wav", "isOpenSound" );
 
 	m_em = em;
 
@@ -111,6 +111,7 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 				m_moveUnits = 225;    // Reset move units
 				m_isOpening	= false; // Door no longer moves
 				m_isOpen	= true;  // Set Door to OPEN
+				m_sound->playSound( "isOpen" );
 				
 
 				//===============================================

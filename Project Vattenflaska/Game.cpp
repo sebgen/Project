@@ -1,3 +1,19 @@
+/*************************************************************************
+  Project Vattenflaska Source File.
+-------------------------------------------------------------------------
+  Description: Game.h
+  
+-------------------------------------------------------------------------
+  History:
+  2014-05-14
+  Created by Simon Johanson
+
+  2014-04-26
+  Edited by Sebastian Genlund
+  Added EventManager & Lua
+
+*************************************************************************/
+
 #include "Game.h"
 
 HRESULT Game::Update( float deltaTime )

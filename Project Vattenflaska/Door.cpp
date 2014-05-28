@@ -111,7 +111,7 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 				m_moveUnits = 225;    // Reset move units
 				m_isOpening	= false; // Door no longer moves
 				m_isOpen	= true;  // Set Door to OPEN
-				m_sound->playSound( "isOpen" );
+				m_sound->playSound( "isOpenSound" );
 				
 
 				//===============================================

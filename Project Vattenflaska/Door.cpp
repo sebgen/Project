@@ -3,10 +3,12 @@
 Door::Door()
 	:DrawableObject()
 {
-	m_isOpening		 = false;
-	m_isOpen		 = false;
-	m_animationTimer = 0.0f;
-	m_moveUnits		 = 0;
+	m_isOpening				= false;
+	m_isOpen				= false;
+	m_animationTimer		= 0.0f;
+	m_moveUnits				= 0;
+	m_sound					= nullptr;
+	m_isOpeningSoundPlaying = false;
 }
 
 Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em )
@@ -19,6 +21,14 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_isOpen		 = false;
 	m_animationTimer = 0.0f;
 	m_moveUnits		 = 225;
+
+	//Sound
+	m_sound					= new Sound();
+	m_sound->init();
+	m_isOpeningSoundPlaying	= false;
+
+	m_sound->addSoundEffect( L"doorIsOpening.wav", "isOpeningSound" );
+	m_sound->addSoundEffect( L"doorIsOpen.wav", "isOpenSound" );
 
 	m_em = em;
 
@@ -81,6 +91,14 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 
 	if( m_isOpening && !m_isOpen )
 	{
+		// Play Opening sound
+		if( !m_isOpeningSoundPlaying )
+		{
+			m_isOpeningSoundPlaying = true;
+			m_sound->playSound( "isOpeningSound" );
+		}
+		
+
 		m_animationTimer += deltaTime; // Add delta time to timer
 
 		if( m_animationTimer >= 0.01f ) // It's time for next animation
@@ -93,6 +111,8 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 				m_moveUnits = 225;    // Reset move units
 				m_isOpening	= false; // Door no longer moves
 				m_isOpen	= true;  // Set Door to OPEN
+				m_sound->playSound( "isOpenSound" );
+				
 
 				//===============================================
 				// ADD EVENT HERE TO GET ACCESS TO NEW NAVMESH ||

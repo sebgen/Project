@@ -43,6 +43,11 @@ void Room::AddContent( TestObject* object )
 	m_roomContent.push_back( object );
 }
 
+std::string Room::GetRoomName() const
+{
+	return m_roomName;
+}
+
 std::vector<MeshInfo> Room::getDoorMesh()
 {
 	std::vector<MeshInfo> temp;

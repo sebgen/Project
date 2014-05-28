@@ -207,7 +207,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Start_MusicPanel - Sent from LuaWrapper when lua calls LuaStartWrapper()
+// EvtData_Start_MusicPanel - Sent from LuaWrapper when lua calls StartMusicPanel()
 //=============================================================================================
 class EvtData_Start_MusicPanel : public BaseEventData
 {
@@ -231,5 +231,33 @@ public:
     virtual const char* GetName(void) const
     {
         return "EvtData_Start_MusicPanel";
+    }
+};
+
+//=============================================================================================
+// EvtData_Play_Music_Sequence - Sent from LuaWrapper when lua calls PlayMusicSequence()
+//=============================================================================================
+class EvtData_Play_Music_Sequence : public BaseEventData
+{
+public:
+	static const EventType sk_EventType;
+
+	virtual const EventType& VGetEventType( void ) const
+	{
+		return sk_EventType;
+	}
+
+	virtual IEventDataPtr VCopy() const
+	{
+		return IEventDataPtr (GCC_NEW EvtData_Play_Music_Sequence ( ) );
+	}
+
+	virtual void VSerialize( std::ostrstream & out )
+	{
+	}
+
+    virtual const char* GetName(void) const
+    {
+        return "EvtData_Play_Music_Sequence";
     }
 };

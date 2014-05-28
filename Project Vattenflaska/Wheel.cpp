@@ -57,6 +57,11 @@ void Wheel::StartMusicPlayer( IEventDataPtr pEventData )
 	m_isMusicPanelOn = true;
 }
 
+void Wheel::PlaySequence( IEventDataPtr pEventData )
+{
+	// Play sequence
+}
+
 void Wheel::RotateWheel()
 {
 	switch( m_wheelType )

@@ -78,6 +78,11 @@ extern "C"
 		LuaWrapper::Instance()->CreateEvtStartMusicPanel();
 		return 0;
 	}
+
+	static int PlayMusicSequence( lua_State* L )
+	{
+		LuaWrapper::Instance()->CreateEvtPlayMusicSequence();
+	}
 }
 
 void LuaWrapper::CreateLever( IEventDataPtr pEventData )
@@ -192,6 +197,12 @@ void LuaWrapper::RotateWheel( IEventDataPtr pEventData )
 void LuaWrapper::CreateEvtOpenDoor()
 {
 	IEventDataPtr e(GCC_NEW EvtData_Unlock_Door() );
+	m_em->VQueueEvent( e );
+}
+
+void LuaWrapper::CreateEvtPlayMusicSequence()
+{
+	IEventDataPtr e(GCC_NEW EvtData_Play_Music_Sequence() );
 	m_em->VQueueEvent( e );
 }
 

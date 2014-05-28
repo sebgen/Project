@@ -21,6 +21,7 @@ class Wheel : public DrawableObject
 
 	private:
 		void StartMusicPlayer( IEventDataPtr pEventData );
+		void PlaySequence( IEventDataPtr pEventData );
 
 	public:
 		Wheel();

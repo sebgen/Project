@@ -35,6 +35,7 @@ class Game : public Application
 		// DirectX |
 		//----------
 		ID3D11RasterizerState*	m_rasterizerState;
+		ID3D11BlendState*		m_blendState;
 		ID3D11InputLayout*		m_inputLayout;
 		ID3D11Buffer*			m_matrixBuffer;
 		WVP_PerFrameBuffer		m_CameraData;
@@ -108,6 +109,8 @@ class Game : public Application
 
 		HRESULT CreateCbCameraBuffer();
 		void UpdateCbCamera();
+
+		HRESULT CreateBlendState();
 
 		void loadNextLevel();
 		void handleMenu(POINT pos);

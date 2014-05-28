@@ -112,10 +112,13 @@ void LuaWrapper::CreateWheel( IEventDataPtr pEventData )
 			lua_getglobal( m_L, "SetBoilerWheel" );
 		else if( wheel->GetWheel()->GetWheelType() == ButtonWheel )
 			lua_getglobal( m_L, "SetButtonWheel" );
+
 		Wheel** wheelPtr = reinterpret_cast<Wheel**>( lua_newuserdata( m_L, sizeof( Wheel* ) ) );
 		*wheelPtr = wheel->GetWheel();
+
 			luaL_getmetatable( m_L, "WheelMeta" );
 			lua_setmetatable( m_L, -2 );
+
 		int err = lua_pcall( m_L, 1, 0, 0 );
 		if( err )
 		{
@@ -227,12 +230,27 @@ void LuaWrapper::Initialize( LuaEngine* le, EventManager* em )
 						this,
 						std::placeholders::_1),
 						EvtData_Lever_Created::sk_EventType);
+
+	// Create Wheel
+	m_em->VAddListener(
+		   std::bind(	&LuaWrapper::CreateWheel,
+						this,
+						std::placeholders::_1),
+						EvtData_Wheel_Created::sk_EventType);
+
 	// Pull Lever
 	m_em->VAddListener(
 		   std::bind(	&LuaWrapper::PullLever,
 						this,
 						std::placeholders::_1),
 						EvtData_Lever_Created::sk_EventType);
+
+	// Rotate Wheel
+	m_em->VAddListener(
+		   std::bind(	&LuaWrapper::RotateWheel,
+						this,
+						std::placeholders::_1),
+						EvtData_Rotate_Wheel::sk_EventType);
 }
 
 //================================================================================================

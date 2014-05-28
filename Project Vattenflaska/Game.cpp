@@ -676,9 +676,19 @@ HRESULT Game::InitializeGame( EventManager* em )
 	LuaWrapper::Instance()->Initialize( m_le, m_em );
 
 	//===========================
+	// Init Scripts --Maze.lua
+	//===========================
+	//LuaWrapper::Instance()->InitMazeMeta();
+
+	//===========================
 	// Init Scripts --Dungeon.lua
 	//===========================
-	LuaWrapper::Instance()->InitDungeonMeta();
+	//LuaWrapper::Instance()->InitDungeonMeta();
+
+	//===========================
+	// Init Scripts --Cave.lua
+	//===========================
+	LuaWrapper::Instance()->InitCaveMeta();
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -710,7 +720,7 @@ void Game::loadNextLevel()
 	if(currentLevel==0)
 	{
 		//load level 0;
-		
+		LuaWrapper::Instance()->InitDungeonMeta();
 		OutputDebugString("load martin\n");
 		m_currentRoom = m_rooms.at(currentLevel);
 		
@@ -722,6 +732,7 @@ void Game::loadNextLevel()
 	}
 	if(currentLevel==1)
 	{
+		LuaWrapper::Instance()->InitCaveMeta();
 		OutputDebugString("load cave\n");
 		m_rooms.clear();
 		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" );

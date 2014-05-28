@@ -37,6 +37,13 @@ Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 				m_name == "lastMusicWheelShape" )
 					m_wheelType = ButtonWheel;
 
+	// Start Music Panel
+	m_em->VAddListener(
+		   std::bind(	&Wheel::StartMusicPlayer,
+						this,
+						std::placeholders::_1),
+						EvtData_Start_MusicPanel::sk_EventType);
+
 	// Send event: EvtData_Wheel_Created
 	IEventDataPtr e(GCC_NEW EvtData_Wheel_Created( this ) );
 	m_em->VQueueEvent( e );
@@ -56,24 +63,26 @@ void Wheel::RotateWheel()
 	{
 	case MusicWheel:
 		{
-			switch( m_value )
+			if( m_isMusicPanelOn )
 			{
-			case 1:
-			case 2:
-			case 3:
-				m_value++;
-				break;
-			case 4:
-				m_value = 1;
-				break;
+				switch( m_value )
+				{
+				case 1:
+				case 2:
+				case 3:
+					m_value++;
+					break;
+				case 4:
+					m_value = 1;
+					break;
+				}
 			}
+
 			break;
 		}
 	case BoilerWheel:
 		{
-			if( m_isOn )
-				m_isOn = false;
-			else
+			if( !m_isOn )
 				m_isOn = true;
 			break;
 		}

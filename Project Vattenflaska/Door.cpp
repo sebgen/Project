@@ -42,7 +42,7 @@ void Door::OpenDoor( IEventDataPtr pEventData )
 {
 	if( EvtData_Unlock_Door::sk_EventType == pEventData->VGetEventType() )
 	{
-		m_isOpening;
+		m_isOpening = true;
 	}
 }
 
@@ -83,7 +83,7 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 	{
 		m_animationTimer += deltaTime; // Add delta time to timer
 
-		if( m_animationTimer >= 1.0f ) // It's time for next animation
+		if( m_animationTimer >= 0.01f ) // It's time for next animation
 		{
 			m_animationTimer = 0.0f; // Reset timer
 			RaiseDoor();			// Continue raising Door

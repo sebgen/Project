@@ -42,27 +42,30 @@ HRESULT Lever::Draw( float deltaTime )
 {
 	HRESULT hr = S_OK;
 
-	UpdateAndSetConstantBuffer();
-	UpdateLightConstantBuffer();
+	if( !m_isOn )
+	{
+		UpdateAndSetConstantBuffer();
+		UpdateLightConstantBuffer();
 
-	UINT32 vertexSize	= sizeof( Vertex );
-	UINT32 offset		= 0;
-	ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
-	m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
+		UINT32 vertexSize	= sizeof( Vertex );
+		UINT32 offset		= 0;
+		ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
+		m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
 
-	m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
-	m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
+		m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
+		m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
 
-	if( m_meshInfo.textureName.size() != 0 )
-		m_deviceContext->PSSetShaderResources( 0, 1, &m_shaderResourceView );
+		if( m_meshInfo.textureName.size() != 0 )
+			m_deviceContext->PSSetShaderResources( 0, 1, &m_shaderResourceView );
 
-	if( m_meshInfo.normalMapName.size() != 0 )
-		m_deviceContext->PSSetShaderResources(1, 1, &m_normalmapRCV);
+		if( m_meshInfo.normalMapName.size() != 0 )
+			m_deviceContext->PSSetShaderResources(1, 1, &m_normalmapRCV);
 
-	if( m_meshInfo.specularMapName.size() != 0 )
-		m_deviceContext->PSSetShaderResources(2, 1, &m_specularmapRCV);
+		if( m_meshInfo.specularMapName.size() != 0 )
+			m_deviceContext->PSSetShaderResources(2, 1, &m_specularmapRCV);
 
-	m_deviceContext->Draw( m_meshInfo.vertexCount, 0 );
+		m_deviceContext->Draw( m_meshInfo.vertexCount, 0 );
+	}
 	
 	return hr;
 }
@@ -79,11 +82,11 @@ void Lever::PullLever()
 		m_isOn = true;
 
 	// DEBUG =======================================
-	IEventDataPtr d(GCC_NEW EvtData_Unlock_Door() );
-	m_em->VQueueEvent( d );
+	/*IEventDataPtr d(GCC_NEW EvtData_Unlock_Door() );
+	m_em->VQueueEvent( d );*/
 	//==============================================
-	//IEventDataPtr e(GCC_NEW EvtData_Lever_Pull( this ) );
-	//m_em->VQueueEvent( e );
+	IEventDataPtr e(GCC_NEW EvtData_Lever_Pull( this ) );
+	m_em->VQueueEvent( e );
 }
 
 bool Lever::IsOn() const 

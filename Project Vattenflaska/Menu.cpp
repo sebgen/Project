@@ -17,6 +17,30 @@ void Menu::setThumbState(int state)
 {
 	thumbState=state;
 }
+void Menu::DrawLoadScreen()
+{
+	ID3D11DepthStencilState* currentStencilState=nullptr;
+	ID3D11BlendState* currentBlendstate=nullptr;
+	UINT blendref=1;
+	UINT stencilRef=0;
+
+	m_deviceContext->OMGetDepthStencilState(&currentStencilState, &stencilRef); 
+
+	m_deviceContext->OMGetBlendState(&currentBlendstate,NULL, &blendref);
+	
+	spriteBatch->Begin();
+	
+	spriteBatch->Draw(loadscreen, XMFLOAT2 (0, 0));
+
+	spriteBatch->End();
+
+	m_deviceContext->OMSetDepthStencilState(currentStencilState, stencilRef);
+	m_deviceContext->OMSetBlendState(currentBlendstate, NULL, 0xffffffff);
+
+	SAFE_RELEASE(currentBlendstate);
+	SAFE_RELEASE(currentStencilState);
+
+}
 void Menu::Render(int x,int y, float pointX, float pointY, bool m_mouseHit, int fps)
 {
 	XMFLOAT2 testpos(100,100);
@@ -209,6 +233,7 @@ void Menu::init(ID3D11DeviceContext* &deviceContext, ID3D11Device* &device)
 	CreateDDSTextureFromFile(m_device, L"./menuPics/optionsmenu.dds", nullptr, &optionMenu);
 	CreateDDSTextureFromFile(m_device, L"./menuPics/thumbprint.dds", nullptr, &thumbIcon);
 	CreateDDSTextureFromFile(m_device, L"./menuPics/star.dds", nullptr, &cursor);
+	CreateDDSTextureFromFile(m_device, L"./menuPics/loadingscreen.dds", nullptr, &loadscreen);
 	//size_t size=0U;
 	//DDS_ALPHA_MODE *alpha= (DDS_ALPHA_MODE*)DDS_ALPHA_MODE_STRAIGHT;
 	//CreateDDSTextureFromFile(m_device, L"./menuPics/thumbprint.dds", nullptr, &thumbIcon,size ,alpha);

@@ -32,6 +32,7 @@ private:
 	ID3D11ShaderResourceView*	optionMenu;
 	ID3D11ShaderResourceView*	thumbIcon;
 	ID3D11ShaderResourceView*	cursor;
+	ID3D11ShaderResourceView*	loadscreen;
 
 	ID3D11DeviceContext*		m_deviceContext;
 	ID3D11Device*				m_device;		
@@ -65,6 +66,7 @@ public:
 	void Render(int x, int y,float pointX, float pointY, bool m_mouseHit, int fps);
 	void setMenuState(int state);
 	void setThumbState(int state);
+	void DrawLoadScreen();
 	void shutDown();
 	float dist;
 };

@@ -67,7 +67,8 @@ class Game : public Application
 		bool m_checkClicked;
 		int currentLevel;
 
-
+		bool drawLoadScreen;
+		bool loadNextLevelNextFrame;
 		//templösning för picka door
 		std::vector<MeshInfo> doorMesh;
 		

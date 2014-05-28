@@ -7,7 +7,11 @@ HRESULT Game::Update( float deltaTime )
 
 	UpdateCbCamera();
 	UpdateCbLight( deltaTime );  /// NY
-	
+
+	if(loadNextLevelNextFrame)
+	{
+		loadNextLevel();
+	}
 
 	if(m_input->GetMouseRButton())
 	{
@@ -111,7 +115,8 @@ HRESULT Game::Update( float deltaTime )
 			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit))
 			{
 				OutputDebugString("door hit\n");
-				loadNextLevel();
+				loadNextLevelNextFrame=true;
+				drawLoadScreen=true;
 			}
 			else
 			{
@@ -427,6 +432,11 @@ HRESULT Game::Draw( float deltaTime )
 	pointY /= projMatrix1._22;
 
 	m_menu->Render(pos.x, pos.y, pointX, pointY, true, 0);
+
+	if(drawLoadScreen)
+	{
+		m_menu->DrawLoadScreen();
+	}
 	//========== END ===============
 
 	// Swap Front and Back Bufffer
@@ -704,6 +714,8 @@ void Game::loadNextLevel()
 		m_currentRoom = m_rooms.at(currentLevel);
 		
 		currentLevel++;
+		drawLoadScreen=false;
+		loadNextLevelNextFrame=false;
 		return;
 
 	}
@@ -730,6 +742,8 @@ void Game::loadNextLevel()
 
 		m_camera->RotateY(XMConvertToRadians(90));
 		currentLevel++;
+		drawLoadScreen=false;
+		loadNextLevelNextFrame=false;
 		return;
 	}
 	if(currentLevel==2)
@@ -739,6 +753,8 @@ void Game::loadNextLevel()
 		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
 		m_currentRoom = m_rooms.at(0);
 		currentLevel=0;
+		drawLoadScreen=false;
+		loadNextLevelNextFrame=false;
 	}
 }
 int Game::Run()
@@ -772,6 +788,10 @@ int Game::Run()
 	 m_checkRClicked=false;
 	 menuState=MENU;
 	 m_checkClicked=false;
+
+
+	  drawLoadScreen=false;
+	 loadNextLevelNextFrame=false;
 	//-----------------------------
 	 currentLevel=1;
 	//-------GATE CONTROLS---------

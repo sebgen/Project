@@ -27,7 +27,7 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_sound->init();
 	m_isOpeningSoundPlaying	= false;
 
-	m_sound->addSoundEffect( L"doorIsOpening.wav", "isOpeningSound" );
+	m_sound->addSoundEffect( L"doorIsOpening3SEC.wav", "isOpeningSound" );
 	m_sound->addSoundEffect( L"doorIsOpen.wav", "isOpenSound" );
 
 	m_em = em;

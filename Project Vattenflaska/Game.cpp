@@ -394,6 +394,11 @@ HRESULT Game::Draw( float deltaTime )
 
 	//========== START ===============
 	m_deviceContext->RSSetState( m_rasterizerState );
+	if( m_currentRoom->GetRoomName() == "cave2" )
+	{
+		float blendFactors [] = {0.0f, 0.0f, 0.0f, 0.0f} ;
+		m_deviceContext->OMSetBlendState( m_blendState, blendFactors, 0xffffffff );
+	}
 
 	//---------------
 	// Light Buffer |
@@ -617,10 +622,33 @@ void Game::UpdateCbCamera()
 	}
 }
 
+HRESULT Game::CreateBlendState()
+{
+	HRESULT hr = S_OK;
+
+	D3D11_BLEND_DESC blendStateDesc = {0} ;
+	blendStateDesc.AlphaToCoverageEnable = false;
+	blendStateDesc.IndependentBlendEnable = false;
+
+	blendStateDesc.RenderTarget[0].BlendEnable			 = true;
+	blendStateDesc.RenderTarget[0].SrcBlend				 = D3D11_BLEND_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].DestBlend			 = D3D11_BLEND_INV_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].BlendOp				 = D3D11_BLEND_OP_ADD;
+	blendStateDesc.RenderTarget[0].SrcBlendAlpha		 = D3D11_BLEND_ONE;
+	blendStateDesc.RenderTarget[0].DestBlendAlpha		 = D3D11_BLEND_ZERO;
+	blendStateDesc.RenderTarget[0].BlendOpAlpha			 = D3D11_BLEND_OP_ADD;
+	blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	
+	hr = m_device->CreateBlendState(&blendStateDesc, &m_blendState);
+
+	return hr;
+}
+
 Game::Game()
 	:Application()
 {
 	m_rasterizerState	= nullptr;
+	m_blendState		= nullptr;
 	m_inputLayout		= nullptr;
 	m_matrixBuffer		= nullptr;
 	m_vertexShader		= nullptr;
@@ -704,6 +732,10 @@ HRESULT Game::InitializeGame( EventManager* em )
 	CreateCbLightBuffer();  /// NY
 	CreateCbCameraBuffer();
 
+	if( m_currentRoom->GetRoomName() == "cave2" )
+		CreateBlendState();
+
+
 	m_navMesh->init(m_picker, m_camera);
 
 	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave" ); //"navMeshLevel1");
@@ -715,6 +747,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	return hr;
 }
+
 void Game::loadNextLevel()
 {
 	if(currentLevel==0)
@@ -769,6 +802,7 @@ void Game::loadNextLevel()
 		loadNextLevelNextFrame=false;
 	}
 }
+
 int Game::Run()
 {
 	MSG msg = {0};
@@ -850,6 +884,7 @@ int Game::Run()
 void Game::Shutdown()
 {
 	SAFE_RELEASE( m_rasterizerState );
+	SAFE_RELEASE( m_blendState );
 	SAFE_RELEASE( m_inputLayout );
 	SAFE_RELEASE( m_matrixBuffer );
 	SAFE_RELEASE( m_vertexShader );

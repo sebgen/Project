@@ -46,6 +46,7 @@ class Room
 		void AddLight( const GlobalLight& light ); // Adds a pointlight to the room
 		void AddContent( TestObject* object ); // Adds content to the room
 
+		std::string GetRoomName() const;
 		std::vector<MeshInfo> GetLever();
 		std::vector<MeshInfo> GetWheel();
 		//std::vector<MeshInfo> getExitDoor();

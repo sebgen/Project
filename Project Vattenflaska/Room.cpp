@@ -71,7 +71,7 @@ std::vector<MeshInfo> Room::GetWheel()
 	std::vector<MeshInfo> temp;
 	for(int i=0; i< m_wheels.size(); i++)
 	{
-		temp.push_back(m_levers.at(i)->getInfo());
+		temp.push_back(m_wheels.at(i)->getInfo());
 	}
 	return temp;
 }
@@ -90,6 +90,11 @@ const std::vector<GlobalLight>& Room::GetLights() const
 Lever* Room::GetALever( int index ) const
 {
 	return m_levers.at( index );
+}
+
+Wheel* Room::GetAWheel( int index ) const
+{
+	return m_wheels.at( index );
 }
 
 std::vector<Lever*> Room::GetLevers() const

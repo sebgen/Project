@@ -87,6 +87,13 @@ int Wheel::GetValue() const
 	return 0;
 }
 
+bool Wheel::IsOn() const
+{
+	if( m_wheelType == BoilerWheel )
+		return m_isOn;
+	return 0;
+}
+
 void Wheel::ResetWheel()
 {
 	m_value = 1;
@@ -107,35 +114,6 @@ std::string Wheel::GetName() const
 HRESULT Wheel::Update( float deltaTime, Camera* camera )
 {
 	HRESULT hr = S_OK;
-
-	//// Lever is in UPPER state
-	//if ( m_isRotating && !m_isActive )
-	//{
-	//	m_rotationTimer += deltaTime;
-
-	//	// Rotation is finished
-	//	if ( m_rotationTimer == 1.0f )
-	//	{
-	//		m_rotationTimer = 0.0f;
-	//		m_isActive		= true;
-	//	}
-	//	else
-	//		RotateWheel( 1.0f );
-	//}
-	//// Lever is in LOWER state
-	//else if( m_isRotating && m_isActive )
-	//{
-	//	m_rotationTimer += deltaTime;
-
-	//	// Rotation is finished
-	//	if ( m_rotationTimer == 1.0f )
-	//	{
-	//		m_rotationTimer = 0.0f;
-	//		m_isActive		= false;
-	//	}
-	//	else
-	//		RotateWheel( 1.0f );
-	//}
 
 	return hr;
 }
@@ -163,4 +141,9 @@ void Wheel::Shutdown()
 	// Release own objects first!
 
 	DrawableObject::Shutdown();
+}
+
+MeshInfo Wheel::getInfo()
+{
+	return m_meshInfo;
 }

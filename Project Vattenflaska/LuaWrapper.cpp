@@ -188,5 +188,45 @@ void LuaWrapper::InitDungeonMeta()
 void LuaWrapper::InitCaveMeta()
 {
 	m_L = m_le->ResetSate();
+	//=====================================
+	//			Lua Meta Tables
+	//=====================================
+	//Game
+	luaL_newmetatable( m_L, "GameMeta" );
+
+	luaL_Reg GameRegs[] = 
+	{
+		{ "OpenDoor", LuaOpenDoor },
+		{ NULL, NULL },
+	};
+
+	luaL_setfuncs( m_L, GameRegs, 0 );
+
+	lua_pushvalue( m_L, -1 );
+
+	lua_setfield( m_L, -2, "__index" );
+
+	lua_setglobal( m_L, "Game" );
+
+	// Wheel
+	luaL_newmetatable( m_L, "WheelMeta" );
+
+	luaL_Reg WheelRegs[] = 
+	{
+		//{ "IsOn", LeverIsOn },
+		//{ "WheelGetName", WheelGetName },
+		//{ "WheelGetValue", WheelGetValue },
+		//{ "Reset", ResetLever },
+		{ NULL, NULL },
+	};
+
+	luaL_setfuncs( m_L, WheelRegs, 0 );
+
+	lua_pushvalue( m_L, -1 );
+
+	lua_setfield( m_L, -2, "__index" );
+
+	lua_setglobal( m_L, "Wheel" );
+
 	m_le->ExecuteFile( "Cave.lua" );
 }

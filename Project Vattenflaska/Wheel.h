@@ -23,8 +23,10 @@ class Wheel : public DrawableObject
 		Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em  );
 		~Wheel();
 
+		MeshInfo getInfo();
 		void RotateWheel();
 		int GetValue() const;
+		bool IsOn() const;
 		std::string GetName() const;
 		void ResetWheel();
 		WheelType GetWheelType() const;

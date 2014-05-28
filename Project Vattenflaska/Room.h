@@ -54,6 +54,7 @@ class Room
 		const std::vector<GlobalLight>& GetLights() const;
 
 		Lever* GetALever( int index ) const;
+		Wheel* GetAWheel( int index ) const;
 		std::vector<Lever*> GetLevers() const;
 		
 

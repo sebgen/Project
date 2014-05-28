@@ -18,46 +18,95 @@ HRESULT Game::Update( float deltaTime )
 			XMMATRIX I=XMMatrixIdentity();
 			XMStoreFloat4x4(&world, I);
 			m_checkRClicked=true;
-			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
+
+			if( m_currentRoom->GetLever().size() > 0 )
 			{
-				m_currentRoom->GetALever( whatMeshHit )->PullLever();
+				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
+				{
+					m_currentRoom->GetALever( whatMeshHit )->PullLever();
 
-				//====================================================================================
-				//										DEBUG
-				//====================================================================================
-				std::string index = std::to_string( whatMeshHit );
-				OutputDebugString( index.c_str() );
-				OutputDebugString( (m_currentRoom->GetALever( whatMeshHit )->GetName().c_str() ) );
-				OutputDebugString("hit\n");
-				std::string ison = std::to_string( m_currentRoom->GetALever( whatMeshHit )->IsOn() );
-				OutputDebugString( ison.c_str() );
-				OutputDebugString("hit\n");
+					//====================================================================================
+					//										DEBUG
+					//====================================================================================
+					std::string index = std::to_string( whatMeshHit );
+					OutputDebugString( index.c_str() );
+					OutputDebugString( (m_currentRoom->GetALever( whatMeshHit )->GetName().c_str() ) );
+					OutputDebugString("hit\n");
+					std::string ison = std::to_string( m_currentRoom->GetALever( whatMeshHit )->IsOn() );
+					OutputDebugString( ison.c_str() );
+					OutputDebugString("hit\n");
 
-				ison = std::to_string( m_currentRoom->GetALever( 2 )->IsOn() );
-				OutputDebugString("\nLever 1: ");
-				OutputDebugString( ison.c_str() );
+					ison = std::to_string( m_currentRoom->GetALever( 2 )->IsOn() );
+					OutputDebugString("\nLever 1: ");
+					OutputDebugString( ison.c_str() );
 
-				ison = std::to_string( m_currentRoom->GetALever( 1 )->IsOn() );
-				OutputDebugString("\nLever 2: ");
-				OutputDebugString( ison.c_str() );
+					ison = std::to_string( m_currentRoom->GetALever( 1 )->IsOn() );
+					OutputDebugString("\nLever 2: ");
+					OutputDebugString( ison.c_str() );
 
-				ison = std::to_string( m_currentRoom->GetALever( 0 )->IsOn() );
-				OutputDebugString("\nLever 3: ");
-				OutputDebugString( ison.c_str() );
+					ison = std::to_string( m_currentRoom->GetALever( 0 )->IsOn() );
+					OutputDebugString("\nLever 3: ");
+					OutputDebugString( ison.c_str() );
 
-				ison = std::to_string( m_currentRoom->GetALever( 3 )->IsOn() );
-				OutputDebugString("\nLever 4: ");
-				OutputDebugString( ison.c_str() );
+					ison = std::to_string( m_currentRoom->GetALever( 3 )->IsOn() );
+					OutputDebugString("\nLever 4: ");
+					OutputDebugString( ison.c_str() );
 
-				ison = std::to_string( m_currentRoom->GetALever( 4 )->IsOn() );
-				OutputDebugString("\nLever 5: ");
-				OutputDebugString( ison.c_str() );
+					ison = std::to_string( m_currentRoom->GetALever( 4 )->IsOn() );
+					OutputDebugString("\nLever 5: ");
+					OutputDebugString( ison.c_str() );
 
-				//====================================================================================
+					//====================================================================================
+				}
 			}
-			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
-			{
 
+			if( m_currentRoom->GetWheel().size() > 0 )
+			{
+				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit))
+				{
+					m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
+
+					//====================================================================================
+					//										DEBUG
+					//====================================================================================
+					OutputDebugString( "\nfirstMusicWheel: " );
+					OutputDebugString( "\nlastMusicWheel: " );
+
+					// Music
+					std::string value = std::to_string( m_currentRoom->GetAWheel( 2 )->GetValue() );
+					OutputDebugString( "\nMusicWheel 1: " );
+					OutputDebugString( value.c_str() );
+				
+					value = std::to_string( m_currentRoom->GetAWheel( 3 )->GetValue() );
+					OutputDebugString( "\nMusicWheel 2: " );
+					OutputDebugString( value.c_str() );
+
+					value = std::to_string( m_currentRoom->GetAWheel( 4 )->GetValue() );
+					OutputDebugString( "\nMusicWheel 3: " );
+					OutputDebugString( value.c_str() );
+
+					value = std::to_string( m_currentRoom->GetAWheel( 5 )->GetValue() );
+					OutputDebugString( "\nMusicWheel 4: " );
+					OutputDebugString( value.c_str() );
+
+					// Boiler
+					value = std::to_string( m_currentRoom->GetAWheel( 6 )->IsOn() );
+					OutputDebugString( "\nBoilerWheel 1: " );
+					OutputDebugString( value.c_str() );
+
+					value = std::to_string( m_currentRoom->GetAWheel( 7 )->IsOn() );
+					OutputDebugString( "\nBoilerWheel 2: " );
+					OutputDebugString( value.c_str() );
+
+					value = std::to_string( m_currentRoom->GetAWheel( 8 )->IsOn() );
+					OutputDebugString( "\nBoilerWheel 3: " );
+					OutputDebugString( value.c_str() );
+
+					value = std::to_string( m_currentRoom->GetAWheel( 9 )->IsOn() );
+					OutputDebugString( "\nBoilerWheel 4: " );
+					OutputDebugString( value.c_str() );
+					//====================================================================================
+				}
 			}
 			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit))
 			{
@@ -628,7 +677,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" ); //"torturelevelfirstdraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" ); //"torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -636,7 +685,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	m_navMesh->init(m_picker, m_camera);
 
-	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshLevel1" ); //"navMeshLevel1");
+	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave" ); //"navMeshLevel1");
 	
 
 	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());

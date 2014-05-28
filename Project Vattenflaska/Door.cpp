@@ -40,7 +40,7 @@ Door::~Door()
 
 void Door::OpenDoor( IEventDataPtr pEventData )
 {
-	if( EvtData_Unlock_Door::sk_EventType == pEventData ->VGetEventType() )
+	if( EvtData_Unlock_Door::sk_EventType == pEventData->VGetEventType() )
 	{
 		m_isOpen = true;
 		m_isOpening = true;

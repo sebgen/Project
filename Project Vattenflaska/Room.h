@@ -17,6 +17,7 @@
 #include "Door.h"
 #include "Torch.h"
 #include "GlobalLight.h"
+#include "Wheel.h"
 
 #include "TestObject.h"
 

@@ -114,6 +114,9 @@ HRESULT Room::Update( float deltaTime, Camera* camera )
 	for (int i = 0; i < m_doors.size(); i++)
 		m_doors.at(i)->Update( deltaTime, camera );
 
+	for (int i = 0; i < m_wheels.size(); i++)
+		m_wheels.at(i)->Update( deltaTime, camera );
+
 	return hr;
 }
 
@@ -133,6 +136,9 @@ HRESULT Room::Draw( float deltaTime )
 
 	for (int i = 0; i < m_doors.size(); i++)
 		m_doors.at(i)->Draw( deltaTime );
+
+	for (int i = 0; i < m_wheels.size(); i++)
+		m_wheels.at(i)->Draw( deltaTime );
 
 	return hr;
 }

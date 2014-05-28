@@ -1,9 +1,9 @@
-﻿Build started 2014-05-27 17:05:36.
-     1>Project "C:\Users\linuz\git2\DirectXTK\DirectXTK_Desktop_2012.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2014-05-28 12:15:27.
+     1>Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\DirectXTK_Desktop_2012.vcxproj" on node 2 (Build target(s)).
      1>Lib:
-         DirectXTK_Desktop_2012.vcxproj -> C:\Users\linuz\git2\DirectXTK\Bin\Desktop_2012\Win32\Debug\DirectXTK.lib
-     1>Done Building Project "C:\Users\linuz\git2\DirectXTK\DirectXTK_Desktop_2012.vcxproj" (Build target(s)).
+         DirectXTK_Desktop_2012.vcxproj -> C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\Bin\Desktop_2012\Win32\Debug\DirectXTK.lib
+     1>Done Building Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\DirectXTK_Desktop_2012.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.09
+Time Elapsed 00:00:00.14

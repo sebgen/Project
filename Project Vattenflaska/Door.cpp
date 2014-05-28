@@ -18,7 +18,7 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_isOpening		 = false;
 	m_isOpen		 = false;
 	m_animationTimer = 0.0f;
-	m_moveUnits		 = 0;
+	m_moveUnits		 = 225;
 
 	m_em = em;
 
@@ -42,9 +42,7 @@ void Door::OpenDoor( IEventDataPtr pEventData )
 {
 	if( EvtData_Unlock_Door::sk_EventType == pEventData ->VGetEventType() )
 	{
-		m_isOpen = true;
-		m_isOpening = true;
-		m_moveUnits = 1000;
+		m_isOpening;
 	}
 }
 
@@ -52,7 +50,7 @@ void Door::RaiseDoor()
 {
 	// Increment Y-value for every vertex in mesh
 	for (int i = 0; i < m_meshInfo.vertexCount; i++)
-		m_meshInfo.vertices.at(i).position.y += 0.0001f; 
+		m_meshInfo.vertices.at(i).position.y += 0.01f; 
 
 	UpdateAndSetVertexBuffer();
 }
@@ -62,32 +60,14 @@ void Door::UpdateAndSetVertexBuffer()
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	HRESULT hr = m_deviceContext->Map( m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource );
 
-	//if(SUCCEEDED(hr))
-	//{
-	//	memcpy(mappedResource.pData, &m_meshInfo.vertices, m_meshInfo.vertexCount * sizeof( Vertex ) );
-	//	m_deviceContext->Unmap( m_vertexBuffer, 0 );
+	if(SUCCEEDED(hr))
+	{
+		memcpy(mappedResource.pData, &m_meshInfo.vertices[0], m_meshInfo.vertexCount * sizeof( Vertex ) );
+		m_deviceContext->Unmap( m_vertexBuffer, 0 );
 
-	//	 //Vertex Buffer is set in Draw
-	//}
+		 //Vertex Buffer is set in Draw
+	}
 
-	// Töm buffern
-	m_vertexBuffer->Release();
-
-	// Skapa buffer (DESC)
-	D3D11_BUFFER_DESC vbd;
-    vbd.Usage = D3D11_USAGE_DEFAULT;
-	vbd.ByteWidth = sizeof(Vertex) * m_meshInfo.vertexCount;
-    vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vbd.CPUAccessFlags = 0;
-    vbd.MiscFlags = 0;
-	vbd.StructureByteStride = 0;
-
-	// Lägg i buffer
-	D3D11_SUBRESOURCE_DATA vinitData;
-	vinitData.pSysMem = &m_meshInfo.vertices;
-
-	// Skicka in nya listan med uppdaterade värden
-	 hr = m_device->CreateBuffer( &vbd, &vinitData, &m_vertexBuffer );
 }
 
 bool Door::IsOpen() const
@@ -98,8 +78,6 @@ bool Door::IsOpen() const
 HRESULT Door::Update( float deltaTime, Camera* camera )
 {	
 	HRESULT hr = S_OK;
-
-	//XMStoreFloat4x4( &m_CBmatrices.worldMatrix, XMMatrixRotationY( 0.1 ) );
 
 	if( m_isOpening && !m_isOpen )
 	{
@@ -112,7 +90,7 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 
 			if( m_moveUnits <= 0 ) // If Door is fully open
 			{
-				m_moveUnits = 1000;    // Reset move units
+				m_moveUnits = 225;    // Reset move units
 				m_isOpening	= false; // Door no longer moves
 				m_isOpen	= true;  // Set Door to OPEN
 
@@ -131,33 +109,31 @@ HRESULT Door::Update( float deltaTime, Camera* camera )
 HRESULT Door::Draw( float deltaTime )
 {
 	HRESULT hr = S_OK;
-	if( !m_isOpen )
-	{
-		UpdateAndSetConstantBuffer();
-		UpdateLightConstantBuffer();
 
-		///TEST!
-		UINT32 vertexSize	= sizeof( Vertex );
-		UINT32 offset		= 0;
-		ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
-		m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
+	UpdateAndSetConstantBuffer();
+	UpdateLightConstantBuffer();
+
+	UINT32 vertexSize	= sizeof( Vertex );
+	UINT32 offset		= 0;
+	ID3D11Buffer* buffersToSet[] = { m_vertexBuffer };
+	m_deviceContext->IASetVertexBuffers( 0, 1, buffersToSet, &vertexSize, &offset );
 
 
-		m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
-		m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
+	m_deviceContext->PSSetSamplers( 0, 1, &m_samplerStateAnisotropic );  /// NY
+	m_deviceContext->PSSetSamplers( 1, 1, &m_samplerStateLinear );  /// NY
 
 		// Texture
-		if( m_meshInfo.textureName.size() != 0 )
-			m_deviceContext->PSSetShaderResources( 0, 1, &m_shaderResourceView );
+	if( m_meshInfo.textureName.size() != 0 )
+		m_deviceContext->PSSetShaderResources( 0, 1, &m_shaderResourceView );
 
-		if( m_meshInfo.normalMapName.size() != 0 )
-			m_deviceContext->PSSetShaderResources(1, 1, &m_normalmapRCV);
+	if( m_meshInfo.normalMapName.size() != 0 )
+		m_deviceContext->PSSetShaderResources(1, 1, &m_normalmapRCV);
 
-		if( m_meshInfo.specularMapName.size() != 0 )
-			m_deviceContext->PSSetShaderResources(2, 1, &m_specularmapRCV);;
+	if( m_meshInfo.specularMapName.size() != 0 )
+		m_deviceContext->PSSetShaderResources(2, 1, &m_specularmapRCV);;
 
-		m_deviceContext->Draw( m_meshInfo.vertexCount, 0 );
-	}
+	m_deviceContext->Draw( m_meshInfo.vertexCount, 0 );
+
 	return hr;
 }
 

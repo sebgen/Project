@@ -201,7 +201,7 @@ void DrawableObject::SetObjectData( MeshInfo meshInfo )
 	vbd.CPUAccessFlags		= 0;
 	vbd.MiscFlags			= 0;
 
-	if( m_meshInfo.groupName == "door_gateShape" )
+	if( m_meshInfo.groupName == "door_gateShape" || m_meshInfo.groupName == "gate1Shape" )
 	{
 		vbd.Usage			= D3D11_USAGE_DYNAMIC;
 		vbd.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;
@@ -241,7 +241,7 @@ void DrawableObject::SetObjectData( MeshInfo meshInfo )
 	
 	if(FAILED(hr = m_device->CreateBuffer( &cbDesc, NULL, &m_constantBuffer)))
 	{
-		OutputDebugString("failed to create constant buffer in DrawableObject\n");
+		OutputDebugString("Failed to create constant buffer in DrawableObject\n");
 	}
 
 	//============================
@@ -259,8 +259,7 @@ void DrawableObject::SetObjectData( MeshInfo meshInfo )
 	
 	if(FAILED(hr = m_device->CreateBuffer( &cbLightDesc, NULL, &m_lightInfoBuffer)))
 	{
-		OutputDebugString("failed to create light buffer in DrawableObject\n");
-
+		OutputDebugString("Failed to create light buffer in DrawableObject\n");
 	}
 	
 	

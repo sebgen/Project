@@ -42,3 +42,8 @@ const EventType EvtData_Unlock_Door::sk_EventType( 0xe841f4d6 );
 // EvtData_Start_MusicPanel - Sent from LuaWrapper when lua calls LuaStartWrapper()
 //=============================================================================================
 const EventType EvtData_Start_MusicPanel::sk_EventType( 0xefa287fd );
+
+//=============================================================================================
+// EvtData_Play_Music_Sequence - Sent from LuaWrapper when lua calls PlayMusicSequence()
+//=============================================================================================
+const EventType EvtData_Play_Music_Sequence::sk_EventType( 0xc953e9ba );

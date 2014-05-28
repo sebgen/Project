@@ -16,6 +16,7 @@
 #include "EventSys/EventManagerImpl.h"
 #include "EventSys/Events.h"
 #include "DrawableObject.h"
+#include "Sound.h"
 
 class Door : public DrawableObject
 {
@@ -25,6 +26,8 @@ class Door : public DrawableObject
 		float m_animationTimer; // Makes sure that animation is equal on all systems
 		int   m_moveUnits; // Number of units the door will move
 		EventManager*	m_em;
+		Sound* m_sound;
+		bool   m_isOpeningSoundPlaying; 
 
 	public:
 		Door();

@@ -1,0 +1,28 @@
+﻿Build started 2014-05-28 16:35:28.
+     1>Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\Audio\DirectXTKAudio_Desktop_2012_DXSDK.vcxproj" on node 4 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Inc /I..\Src /Zi /nologo /W4 /WX- /O2 /Oi /Oy- /GL /D _WIN32_WINNT=0x0600 /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Yc"pch.h" /Fp"Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.pch" /Fo"Bin\Desktop_2012\Win32\Release\\" /Fd"Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.pdb" /Gd /TP /analyze- /errorReport:prompt AudioEngine.cpp
+         AudioEngine.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Inc /I..\Src /Zi /nologo /W4 /WX- /O2 /Oi /Oy- /GL /D _WIN32_WINNT=0x0600 /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Yu"pch.h" /Fp"Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.pch" /Fo"Bin\Desktop_2012\Win32\Release\\" /Fd"Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.pdb" /Gd /TP /analyze- /errorReport:prompt DynamicSoundEffectInstance.cpp SoundCommon.cpp SoundEffect.cpp SoundEffectInstance.cpp WaveBank.cpp WaveBankReader.cpp WAVFileReader.cpp
+         DynamicSoundEffectInstance.cpp
+         SoundCommon.cpp
+         SoundEffect.cpp
+         SoundEffectInstance.cpp
+         WaveBank.cpp
+         WaveBankReader.cpp
+         WAVFileReader.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.lib" /NOLOGO /LTCG Bin\Desktop_2012\Win32\Release\AudioEngine.obj
+         Bin\Desktop_2012\Win32\Release\DynamicSoundEffectInstance.obj
+         Bin\Desktop_2012\Win32\Release\SoundCommon.obj
+         Bin\Desktop_2012\Win32\Release\SoundEffect.obj
+         Bin\Desktop_2012\Win32\Release\SoundEffectInstance.obj
+         Bin\Desktop_2012\Win32\Release\WaveBank.obj
+         Bin\Desktop_2012\Win32\Release\WaveBankReader.obj
+         Bin\Desktop_2012\Win32\Release\WAVFileReader.obj
+         DirectXTKAudio_Desktop_2012_DXSDK.vcxproj -> C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\Audio\Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.lib
+     1>Done Building Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\Audio\DirectXTKAudio_Desktop_2012_DXSDK.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.63

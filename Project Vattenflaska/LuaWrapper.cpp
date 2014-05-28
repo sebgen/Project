@@ -17,12 +17,65 @@ extern "C"
 		Lever** leverPtr = static_cast<Lever**>( luaL_testudata( L, 1, "LeverMeta" ) );
 		if( !leverPtr )
 		{
-			OutputDebugString( "Error! Getting lever pointer from ResetLever() call in lua" );
+			OutputDebugString( "\nError! Getting lever pointer from ResetLever() call in lua" );
 			return 0;
 		}
 
 		(**leverPtr).ResetLever();
 
+		return 0;
+	}
+
+	static int WheelIsOn( lua_State* L )
+	{
+		Wheel** wheelPtr = static_cast<Wheel**>( luaL_testudata( L, 1, "WheelMeta" ) );
+		if( !wheelPtr )
+		{
+			OutputDebugString( "\nError getting wheel pointer from IsOn() call in lua\n" );
+			return 0;
+		}
+		lua_pushboolean( L, (**wheelPtr).IsOn() );
+
+		return 1;
+	}
+
+	static int WheelGetName( lua_State* L )
+	{
+		Wheel** wheelPtr = static_cast<Wheel**>( luaL_testudata( L, 1, "WheelMeta" ) );
+		if( !wheelPtr )
+		{
+			OutputDebugString( "\nError getting wheel pointer from WheelGetName() call in lua\n" );
+			return 0;
+		}
+		lua_pushstring( L, (**wheelPtr).GetName().c_str() );
+
+		return 1;
+	}
+
+	static int WheelGetValue( lua_State* L )
+	{
+		Wheel** wheelPtr = static_cast<Wheel**>( luaL_testudata( L, 1, "WheelMeta" ) );
+		if( !wheelPtr )
+		{
+			OutputDebugString( "\nError getting wheel pointer from WheelGetValue() call in lua\n" );
+			return 0;
+		}
+
+		int val = (**wheelPtr).GetValue();
+		if( val == 0 )
+		{
+			OutputDebugString( "\nError wheel type is not a MusicWheel\n" );
+			return 0;
+		}
+
+		lua_pushinteger( L, val );
+
+		return 1;
+	}
+
+	static int StartMusicPanel( lua_State* L )
+	{
+		LuaWrapper::Instance()->CreateEvtStartMusicPanel();
 		return 0;
 	}
 }
@@ -83,9 +136,54 @@ void LuaWrapper::PullLever( IEventDataPtr pEventData )
 	}
 }
 
+void LuaWrapper::RotateWheel( IEventDataPtr pEventData )
+{
+	if( EvtData_Rotate_Wheel::sk_EventType == pEventData->VGetEventType() )
+	{
+		int err;
+		shared_ptr<EvtData_Rotate_Wheel> wheel = std::static_pointer_cast<EvtData_Rotate_Wheel>( pEventData );
+		if( wheel->GetWheel()->GetWheelType() == MusicWheel )
+		{
+			lua_getglobal( m_L, "CheckMusickWheels" );
+			err = lua_pcall( m_L, 0, 0, 0 );
+			if( err )
+			{
+				OutputDebugString( "\nError Rotating music wheel: ");
+				OutputDebugString( lua_tostring( m_L, -1 ) );
+			}
+		}
+		else if( wheel->GetWheel()->GetWheelType() == BoilerWheel )
+		{
+			lua_getglobal( m_L, "CheckBoilerWheels" );
+			err = lua_pcall( m_L, 0, 0, 0 );
+			if( err )
+			{
+				OutputDebugString( "\nError Rotating boiler wheel: ");
+				OutputDebugString( lua_tostring( m_L, -1 ) );
+			}
+		}
+		else if( wheel->GetWheel()->GetWheelType() == ButtonWheel )
+		{
+			lua_getglobal( m_L, "CheckButtonWheels" );
+			err = lua_pcall( m_L, 0, 0, 0 );
+			if( err )
+			{
+				OutputDebugString( "\nError Rotating Button wheel: ");
+				OutputDebugString( lua_tostring( m_L, -1 ) );
+			}
+		}
+	}
+}
+
 void LuaWrapper::CreateEvtOpenDoor()
 {
 	IEventDataPtr e(GCC_NEW EvtData_Unlock_Door() );
+	m_em->VQueueEvent( e );
+}
+
+void LuaWrapper::CreateEvtStartMusicPanel()
+{
+	IEventDataPtr e(GCC_NEW EvtData_Start_MusicPanel() );
 	m_em->VQueueEvent( e );
 }
 
@@ -197,6 +295,7 @@ void LuaWrapper::InitCaveMeta()
 	luaL_Reg GameRegs[] = 
 	{
 		{ "OpenDoor", LuaOpenDoor },
+		{ "StartMusicPanel", StartMusicPanel },
 		{ NULL, NULL },
 	};
 
@@ -213,9 +312,9 @@ void LuaWrapper::InitCaveMeta()
 
 	luaL_Reg WheelRegs[] = 
 	{
-		//{ "IsOn", LeverIsOn },
-		//{ "WheelGetName", WheelGetName },
-		//{ "WheelGetValue", WheelGetValue },
+		{ "IsOn", WheelIsOn },
+		{ "WheelGetName", WheelGetName },
+		{ "WheelGetValue", WheelGetValue },
 		//{ "Reset", ResetLever },
 		{ NULL, NULL },
 	};

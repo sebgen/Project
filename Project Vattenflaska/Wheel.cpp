@@ -19,6 +19,7 @@ Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 	m_em		= em;
 	m_value		= 1;
 	m_isOn		= false;
+	m_isMusicPanelOn = false;
 
 	if( m_name == "wheel1Shape" ||
 		m_name == "wheel2Shape" ||
@@ -43,6 +44,11 @@ Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 
 Wheel::~Wheel()
 {}
+
+void Wheel::StartMusicPlayer( IEventDataPtr pEventData )
+{
+	m_isMusicPanelOn = true;
+}
 
 void Wheel::RotateWheel()
 {

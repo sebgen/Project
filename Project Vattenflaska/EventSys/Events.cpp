@@ -33,8 +33,12 @@ const EventType EvtData_Lever_Pull::sk_EventType( 0xa66483fc );
 //=============================================================================================
 const EventType EvtData_Rotate_Wheel::sk_EventType( 0x4191b33c );
 
-
 //=============================================================================================
 // EvtData_Unlock_Door - Sent from LuaWrapper when lua calls LuaOpenDoor()
 //=============================================================================================
 const EventType EvtData_Unlock_Door::sk_EventType( 0xe841f4d6 );
+
+//=============================================================================================
+// EvtData_Start_MusicPanel - Sent from LuaWrapper when lua calls LuaStartWrapper()
+//=============================================================================================
+const EventType EvtData_Start_MusicPanel::sk_EventType( 0xefa287fd );

@@ -42,6 +42,7 @@ public: // Lua wrapper
 	void PullLever( IEventDataPtr pEventData );
 	void RotateWheel( IEventDataPtr pEventData );
 	void CreateEvtOpenDoor();
+	void CreateEvtStartMusicPanel();
 
 public: // Init metadata for scripts
 	void InitMazeMeta();

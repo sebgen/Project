@@ -1,52 +1,62 @@
-﻿Build started 2014-05-26 14:00:51.
-     1>Project "C:\Simon\Litet Spelprojekt\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2014-05-28 16:35:41.
+     1>Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp ImportReader.cpp Room.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Application.cpp Camera.cpp Door.cpp DrawableObject.cpp EventSys\EventManager.cpp EventSys\EventManagerImpl.cpp EventSys\Events.cpp Game.cpp GameTime.cpp GlobalLight.cpp ImportReader.cpp Input.cpp Lever.cpp LuaEngine.cpp LuaWrapper.cpp main.cpp Menu.cpp NavMesh.cpp NavMeshObject.cpp Picking.cpp Room.cpp Sound.cpp TestObject.cpp Torch.cpp Wheel.cpp
+         Application.cpp
+         Camera.cpp
+         Door.cpp
+     1>Door.cpp(52): warning C4018: '<' : signed/unsigned mismatch
+         DrawableObject.cpp
+         EventManager.cpp
+         EventManagerImpl.cpp
+         Events.cpp
          Game.cpp
-     1>Game.cpp(158): warning C4018: '<' : signed/unsigned mismatch
-     1>Game.cpp(161): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>Game.cpp(180): warning C4018: '<' : signed/unsigned mismatch
-     1>Game.cpp(435): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Game.cpp(452): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Game.cpp(522): warning C4018: '<' : signed/unsigned mismatch
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2.h(20): fatal error C1083: Cannot open include file: 'comdecl.h': No such file or directory
+         GameTime.cpp
+         GlobalLight.cpp
          ImportReader.cpp
      1>ImportReader.cpp(73): warning C4018: '<' : signed/unsigned mismatch
-     1>ImportReader.cpp(151): warning C4018: '<' : signed/unsigned mismatch
-     1>ImportReader.cpp(182): warning C4018: '<' : signed/unsigned mismatch
-         Room.cpp
-     1>Room.cpp(61): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(64): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(67): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(70): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(81): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(84): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(87): warning C4018: '<' : signed/unsigned mismatch
-     1>Room.cpp(90): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(157): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(202): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(221): warning C4018: '<' : signed/unsigned mismatch
+         Input.cpp
+         Lever.cpp
+         LuaEngine.cpp
+         LuaWrapper.cpp
          main.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
-         Release\Camera.obj
-         Release\Door.obj
-         Release\DrawableObject.obj
-         Release\Game.obj
-         Release\GameTime.obj
-         Release\GlobalLight.obj
-         Release\ImportReader.obj
-         Release\Input.obj
-         Release\Lever.obj
-         Release\main.obj
-         Release\Menu.obj
-         Release\Picking.obj
-         Release\Room.obj
-         Release\TestObject.obj
-         Release\Torch.obj
-         Release\Wheel.obj
-         "C:\Simon\Litet Spelprojekt\DirectXTK\Bin\Desktop_2012\Win32\Release\DirectXTK.lib"
-         Generating code
-         Finished generating code
-         Project Vattenflaska.vcxproj -> C:\Simon\Litet Spelprojekt\Release\Project Vattenflaska.exe
-     1>Done Building Project "C:\Simon\Litet Spelprojekt\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)).
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2.h(20): fatal error C1083: Cannot open include file: 'comdecl.h': No such file or directory
+         Menu.cpp
+     1>Menu.cpp(49): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         NavMesh.cpp
+     1>NavMesh.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
+         NavMeshObject.cpp
+         Picking.cpp
+     1>Picking.cpp(96): warning C4018: '<' : signed/unsigned mismatch
+     1>Picking.cpp(234): warning C4018: '<' : signed/unsigned mismatch
+     1>Picking.cpp(282): warning C4101: 'intersect' : unreferenced local variable
+     1>Picking.cpp(282): warning C4101: 'hr' : unreferenced local variable
+         Compiling...
+         Room.cpp
+     1>Room.cpp(49): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(62): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(72): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(110): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(113): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(116): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(119): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(122): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(133): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(136): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(139): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(142): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(145): warning C4018: '<' : signed/unsigned mismatch
+         Sound.cpp
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xaudio2.h(20): fatal error C1083: Cannot open include file: 'comdecl.h': No such file or directory
+         TestObject.cpp
+         Torch.cpp
+         Wheel.cpp
+     1>Done Building Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:10.38
+Time Elapsed 00:00:20.39

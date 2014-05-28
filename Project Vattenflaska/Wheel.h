@@ -17,6 +17,10 @@ class Wheel : public DrawableObject
 		int				m_value;
 		WheelType		m_wheelType;
 		bool			m_isOn;
+		bool			m_isMusicPanelOn;
+
+	private:
+		void StartMusicPlayer( IEventDataPtr pEventData );
 
 	public:
 		Wheel();

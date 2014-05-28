@@ -20,6 +20,7 @@
 #include "EventSys/EventManagerImpl.h"
 #include "EventSys/Events.h"
 #include "DrawableObject.h"
+#include "Sound.h"
 
 class Lever : public DrawableObject
 {
@@ -28,6 +29,7 @@ class Lever : public DrawableObject
 		std::string		m_name;
 		EventManager*	m_em;
 		float			m_rotationX;
+		Sound*			m_sound;
 
 	public:
 		Lever();

@@ -402,7 +402,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer
@@ -727,12 +727,12 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Dungeon.lua
 	//===========================
-	//LuaWrapper::Instance()->InitDungeonMeta();
+	LuaWrapper::Instance()->InitDungeonMeta();
 
 	//===========================
 	// Init Scripts --Cave.lua
 	//===========================
-	LuaWrapper::Instance()->InitCaveMeta();
+	//LuaWrapper::Instance()->InitCaveMeta();
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -742,7 +742,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" ); //"torturelevelfirstdraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" ); //"torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -754,7 +754,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	m_navMesh->init(m_picker, m_camera);
 
-	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave" ); //"navMeshLevel1");
+	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshLevel1" ); //"navMeshLevel1");
 	
 
 	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());

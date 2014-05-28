@@ -18,6 +18,11 @@ Lever::Lever( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 	m_name = meshInfo.groupName;
 	m_em = em;
 
+	m_sound = new Sound();
+	m_sound->init();
+	m_sound->addSoundEffect( L"lever_fail.wav", "failSound" );
+	m_sound->addSoundEffect( L"lever_pull.wav", "pullSound" );
+
 	// Send event: EvtData_Lever_Created
 	IEventDataPtr e(GCC_NEW EvtData_Lever_Created( this ) );
 	m_em->VQueueEvent( e );
@@ -78,6 +83,7 @@ void Lever::Shutdown()
 // Lua / Event
 void Lever::PullLever()
 {
+	m_sound->playSound( "pullSound" );
 	if( !m_isOn )
 		m_isOn = true;
 
@@ -101,5 +107,6 @@ std::string Lever::GetName() const
 
 void Lever::ResetLever()
 {
+	m_sound->playSound( "failSound" );
 	m_isOn = false;
 }

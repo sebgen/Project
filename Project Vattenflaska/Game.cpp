@@ -172,7 +172,6 @@ void Game::handleMenu(POINT pos)
 			int menuChoice=m_picker->testIntersectMenu(pos.x, pos.y, menuState);
 			if(menuChoice>-1)
 			{
-				OutputDebugString("missade inte\n");
 
 				//start menu
 				if(menuChoice==START_PLAY)
@@ -801,7 +800,7 @@ void Game::loadNextLevel()
 		m_navMesh->createTile();
 		m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
 
-		m_camera->RotateY(XMConvertToRadians(90));
+		m_camera->RotateY(XMConvertToRadians(180));
 		currentLevel++;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
@@ -809,13 +808,31 @@ void Game::loadNextLevel()
 	}
 	if(currentLevel==2)
 	{
+		LuaWrapper::Instance()->InitMazeMeta();
 		OutputDebugString("load maze\n");
 		m_rooms.clear();
 		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
 		m_currentRoom = m_rooms.at(0);
+		SAFE_RELEASE(m_cbCamera);
+		SAFE_RELEASE(m_cbLight);
+		CreateCbLightBuffer();  /// NY
+		CreateCbCameraBuffer();
+
+		m_navMesh->clear();
+		m_NavMeshes.clear();
+		
+		m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshMaze");
+	
+
+		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+		m_navMesh->createTile();
+		m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+
+		
 		currentLevel=0;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
+		return;
 	}
 }
 

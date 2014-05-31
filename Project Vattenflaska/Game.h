@@ -28,6 +28,7 @@
 #include "Menu.h"
 #include "NavMesh.h"
 #include "Sound.h"
+#include "ParticleHandler.h"
 class Game : public Application
 {
 	private:
@@ -85,6 +86,7 @@ class Game : public Application
 		Camera*				m_camera;
 		Picking*			m_picker;
 		Menu*				m_menu;
+		ParticleHandler*	m_particle;
 		NavMesh*			m_navMesh;
 		std::vector<NavMeshObject*> m_NavMeshes;
 		MeshInfo navInfo;

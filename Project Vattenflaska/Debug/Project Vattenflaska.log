@@ -1,9 +1,47 @@
-﻿Build started 2014-05-31 18:17:30.
+﻿Build started 2014-05-31 18:49:47.
      1>Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Door.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Door.cpp EventSys\Events.cpp Game.cpp ImportReader.cpp Lever.cpp LuaWrapper.cpp Room.cpp Wheel.cpp main.cpp
+         Room.cpp
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(69): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(82): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(92): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(115): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(130): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(160): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(163): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(166): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(169): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(172): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(183): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(186): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(189): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(192): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\room.cpp(195): warning C4018: '<' : signed/unsigned mismatch
+         LuaWrapper.cpp
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\luawrapper.cpp(17): warning C4002: too many actual parameters for macro 'lua_tostring'
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\luawrapper.cpp(27): warning C4002: too many actual parameters for macro 'lua_tostring'
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\luawrapper.cpp(109): warning C4002: too many actual parameters for macro 'lua_tostring'
+         Events.cpp
          Door.cpp
      1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\door.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+         Compiling...
+         main.cpp
+         Wheel.cpp
+         Lever.cpp
+         ImportReader.cpp
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\importreader.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\importreader.cpp(157): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\importreader.cpp(195): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\importreader.cpp(214): warning C4018: '<' : signed/unsigned mismatch
+         Game.cpp
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(566): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(569): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(588): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(846): warning C4101: 'p' : unreferenced local variable
+     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(934): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.exe" /INCREMENTAL /NOLOGO Lua.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.lib" /MACHINE:X86 Debug\Application.obj
          Debug\Camera.obj
@@ -37,4 +75,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.44
+Time Elapsed 00:00:13.28

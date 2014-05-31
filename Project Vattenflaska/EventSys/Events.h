@@ -341,3 +341,43 @@ public:
         return "EvtData_Unlock_Maze_Door";
     }
 };
+
+//=============================================================================================
+//				EvtData_Lock_Maze_Door - Sent from LuaWrapper
+//=============================================================================================
+class EvtData_Lock_Maze_Door : public BaseEventData
+{
+    const char* m_doorName;
+
+public:
+	static const EventType sk_EventType;
+
+    explicit EvtData_Lock_Maze_Door( const char* doorName )
+        : m_doorName( doorName )
+    {
+    }
+
+	const char* GetDoorName() const
+	{
+		return m_doorName;
+	}
+
+	virtual const EventType& VGetEventType( void ) const
+	{
+		return sk_EventType;
+	}
+
+	virtual IEventDataPtr VCopy() const
+	{
+		return IEventDataPtr (GCC_NEW EvtData_Lock_Maze_Door ( m_doorName ) );
+	}
+
+	virtual void VSerialize( std::ostrstream & out )
+	{
+	}
+
+    virtual const char* GetName(void) const
+    {
+        return "EvtData_Lock_Maze_Door";
+    }
+};

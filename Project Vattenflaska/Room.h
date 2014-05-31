@@ -58,6 +58,7 @@ class Room
 		const std::vector<GlobalLight>& GetLights() const;
 		
 		void OpenMazeDoor( IEventDataPtr pEventData ); 
+		void CloseMazeDoor( IEventDataPtr pEventData ); 
 
 		Lever* GetALever( int index ) const;
 		Wheel* GetAWheel( int index ) const;

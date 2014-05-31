@@ -78,7 +78,12 @@ void Door::RaiseDoor()
 
 void Door::CloseDoor( IEventDataPtr pEventData )
 {
-
+	if( EvtData_Unlock_Maze_Door::sk_EventType == pEventData->VGetEventType() )
+	{
+		m_isMazeDoor = true;
+		m_isOpen = false;
+		m_sound->playSound( "isOpeningSound" );
+	}
 }
 
 void Door::UpdateAndSetVertexBuffer()

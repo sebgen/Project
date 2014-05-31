@@ -16,6 +16,13 @@ Room::Room( std::string roomName, EventManager* em )
 						this,
 						std::placeholders::_1),
 						EvtData_Unlock_Maze_Door::sk_EventType);
+
+	// Close Door
+	m_em->VAddListener(
+		   std::bind(	&Room::CloseMazeDoor,
+						this,
+						std::placeholders::_1),
+						EvtData_Lock_Maze_Door::sk_EventType);
 }
 
 Room::~Room()
@@ -107,15 +114,24 @@ void Room::OpenMazeDoor( IEventDataPtr pEventData )
 		shared_ptr<EvtData_Unlock_Maze_Door> door = std::static_pointer_cast<EvtData_Unlock_Maze_Door>( pEventData );
 		for( int i = 0; i < m_doors.size(); i++ )
 		{
-			// Debug
-			//OutputDebugString( door->GetDoorName() );
-			//OutputDebugString("\n");
-			//OutputDebugString( m_doors.at(i)->GetName().c_str() );
 			if( strcmp(m_doors.at( i )->GetName().c_str(), door->GetDoorName() ) == 0 )
 			{
-				OutputDebugString("\n");
-				OutputDebugString( m_doors.at(i)->GetName().c_str() );
 				m_doors.at( i )->OpenDoor( pEventData );
+			}
+		}
+	}
+}
+
+void Room::CloseMazeDoor( IEventDataPtr pEventData )
+{
+	if( EvtData_Lock_Maze_Door::sk_EventType == pEventData->VGetEventType() )
+	{
+		shared_ptr<EvtData_Lock_Maze_Door> door = std::static_pointer_cast<EvtData_Lock_Maze_Door>( pEventData );
+		for( int i = 0; i < m_doors.size(); i++ )
+		{
+			if( strcmp(m_doors.at( i )->GetName().c_str(), door->GetDoorName() ) == 0 )
+			{
+				m_doors.at( i )->CloseDoor( pEventData );
 			}
 		}
 	}

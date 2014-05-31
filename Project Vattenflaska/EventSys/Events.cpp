@@ -57,3 +57,8 @@ const EventType EvtData_Change_NavMesh::sk_EventType( 0xabdd5913 );
 // EvtData_Unlock_Maze_Door - Sent from LuaWrapper when lua calls LuaOpenDoor()
 //=============================================================================================
 const EventType EvtData_Unlock_Maze_Door::sk_EventType( 0x1d99db7b );
+
+//=============================================================================================
+//				EvtData_Lock_Maze_Door - Sent from LuaWrapper
+//=============================================================================================
+const EventType EvtData_Lock_Maze_Door::sk_EventType( 0xa082a891 );

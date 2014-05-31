@@ -22,6 +22,16 @@ extern "C"
 		return 0;
 	}
 
+	static int LuaCloseMazeDoor( lua_State* L )
+	{
+		const char* doorName = lua_tostring( L, 1, nullptr );
+		if( doorName != nullptr )
+		{
+			LuaWrapper::Instance()->CreateEvtCloseMazeDoor( doorName );
+		}
+		return 0;
+	}
+
 	static int ResetLever( lua_State* L )
 	{
 		Lever** leverPtr = static_cast<Lever**>( luaL_testudata( L, 1, "LeverMeta" ) );
@@ -114,6 +124,12 @@ void LuaWrapper::CreateEvtChangeNavMesh( const char* meshName )
 void LuaWrapper::CreateEvtOpenMazeDoor( const char* doorName )
 {
 	IEventDataPtr e(GCC_NEW EvtData_Unlock_Maze_Door( doorName ) );
+	m_em->VQueueEvent( e );
+}
+
+void LuaWrapper::CreateEvtCloseMazeDoor( const char* doorName )
+{
+	IEventDataPtr e(GCC_NEW EvtData_Lock_Maze_Door( doorName ) );
 	m_em->VQueueEvent( e );
 }
 
@@ -323,6 +339,7 @@ void LuaWrapper::InitMazeMeta()
 	luaL_Reg GameRegs[] = 
 	{
 		{ "OpenMazeDoor", LuaOpenMazeDoor },
+		{ "CloseMazeDoor", LuaCloseMazeDoor },
 		{ "ChangeNavMesh", LuaChangeNavMesh },
 		{ NULL, NULL },
 	};

@@ -8,7 +8,6 @@ Room::Room()
 Room::Room( std::string roomName, EventManager* em )
 {
 	m_roomName = roomName;
-
 	m_em = em;
 
 	// Open Door
@@ -108,8 +107,16 @@ void Room::OpenMazeDoor( IEventDataPtr pEventData )
 		shared_ptr<EvtData_Unlock_Maze_Door> door = std::static_pointer_cast<EvtData_Unlock_Maze_Door>( pEventData );
 		for( int i = 0; i < m_doors.size(); i++ )
 		{
-			if( m_doors.at( i )->GetName() == door->GetDoorName() )
+			// Debug
+			//OutputDebugString( door->GetDoorName() );
+			//OutputDebugString("\n");
+			//OutputDebugString( m_doors.at(i)->GetName().c_str() );
+			if( strcmp(m_doors.at( i )->GetName().c_str(), door->GetDoorName() ) == 0 )
+			{
+				OutputDebugString("\n");
+				OutputDebugString( m_doors.at(i)->GetName().c_str() );
 				m_doors.at( i )->OpenDoor( pEventData );
+			}
 		}
 	}
 }

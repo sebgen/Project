@@ -88,6 +88,7 @@ class Game : public Application
 		NavMesh*			m_navMesh;
 		std::vector<NavMeshObject*> m_NavMeshes;
 		MeshInfo navInfo;
+		bool				m_isMaze;
 
 
 		EventManager*		m_em;

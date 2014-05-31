@@ -721,7 +721,8 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Maze.lua
 	//===========================
-	//LuaWrapper::Instance()->InitMazeMeta();
+	LuaWrapper::Instance()->InitMazeMeta();
+	m_isMaze = true;
 
 	//===========================
 	// Init Scripts --Dungeon.lua
@@ -731,7 +732,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Cave.lua
 	//===========================
-	LuaWrapper::Instance()->InitCaveMeta();
+	//LuaWrapper::Instance()->InitCaveMeta();
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -759,6 +760,9 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
 	m_navMesh->createTile();
 	m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+
+	if(m_isMaze)
+		m_le->ExecuteFile("SetupMaze.lua");
 
 	return hr;
 }
@@ -859,7 +863,7 @@ int Game::Run()
 	 isRotatingLeft= false;
 	 isRotatingRight= false;
 
-	 moveUnits  = 20.0f;
+	 moveUnits  = 10.0f;
 	 moveFactor = 1/moveUnits;
 	 nrOfMovement = moveUnits;
 	 rotationDegree=90/moveUnits;

@@ -8,7 +8,9 @@ function SetLever( lever )
 end
 
 -- Pull a lever
-function PullLever()
-
+function PullLever( name )
+	if name == "lever_Shape" then
+		Game.OpenMazeDoor()
+	end
 end
 

@@ -47,3 +47,13 @@ const EventType EvtData_Start_MusicPanel::sk_EventType( 0xefa287fd );
 // EvtData_Play_Music_Sequence - Sent from LuaWrapper when lua calls PlayMusicSequence()
 //=============================================================================================
 const EventType EvtData_Play_Music_Sequence::sk_EventType( 0xc953e9ba );
+
+//=============================================================================================
+// EvtData_Change_NavMesh - Sent from lua wrapper to change current navmesh
+//=============================================================================================
+const EventType EvtData_Change_NavMesh::sk_EventType( 0xabdd5913 );
+
+//=============================================================================================
+// EvtData_Unlock_Maze_Door - Sent from LuaWrapper when lua calls LuaOpenDoor()
+//=============================================================================================
+const EventType EvtData_Unlock_Maze_Door::sk_EventType( 0x1d99db7b );

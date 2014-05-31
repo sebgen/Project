@@ -44,6 +44,8 @@ public: // Lua wrapper
 	void CreateEvtOpenDoor();
 	void CreateEvtStartMusicPanel();
 	void CreateEvtPlayMusicSequence();
+	void CreateEvtChangeNavMesh( const char* meshName );
+	void CreateEvtOpenMazeDoor( const char* doorName );
 
 public: // Init metadata for scripts
 	void InitMazeMeta();

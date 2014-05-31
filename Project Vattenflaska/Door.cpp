@@ -22,6 +22,8 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_animationTimer = 0.0f;
 	m_moveUnits		 = 225;
 
+	m_name = meshInfo.groupName.c_str();
+
 	//Sound
 	m_sound					= new Sound();
 	m_sound->init();
@@ -32,7 +34,7 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 
 	m_em = em;
 
-	// Create Lever
+	// Open Door
 	m_em->VAddListener(
 		   std::bind(	&Door::OpenDoor,
 						this,
@@ -50,7 +52,7 @@ Door::~Door()
 
 void Door::OpenDoor( IEventDataPtr pEventData )
 {
-	if( EvtData_Unlock_Door::sk_EventType == pEventData->VGetEventType() )
+	if( EvtData_Unlock_Door::sk_EventType == pEventData->VGetEventType() || EvtData_Unlock_Maze_Door::sk_EventType == pEventData->VGetEventType() )
 	{
 		m_isOpening = true;
 	}
@@ -83,6 +85,11 @@ void Door::UpdateAndSetVertexBuffer()
 bool Door::IsOpen() const
 {
 	return m_isOpen;
+}
+
+const char* Door::GetName() const
+{
+	return m_name;
 }
 
 HRESULT Door::Update( float deltaTime, Camera* camera )

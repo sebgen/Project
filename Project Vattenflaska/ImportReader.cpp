@@ -152,7 +152,7 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 	//=====================================
 	// Create room and fill with content ||
 	//=====================================
-	Room* tempRoom = new Room( fileName );
+	Room* tempRoom = new Room( fileName, m_em );
 
 	for (int i = 0; i < m_meshInfo.size(); i++)
 	{

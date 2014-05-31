@@ -261,3 +261,83 @@ public:
         return "EvtData_Play_Music_Sequence";
     }
 };
+
+//=============================================================================================
+// EvtData_Change_NavMesh - Sent from lua wrapper to change current navmesh
+//=============================================================================================
+class EvtData_Change_NavMesh : public BaseEventData
+{
+    const char* m_meshName;
+
+public:
+	static const EventType sk_EventType;
+
+    explicit EvtData_Change_NavMesh( const char* meshName )
+        : m_meshName( meshName )
+    {
+    }
+
+	const char* GetMeshName() const
+	{
+		return m_meshName;
+	}
+
+	virtual const EventType& VGetEventType( void ) const
+	{
+		return sk_EventType;
+	}
+
+	virtual IEventDataPtr VCopy() const
+	{
+		return IEventDataPtr (GCC_NEW EvtData_Change_NavMesh ( m_meshName ) );
+	}
+
+	virtual void VSerialize( std::ostrstream & out )
+	{
+	}
+
+    virtual const char* GetName(void) const
+    {
+        return "EvtData_Change_NavMesh";
+    }
+};
+
+//=============================================================================================
+// EvtData_Unlock_Maze_Door - Sent from LuaWrapper when lua calls LuaOpenDoor()
+//=============================================================================================
+class EvtData_Unlock_Maze_Door : public BaseEventData
+{
+    const char* m_doorName;
+
+public:
+	static const EventType sk_EventType;
+
+    explicit EvtData_Unlock_Maze_Door( const char* doorName )
+        : m_doorName( doorName )
+    {
+    }
+
+	const char* GetDoorName() const
+	{
+		return m_doorName;
+	}
+
+	virtual const EventType& VGetEventType( void ) const
+	{
+		return sk_EventType;
+	}
+
+	virtual IEventDataPtr VCopy() const
+	{
+		return IEventDataPtr (GCC_NEW EvtData_Unlock_Maze_Door ( m_doorName ) );
+	}
+
+	virtual void VSerialize( std::ostrstream & out )
+	{
+	}
+
+    virtual const char* GetName(void) const
+    {
+        return "EvtData_Unlock_Maze_Door";
+    }
+};

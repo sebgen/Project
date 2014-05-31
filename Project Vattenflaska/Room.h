@@ -13,6 +13,8 @@
 #ifndef _ROOM_H_
 #define _ROOM_H_
 
+#include "EventSys/EventManagerImpl.h"
+#include "EventSys/Events.h"
 #include "Lever.h"
 #include "Door.h"
 #include "Torch.h"
@@ -26,6 +28,7 @@ class Room
 {
 	private:
 		std::string			m_roomName;
+		EventManager*		m_em;
 
 		std::vector<TestObject*>	m_roomContent;
 		std::vector<Lever*>			m_levers;
@@ -36,7 +39,7 @@ class Room
 
 	public:
 		Room();
-		Room( std::string roomName );
+		Room( std::string roomName, EventManager* em );
 		~Room();
 
 		void AddDoor( Door* door ); // Adds a door to the room
@@ -53,6 +56,8 @@ class Room
 		std::vector<MeshInfo> getDoorMesh();
 		Door* GetDoor() const;
 		const std::vector<GlobalLight>& GetLights() const;
+		
+		void OpenMazeDoor( IEventDataPtr pEventData ); 
 
 		Lever* GetALever( int index ) const;
 		Wheel* GetAWheel( int index ) const;

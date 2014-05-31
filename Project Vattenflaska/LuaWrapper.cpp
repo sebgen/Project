@@ -12,6 +12,16 @@ extern "C"
 		return 0;
 	}
 
+	static int LuaOpenMazeDoor( lua_State* L )
+	{
+		const char* doorName = lua_tostring( L, 1, nullptr );
+		if( doorName != nullptr )
+		{
+			LuaWrapper::Instance()->CreateEvtOpenMazeDoor( doorName );
+		}
+		return 0;
+	}
+
 	static int ResetLever( lua_State* L )
 	{
 		Lever** leverPtr = static_cast<Lever**>( luaL_testudata( L, 1, "LeverMeta" ) );
@@ -83,6 +93,28 @@ extern "C"
 	{
 		LuaWrapper::Instance()->CreateEvtPlayMusicSequence();
 	}
+
+	static int LuaChangeNavMesh( lua_State* L )
+	{
+		const char* navMesh = lua_tostring( L, 1, nullptr );
+		if( navMesh != nullptr )
+		{
+			LuaWrapper::Instance()->CreateEvtChangeNavMesh( navMesh );
+		}
+		return 0;
+	}
+}
+
+void LuaWrapper::CreateEvtChangeNavMesh( const char* meshName )
+{
+	IEventDataPtr e(GCC_NEW EvtData_Change_NavMesh( meshName ) );
+	m_em->VQueueEvent( e );
+}
+
+void LuaWrapper::CreateEvtOpenMazeDoor( const char* doorName )
+{
+	IEventDataPtr e(GCC_NEW EvtData_Unlock_Maze_Door( doorName ) );
+	m_em->VQueueEvent( e );
 }
 
 void LuaWrapper::CreateLever( IEventDataPtr pEventData )
@@ -281,6 +313,40 @@ void LuaWrapper::Initialize( LuaEngine* le, EventManager* em )
 void LuaWrapper::InitMazeMeta()
 {
 	m_L = m_le->ResetSate();
+
+	//=====================================
+	//		Lua Meta Tables Maze
+	//=====================================
+	//Game
+	luaL_newmetatable( m_L, "GameMeta" );
+
+	luaL_Reg GameRegs[] = 
+	{
+		{ "OpenMazeDoor", LuaOpenMazeDoor },
+		{ "ChangeNavMesh", LuaChangeNavMesh },
+		{ NULL, NULL },
+	};
+
+	luaL_setfuncs( m_L, GameRegs, 0 );
+
+	lua_pushvalue( m_L, -1 );
+
+	lua_setfield( m_L, -2, "__index" );
+
+	lua_setglobal( m_L, "Game" );
+
+	//Lever
+	luaL_newmetatable( m_L, "LeverMeta" );
+	luaL_Reg LeverRegs[] =
+	{
+		{ "Reset", ResetLever },
+		{ NULL, NULL },
+	};
+	luaL_setfuncs( m_L, LeverRegs, 0 );
+	lua_pushvalue( m_L, -1 );
+	lua_setfield( m_L, -2, "__index" );
+	lua_setglobal( m_L, "Lever" );
+
 	m_le->ExecuteFile( "maze.lua" );
 }
 
@@ -289,7 +355,7 @@ void LuaWrapper::InitDungeonMeta()
 	m_L = m_le->ResetSate();
 
 	//=====================================
-	//			Lua Meta Tables
+	//		Lua Meta Tables Dungeon
 	//=====================================
 	//Game
 	luaL_newmetatable( m_L, "GameMeta" );
@@ -327,7 +393,7 @@ void LuaWrapper::InitCaveMeta()
 {
 	m_L = m_le->ResetSate();
 	//=====================================
-	//			Lua Meta Tables
+	//		Lua Meta Tables Cave
 	//=====================================
 	//Game
 	luaL_newmetatable( m_L, "GameMeta" );

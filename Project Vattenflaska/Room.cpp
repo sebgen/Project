@@ -5,9 +5,18 @@ Room::Room()
 	m_roomName = "";
 }
 
-Room::Room( std::string roomName )
+Room::Room( std::string roomName, EventManager* em )
 {
 	m_roomName = roomName;
+
+	m_em = em;
+
+	// Open Door
+	m_em->VAddListener(
+		   std::bind(	&Room::OpenMazeDoor,
+						this,
+						std::placeholders::_1),
+						EvtData_Unlock_Maze_Door::sk_EventType);
 }
 
 Room::~Room()
@@ -92,6 +101,19 @@ const std::vector<GlobalLight>& Room::GetLights() const
 	return m_lights;
 }
 
+void Room::OpenMazeDoor( IEventDataPtr pEventData )
+{
+	if( EvtData_Unlock_Maze_Door::sk_EventType == pEventData->VGetEventType() )
+	{
+		shared_ptr<EvtData_Unlock_Maze_Door> door = std::static_pointer_cast<EvtData_Unlock_Maze_Door>( pEventData );
+		for( int i = 0; i < m_doors.size(); i++ )
+		{
+			if( m_doors.at( i )->GetName() == door->GetDoorName() )
+				m_doors.at( i )->OpenDoor( pEventData );
+		}
+	}
+}
+
 Lever* Room::GetALever( int index ) const
 {
 	return m_levers.at( index );
@@ -144,8 +166,8 @@ HRESULT Room::Draw( float deltaTime )
 	for (int i = 0; i < m_levers.size(); i++)
 		m_levers.at(i)->Draw( deltaTime );
 
-	/*for (int i = 0; i < m_doors.size(); i++)
-		m_doors.at(i)->Draw( deltaTime );*/
+	for (int i = 0; i < m_doors.size(); i++)
+		m_doors.at(i)->Draw( deltaTime );
 
 	for (int i = 0; i < m_wheels.size(); i++)
 		m_wheels.at(i)->Draw( deltaTime );

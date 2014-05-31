@@ -28,6 +28,7 @@ class Door : public DrawableObject
 		EventManager*	m_em;
 		Sound* m_sound;
 		bool   m_isOpeningSoundPlaying; 
+		const char*		m_name;
 
 	public:
 		Door();
@@ -39,6 +40,7 @@ class Door : public DrawableObject
 		void UpdateAndSetVertexBuffer();
 
 		bool IsOpen() const;
+		const char* GetName() const;
 		MeshInfo getInfo();
 		virtual HRESULT Update( float deltaTime, Camera* camera );
 		virtual HRESULT Draw( float deltaTime );

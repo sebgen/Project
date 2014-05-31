@@ -1,5 +1,4 @@
 #include "Particle.h"
-
 Particle::Particle()
 {
 	m_device=nullptr;
@@ -9,9 +8,6 @@ Particle::Particle()
 	m_texture=nullptr;
 	m_samplerState=nullptr;
 	m_shaderResourceView=nullptr;
-	p_matrixBuffer=nullptr;
-	p_alphaBlendDisable=nullptr;
-	p_alphaBlendEnable=nullptr;
 }
 Particle::Particle(const Particle& other)
 {
@@ -19,97 +15,20 @@ Particle::Particle(const Particle& other)
 Particle::~Particle()
 {
 }
-HRESULT Particle::CompileShader( char* shaderFile, char* pEntrypoint, char* pTarget, D3D10_SHADER_MACRO* pDefines, ID3DBlob** pCompiledShader )
-{
-	HRESULT hr = S_OK;
 
-	DWORD dwShaderFlags =	D3DCOMPILE_ENABLE_STRICTNESS | 
-							D3DCOMPILE_IEEE_STRICTNESS;
-
-	std::string shader_code;
-	std::ifstream in( shaderFile, std::ios::in | std::ios::binary );
-
-	if ( in )
-	{
-		in.seekg( 0, std::ios::end );
-		shader_code.resize( (unsigned int)in.tellg() );
-		in.seekg( 0, std::ios::beg );
-		in.read( &shader_code[0], shader_code.size() );
-		in.close();
-	}
-
-	ID3DBlob* pErrorBlob = nullptr;
-	hr = D3DCompile( shader_code.data(),
-							 shader_code.size(),
-							 NULL,
-							 pDefines,
-							 nullptr,
-							 pEntrypoint,
-							 pTarget,
-							 dwShaderFlags,
-							 NULL,
-							 pCompiledShader,
-							 &pErrorBlob );
-
-	if( pErrorBlob )
-	{
-		OutputDebugStringA( (char*)pErrorBlob->GetBufferPointer() );
-		SAFE_RELEASE( pErrorBlob );
-	}
-
-
-	return hr;
-}
-
-bool Particle::InitializeShaders()
-{
-	HRESULT hr;
-	ID3DBlob* vs =nullptr;
-	//vertexShader
-	if(SUCCEEDED(hr=CompileShader("particleShader.sh", "VS_main", "vs_5_0", nullptr, &vs)))
-	{
-		if(SUCCEEDED(hr=m_device->CreateVertexShader(vs->GetBufferPointer(),vs->GetBufferSize(),nullptr, &p_vertexShader)))
-		{
-			D3D11_INPUT_ELEMENT_DESC inputDesc[]={
-				{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-				{"TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-			};
-			if(FAILED(hr=m_device->CreateInputLayout(inputDesc,ARRAYSIZE(inputDesc),vs->GetBufferPointer(),vs->GetBufferSize(), &p_inputLayout)))
-			{
-				OutputDebugString("error wiht inputlayout\n");
-			}
-		}
-		
-		SAFE_RELEASE(vs);
-	}
-	else 
-	{	
-		OutputDebugString("error wiht vs\n");
-		return false;
-	}
-	//pixelShader
-	ID3DBlob* ps=nullptr;
-
-	if(SUCCEEDED(hr=CompileShader("particleShader.sh", "PS_main", "ps_5_0", nullptr, &ps)))
-	{
-		hr=m_device->CreatePixelShader(ps->GetBufferPointer(),ps->GetBufferSize(), nullptr, &p_pixelShader);
-		SAFE_RELEASE(ps);
-
-	}
-	else
-	{
-		OutputDebugString("error wiht ps\n");
-		return false;
-	}
-	return true;
-}
-bool Particle::init(ID3D11Device* device, ID3D11DeviceContext* deviceContest, Camera* cam)
+bool Particle::init(ID3D11Device* device, ID3D11DeviceContext* deviceContest, Camera* cam, XMFLOAT3 pos, XMFLOAT3 spread, std::wstring filepath)
 {
 	bool result;
 	m_device=device;
 	m_deviceContext=deviceContest;
-	result=createTexture(L"./menuPics/star.dds");
+	m_camera=cam;
+	m_particlepos=pos;
+	m_spread=spread;
+	result=createTexture(filepath.c_str());
+	
+
+
+
 	if(!result)
 	{
 		return false;
@@ -124,78 +43,33 @@ bool Particle::init(ID3D11Device* device, ID3D11DeviceContext* deviceContest, Ca
 	{
 		return false;
 	}
-	HRESULT hr;
-	InitializeShaders();
-	//fix the constantbuffer
-	D3D11_BUFFER_DESC CBbufferdesc;
-	memset(&CBbufferdesc, 0, sizeof(CBbufferdesc));
-	CBbufferdesc.BindFlags=D3D11_BIND_CONSTANT_BUFFER;
-	CBbufferdesc.Usage=D3D11_USAGE_DYNAMIC;
-	CBbufferdesc.CPUAccessFlags=D3D11_CPU_ACCESS_WRITE;
-	CBbufferdesc.ByteWidth=sizeof(WVPBuffer);
 
-	if(FAILED(hr=m_device->CreateBuffer(&CBbufferdesc, nullptr, &p_matrixBuffer)))
-	{
-		return false;
-	}
-	m_camera=cam;
-
-	orgVM=m_camera->GetViewMatrix();
-	orgPM=m_camera->GetProjMatrix();
-	D3D11_BLEND_DESC blendDesc;
-
-	ZeroMemory(&blendDesc, sizeof(blendDesc));
-
-	//Create an alpha enabled blend state description.
-	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
-
-	if(FAILED(hr=m_device->CreateBlendState(&blendDesc, &p_alphaBlendEnable)))
-	{
-		OutputDebugString("failed to create p_alphaBlendEnable\n");
-		return false;
-	}
-	//set the desc to p_alphaBlendEnable
-	blendDesc.RenderTarget[0].BlendEnable=FALSE;
-	//create the alpha disable state
-	if(FAILED(hr=m_device->CreateBlendState(&blendDesc, &p_alphaBlendDisable)))
-	{
-		OutputDebugString("faile to create p_alphaBlendDisable\n");
-		return false;
-	}
-
-
-	//blendDesc.RenderTarget[0].BlendEnable = TRUE;
- //   blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	//blendDesc.RenderTarget[0].SrcBlendAlpha=D3D11_BLEND_ONE;
-	//blendDesc.RenderTarget[0].DestBlend=D3D11_BLEND_INV_SRC_ALPHA;
-	//blendDesc.RenderTarget[0].DestBlendAlpha=D3D11_BLEND_INV_SRC_ALPHA;
-	//blendDesc.RenderTarget[0].BlendOp=D3D11_BLEND_OP_ADD;
-	//blendDesc.RenderTarget[0].BlendOpAlpha=D3D11_BLEND_OP_ADD;
-	//blendDesc.RenderTarget[0].RenderTargetWriteMask=D3D11_COLOR_WRITE_ENABLE_ALL;
-	////create the alpha enable state
-	//if(FAILED(hr=m_device->CreateBlendState(&blendDesc, &p_alphaBlendEnable)))
-	//{
-	//	OutputDebugString("failed to create p_alphaBlendEnable\n");
-	//	return false;
-	//}
-	////set the desc to p_alphaBlendEnable
-	//blendDesc.RenderTarget[0].BlendEnable=FALSE;
-	////create the alpha disable state
-	//if(FAILED(hr=m_device->CreateBlendState(&blendDesc, &p_alphaBlendDisable)))
-	//{
-	//	OutputDebugString("faile to create p_alphaBlendDisable\n");
-	//	return false;
-	//}
 	return true;
 }
-
+void Particle::setParticlePos(XMFLOAT3 pos)
+{
+	m_particlepos=pos;
+}
+void Particle::setSpread(XMFLOAT3 spread)
+{
+	m_spread=spread;
+}
+void Particle::setParticlesPerSecond(float particlePerSecond)
+{
+	m_particlesPerSecond=particlePerSecond;
+}
+void Particle::setParticleSize(float size)
+{
+	m_particleSize=size;
+}
+void Particle::setMaxParticles(float maxParticles)
+{
+	m_maxParticels=maxParticles;
+}
+void Particle::setLifeTime(float seconds)
+{
+	m_lifeTime=seconds;
+}
 bool Particle::Update(float frameTime)
 {
 	
@@ -210,62 +84,21 @@ bool Particle::Update(float frameTime)
 }
 void Particle::Render()
 {
-	float blendFactor[4];
-
-	blendFactor[0] = 0.0f;
-	blendFactor[1] = 0.0f;
-	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;
-	//m_deviceContext->OMSetBlendState(p_alphaBlendEnable, nullptr, 0xFFFFFFFF);
-	//turn on alpha blend wiht p_alphaBlendEnable
-	m_deviceContext->OMSetBlendState(p_alphaBlendEnable, blendFactor, 0xffffffff);
 	
-	D3D11_MAPPED_SUBRESOURCE ms;
-	WVPBuffer* dataPtr;
-
-	m_deviceContext->Map(p_matrixBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
-	dataPtr=(WVPBuffer*)ms.pData;
-
-	dataPtr->worldMatrix		= DirectX::XMMatrixTranspose( DirectX::XMMatrixIdentity() );
-	//dataPtr->viewMatrix			= DirectX::XMMatrixTranspose( orgVM );
-	//dataPtr->projectionMatrix	= DirectX::XMMatrixTranspose( orgPM );
-	dataPtr->viewMatrix			= DirectX::XMMatrixTranspose( m_camera->GetViewMatrix() );
-	dataPtr->projectionMatrix	= DirectX::XMMatrixTranspose( m_camera->GetProjMatrix() );
-
-	m_deviceContext->Unmap(p_matrixBuffer, NULL);
-
-	m_deviceContext->VSSetConstantBuffers(0, 1, &p_matrixBuffer);
-
-	
-	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_deviceContext->IASetInputLayout(p_inputLayout);
-
-	m_deviceContext->VSSetShader( p_vertexShader, nullptr, 0 );
-	m_deviceContext->HSSetShader( nullptr, nullptr, 0 );
-	m_deviceContext->DSSetShader( nullptr, nullptr, 0 );
-	m_deviceContext->GSSetShader( nullptr, nullptr, 0 );
-	m_deviceContext->PSSetShader( p_pixelShader, nullptr, 0 );
 
 
-	//renderBuffers();
 	unsigned int vertexsize=sizeof(VertexType);
 	unsigned offset=0;
-	//ID3D11Buffer* buffersToSet[] = { p_vertexBuffer };
+	ID3D11Buffer* buffersToSet[] = { p_vertexBuffer };
 
 	m_deviceContext->IASetVertexBuffers(0, 1, &p_vertexBuffer, &vertexsize, &offset);
 
 	m_deviceContext->IASetIndexBuffer(p_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-	
-
 	m_deviceContext->PSSetSamplers( 0, 1, &m_samplerState );
 	m_deviceContext->PSSetShaderResources(0 ,1, &m_shaderResourceView);
 	
-	//m_deviceContext->DrawIndexed(m_indexCount, 0, 0);
-	m_deviceContext->Draw(m_indexCount,0);
-	//turn off alpha blend wiht p_alphaBlendDisable
-	m_deviceContext->OMSetBlendState(p_alphaBlendDisable, blendFactor, 0xffffffff);
+	m_deviceContext->DrawIndexed(m_indexCount, 0, 0);
 }
 
 int Particle::getIndexCount()
@@ -310,18 +143,16 @@ bool Particle::createTexture(std::wstring filepath)
 }
 bool Particle::initParticle()
 {
-	m_particleDevX=0.5f;
-	m_particleDevY=0.1f;
-	m_particleDevZ=2.0f;
+	m_lifeTime=1.0f;
 
-	m_particleVelocity=1.0f;
+	m_particleVelocity=0.5f;
 	m_particleVelocityVariation=0.2f;
 
-	m_particleSize=0.2f;
+	m_particleSize=0.05f;
 
-	m_particlesPerSecond=250.0f;
+	m_particlesPerSecond=50;
 	
-	m_maxParticels=5000;
+	m_maxParticels=50;
 
 	// create particle list
 	m_particleList=new ParticleType[m_maxParticels];
@@ -333,7 +164,8 @@ bool Particle::initParticle()
 	//set all particles to inactive
 	for(int i=0; i<m_maxParticels; i++)
 	{
-		m_particleList[i].active=false;
+		m_particleList[i].active=true;
+		m_particleList[i].life=m_lifeTime;
 	}
 	// Initialize the current particle count to zero since none are emitted yet.
 	m_currentParticleCount = 0;
@@ -423,7 +255,8 @@ bool Particle::initBuffers()
 void Particle::emitParticle(float frameTime)
 {
 	bool emit, found;
-	int index, i, j, posZ;
+	int index, i, j;
+	float posZ;
 	
 	m_accumulatedTime+=frameTime;
 
@@ -443,7 +276,7 @@ void Particle::emitParticle(float frameTime)
 		
 
 		
-		posZ = (((float)rand()-(float)rand())/RAND_MAX) * m_particleDevZ;
+		posZ = (((float)rand()-(float)rand())/RAND_MAX) * m_spread.z;
 		//sort the particles using Z depth
 		index=0;
 		found=false;
@@ -466,53 +299,60 @@ void Particle::emitParticle(float frameTime)
 			m_particleList[i].posX = m_particleList[j].posX;
 			m_particleList[i].posY = m_particleList[j].posY;
 			m_particleList[i].posZ = m_particleList[j].posZ;
-			m_particleList[i].red = m_particleList[j].red;
-			m_particleList[i].green = m_particleList[j].green;
-			m_particleList[i].blue = m_particleList[j].blue;
 			m_particleList[i].velocity  = m_particleList[j].velocity;
 			m_particleList[i].active = m_particleList[j].active;
+			m_particleList[i].life = m_particleList[j].life;
 			i--;
 			j--;
 		}
 		//now randomize new values
-			m_particleList[index].posX =(((float)rand()-(float)rand())/RAND_MAX) * m_particleDevX;
-			m_particleList[index].posY =(((float)rand()-(float)rand())/RAND_MAX) * m_particleDevY;
-			m_particleList[index].posZ = posZ;
-			m_particleList[index].red =  (((float)rand()-(float)rand())/RAND_MAX) + 0.5f;
-			m_particleList[index].green =  (((float)rand()-(float)rand())/RAND_MAX) + 0.5f;
-			m_particleList[index].blue =  (((float)rand()-(float)rand())/RAND_MAX) + 0.5f;
-			m_particleList[index].velocity =  m_particleVelocity + (((float)rand()-(float)rand())/RAND_MAX) * m_particleVelocityVariation;
-			m_particleList[index].active = true;
+		
+		m_particleList[index].posX =(((float)rand()-(float)rand())/RAND_MAX) * m_spread.x;
+		m_particleList[index].posX+=m_particlepos.x;
+
+		m_particleList[index].posY =(((float)rand()-(float)rand())/RAND_MAX) * m_spread.y;
+		m_particleList[index].posY+=m_particlepos.y;
+
+		m_particleList[index].posZ = posZ;
+		m_particleList[index].posZ+=m_particlepos.z;
+		
+
+		m_particleList[index].velocity =  m_particleVelocity + (((float)rand()-(float)rand())/RAND_MAX) * m_particleVelocityVariation;
+		m_particleList[index].active = true;
+		m_particleList[index].life=m_lifeTime;
 			
 	}
 	
 }
 void Particle::updateParticle(float frametime)
 {
+	
 	for(int i=0; i< m_currentParticleCount; i++)
 	{
-		m_particleList[i].posY=m_particleList[i].posY-(m_particleList[i].velocity*frametime);
+		m_particleList[i].life-=frametime;
+		m_particleList[i].posY+=(m_particleList[i].velocity*frametime);
 	}
 }
 void Particle::killParticles()
 {
 	for(int i=0; i<m_maxParticels; i++)
 	{
-		if(m_particleList[i].active==true && m_particleList[i].posY < -3.0f)
+		if(m_particleList[i].active==true && m_particleList[i].life < 0.0f)
 		{
 			m_particleList[i].active=false;
+			//m_particleList[i].posX=particlepos.x;
+			//m_particleList[i].life=5.0f;
 			m_currentParticleCount--;
+
 
 			for(int j=i; j<m_maxParticels-1; j++)
 			{
 				m_particleList[j].posX = m_particleList[j+1].posX;
 				m_particleList[j].posY = m_particleList[j+1].posY;
 				m_particleList[j].posZ = m_particleList[j+1].posZ;
-				m_particleList[j].red       = m_particleList[j+1].red;
-				m_particleList[j].green     = m_particleList[j+1].green;
-				m_particleList[j].blue      = m_particleList[j+1].blue;
 				m_particleList[j].velocity  = m_particleList[j+1].velocity;
 				m_particleList[j].active    = m_particleList[j+1].active;
+				m_particleList[j].life		= m_particleList[j+1].life;
 			}
 		}
 	}
@@ -523,48 +363,69 @@ bool Particle::updateBuffers()
 	HRESULT hr;
 	D3D11_MAPPED_SUBRESOURCE resource;
 	VertexType* vertPtr;
-
+	
 	//init the vertex array to zero first
 	memset(m_vertices, 0, (sizeof(VertexType)*m_vertexCount));
 
 	//build the vertex arrar form particlelist 
 	index=0;
+	float scale=0.05f;
+	XMVECTOR U= XMLoadFloat3(&XMFLOAT3(0, 1, 0));
+	XMFLOAT3 finalpos;
+
 	for(int i=0; i < m_currentParticleCount; i++)
 	{
+		
+		XMVECTOR P= XMLoadFloat3(&XMFLOAT3(m_particleList[i].posX, m_particleList[i].posY, m_particleList[i].posZ));
+
+		XMVECTOR F=m_camera->GetEyePos() - P;
+		F=XMVector3Normalize(F);
+		XMVECTOR L=XMVector3Cross(F, U);
+		L=XMVector3Normalize(L);
+
+		
+		XMVECTOR V0=P-((L+U)*scale);
+		XMVECTOR V1=P+((L+U)*scale);
+		XMVECTOR V2=P+((L-U)*scale);
+		XMVECTOR V3=P-((L-U)*scale);
+		
+
+
+		XMStoreFloat3(&finalpos, V3);
 		// Bottom left.
-		m_vertices[index].position = XMFLOAT3(m_particleList[i].posX - m_particleSize, m_particleList[i].posY - m_particleSize, m_particleList[i].posZ);
+		//m_vertices[index].position = /*finalpos;*/XMFLOAT3(m_particleList[i].posX - m_particleSize, m_particleList[i].posY - m_particleSize, m_particleList[i].posZ);
+		m_vertices[index].position=XMFLOAT3(finalpos.x, m_particleList[i].posY-m_particleSize, finalpos.z);
 		m_vertices[index].texture = XMFLOAT2(0.0f, 1.0f);
-		m_vertices[index].color = XMFLOAT4(m_particleList[i].red, m_particleList[i].green, m_particleList[i].blue, 1.0f);
 		index++;
 
+		XMStoreFloat3(&finalpos, V0);
 		//Top left
-		m_vertices[index].position = XMFLOAT3(m_particleList[i].posX - m_particleSize, m_particleList[i].posY + m_particleSize, m_particleList[i].posZ);
+		//m_vertices[index].position = /*finalpos;*/XMFLOAT3(m_particleList[i].posX - m_particleSize, m_particleList[i].posY + m_particleSize, m_particleList[i].posZ);
+		m_vertices[index].position=XMFLOAT3(finalpos.x, m_particleList[i].posY+ m_particleSize, finalpos.z);
 		m_vertices[index].texture = XMFLOAT2(0.0f, 0.0f);
-		m_vertices[index].color = XMFLOAT4(m_particleList[i].red, m_particleList[i].green, m_particleList[i].blue, 1.0f);
 		index++;
 
+		XMStoreFloat3(&finalpos, V2);
 		//Bot right
-		m_vertices[index].position = XMFLOAT3(m_particleList[i].posX + m_particleSize, m_particleList[i].posY - m_particleSize, m_particleList[i].posZ);
+		//m_vertices[index].position = /*finalpos;*/XMFLOAT3(m_particleList[i].posX + m_particleSize, m_particleList[i].posY - m_particleSize, m_particleList[i].posZ);
+		m_vertices[index].position=XMFLOAT3(finalpos.x, m_particleList[i].posY- m_particleSize, finalpos.z);
 		m_vertices[index].texture = XMFLOAT2(1.0f, 1.0f);
-		m_vertices[index].color = XMFLOAT4(m_particleList[i].red, m_particleList[i].green, m_particleList[i].blue, 1.0f);
 		index++;
 
+		
 		//Bot right
-		m_vertices[index].position = XMFLOAT3(m_particleList[i].posX - m_particleSize, m_particleList[i].posY - m_particleSize, m_particleList[i].posZ);
-		m_vertices[index].texture = XMFLOAT2(1.0f, 1.0f);
-		m_vertices[index].color = XMFLOAT4(m_particleList[i].red, m_particleList[i].green, m_particleList[i].blue, 1.0f);
+		m_vertices[index]=m_vertices[index-1];
 		index++;
 
-		//Top left
-		m_vertices[index].position = XMFLOAT3(m_particleList[i].posX - m_particleSize, m_particleList[i].posY + m_particleSize, m_particleList[i].posZ);
-		m_vertices[index].texture = XMFLOAT2(0.0f, 0.0f);
-		m_vertices[index].color = XMFLOAT4(m_particleList[i].red, m_particleList[i].green, m_particleList[i].blue, 1.0f);
+		//topleft
+		m_vertices[index]=m_vertices[index-3];
 		index++;
 		
+		XMStoreFloat3(&finalpos, V1);
 		//Top right
-		m_vertices[index].position = XMFLOAT3(m_particleList[i].posX + m_particleSize, m_particleList[i].posY + m_particleSize, m_particleList[i].posZ);
+		//m_vertices[index].position = /*finalpos;*/ XMFLOAT3(m_particleList[i].posX + m_particleSize, m_particleList[i].posY + m_particleSize, m_particleList[i].posZ);
+		m_vertices[index].position=XMFLOAT3(finalpos.x, m_particleList[i].posY + m_particleSize, finalpos.z);
 		m_vertices[index].texture = XMFLOAT2(1.0f, 0.0f);
-		m_vertices[index].color = XMFLOAT4(m_particleList[i].red, m_particleList[i].green, m_particleList[i].blue, 1.0f);
 		index++;
 	}
 	//lock the buffer
@@ -597,4 +458,15 @@ void Particle::renderBuffers()
 
 	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+}
+
+void Particle::shutdown()
+{
+	SAFE_RELEASE( p_vertexBuffer );
+	SAFE_RELEASE( p_indexBuffer );
+
+
+	SAFE_RELEASE( m_texture );
+	SAFE_RELEASE( m_samplerState );
+	SAFE_RELEASE( m_shaderResourceView );
 }

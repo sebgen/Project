@@ -144,11 +144,12 @@ HRESULT Game::Update( float deltaTime )
 	{
 		m_checkRClicked=false;
 	}
-	if(menuState==PLAY)
-	{
-		m_currentRoom->Update( deltaTime, m_camera );
-	}
 	
+
+		m_particle->Update(deltaTime);
+		m_currentRoom->Update( deltaTime, m_camera );
+
+
 
 	handleMovement(deltaTime);
 	handleMenu(pos);
@@ -437,7 +438,7 @@ HRESULT Game::Draw( float deltaTime )
 	
 	m_currentRoom->Draw( deltaTime );
 
-	
+	m_particle->Render();
 
 
 
@@ -707,6 +708,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_picker=new Picking();
 	m_menu= new Menu();
 	m_navMesh=new NavMesh();
+	m_particle=new ParticleHandler();
 	InitializeShaders();
 
 	m_picker->Initialize(SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -762,7 +764,21 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
 
 	if(m_isMaze)
+	{
 		m_le->ExecuteFile("SetupMaze.lua");
+	}
+
+
+	m_particle->init(m_device, m_deviceContext, m_camera);
+	m_particle->addParticleEffect(XMFLOAT3(0, 0, 0),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	//for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
+	//{
+	//	//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
+	//	Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
+	//	XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
+	//	//tempvert.y=tempY;
+	//	m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	//}
 
 	return hr;
 }

@@ -723,8 +723,8 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Maze.lua
 	//===========================
-	LuaWrapper::Instance()->InitMazeMeta();
-	m_isMaze = true;
+	//LuaWrapper::Instance()->InitMazeMeta();
+	//m_isMaze = true;
 
 	//===========================
 	// Init Scripts --Dungeon.lua
@@ -734,7 +734,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Cave.lua
 	//===========================
-	//LuaWrapper::Instance()->InitCaveMeta();
+	LuaWrapper::Instance()->InitCaveMeta();
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -744,7 +744,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" ); //"torturelevelfirstdraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" ); //"torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -756,7 +756,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	m_navMesh->init(m_picker, m_camera);
 
-	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshMaze" ); //"navMeshLevel1");
+	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave" ); //"navMeshLevel1");
 	
 
 	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());

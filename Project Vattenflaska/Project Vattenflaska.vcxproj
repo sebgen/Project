@@ -92,6 +92,8 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NavMesh.h" />
     <ClInclude Include="NavMeshObject.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleHandler.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Sound.h" />
@@ -121,6 +123,8 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="NavMeshObject.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleHandler.cpp" />
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Sound.cpp" />

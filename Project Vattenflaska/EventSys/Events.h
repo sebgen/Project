@@ -19,7 +19,7 @@ class Lever;
 class Wheel;
 
 //=============================================================================================
-// EvtData_Create_Lever - Sent from Lever's constructor with a pointer to it self
+//										Lever Created
 //=============================================================================================
 class EvtData_Lever_Created : public BaseEventData
 {
@@ -59,7 +59,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Wheel_Created - Sent from Wheels's constructor with a pointer to it self
+//										Wheel Created
 //=============================================================================================
 class EvtData_Wheel_Created : public BaseEventData
 {
@@ -99,7 +99,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Pull_Lever - Sent from Lever::PullLever when picking is detecting a collision with
+//										Lever Pull
 //=============================================================================================
 class EvtData_Lever_Pull : public BaseEventData
 {
@@ -139,7 +139,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Rotate_Wheel - Sent from Wheel::RotateWheel when picking is detecting a collision with
+//										Rotate Wheel
 //=============================================================================================
 class EvtData_Rotate_Wheel : public BaseEventData
 {
@@ -179,7 +179,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Unlock_Door - Sent from LuaWrapper when lua calls LuaOpenDoor()
+//										Unlock Door
 //=============================================================================================
 class EvtData_Unlock_Door : public BaseEventData
 {
@@ -207,7 +207,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Start_MusicPanel - Sent from LuaWrapper when lua calls StartMusicPanel()
+//										Start Music Panel
 //=============================================================================================
 class EvtData_Start_MusicPanel : public BaseEventData
 {
@@ -235,7 +235,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Play_Music_Sequence - Sent from LuaWrapper when lua calls PlayMusicSequence()
+//										Play Music Sequence
 //=============================================================================================
 class EvtData_Play_Music_Sequence : public BaseEventData
 {
@@ -263,7 +263,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Change_NavMesh - Sent from lua wrapper to change current navmesh
+//										Change NavMesh
 //=============================================================================================
 class EvtData_Change_NavMesh : public BaseEventData
 {
@@ -303,7 +303,7 @@ public:
 };
 
 //=============================================================================================
-// EvtData_Unlock_Maze_Door - Sent from LuaWrapper when lua calls LuaOpenDoor()
+//										Unlock Maze Door
 //=============================================================================================
 class EvtData_Unlock_Maze_Door : public BaseEventData
 {
@@ -343,7 +343,7 @@ public:
 };
 
 //=============================================================================================
-//				EvtData_Lock_Maze_Door - Sent from LuaWrapper
+//										Lock Maze Door
 //=============================================================================================
 class EvtData_Lock_Maze_Door : public BaseEventData
 {

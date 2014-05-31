@@ -313,7 +313,7 @@ void LuaWrapper::Initialize( LuaEngine* le, EventManager* em )
 		   std::bind(	&LuaWrapper::PullLever,
 						this,
 						std::placeholders::_1),
-						EvtData_Lever_Created::sk_EventType);
+						EvtData_Lever_Pull::sk_EventType);
 
 	// Rotate Wheel
 	m_em->VAddListener(

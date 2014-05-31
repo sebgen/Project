@@ -252,14 +252,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						m_navMesh->moveForward(moveFactor);
-						//m_camera->Walk( moveFactor );
+						//m_navMesh->moveForward(moveFactor);
+						m_camera->Walk( moveFactor );
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1  )
 						{
 							moveUnits = nrOfMovement;
-							m_navMesh->moveDone();
+							//m_navMesh->moveDone();
 							isWalking = false;
 							isForward = false;
 						}
@@ -275,14 +275,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						//m_camera->Walk( -moveFactor );
-						m_navMesh->moveBackWard(moveFactor);
+						m_camera->Walk( -moveFactor );
+						//m_navMesh->moveBackWard(moveFactor);
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1 )
 						{
 							moveUnits  = nrOfMovement;
-							m_navMesh->moveDone();
+							//m_navMesh->moveDone();
 							isWalking  = false;
 							isBackward = false;
 						}
@@ -726,12 +726,12 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Dungeon.lua
 	//===========================
-	LuaWrapper::Instance()->InitDungeonMeta();
+	//LuaWrapper::Instance()->InitDungeonMeta();
 
 	//===========================
 	// Init Scripts --Cave.lua
 	//===========================
-	//LuaWrapper::Instance()->InitCaveMeta();
+	LuaWrapper::Instance()->InitCaveMeta();
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -741,7 +741,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" ); //"torturelevelfirstdraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" ); //"torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -753,7 +753,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	m_navMesh->init(m_picker, m_camera);
 
-	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshLevel1" ); //"navMeshLevel1");
+	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshMaze" ); //"navMeshLevel1");
 	
 
 	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());

@@ -9,7 +9,7 @@ class Sound
 {
 	
 	private:
-		static const int SIZE=10;
+		static const int SIZE=100;
 		std::unique_ptr<AudioEngine> audEng;
 		std::unique_ptr<SoundEffect> m_soundEffects[SIZE];
 		std::string names[SIZE];

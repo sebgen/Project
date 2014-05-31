@@ -21,6 +21,11 @@ Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 	m_isOn		= false;
 	m_isMusicPanelOn = false;
 
+	m_sound = new Sound();
+	m_sound->init();
+	m_sound->addSoundEffect( L"lever_pull.wav", "rotateSound" );
+	m_sound->addSoundEffect( L"startMusicPlayer.wav", "startMusicPlayer" );
+
 	if( m_name == "wheel1Shape" ||
 		m_name == "wheel2Shape" ||
 		m_name == "wheel3Shape" ||
@@ -54,6 +59,7 @@ Wheel::~Wheel()
 
 void Wheel::StartMusicPlayer( IEventDataPtr pEventData )
 {
+	m_sound->playSound( "startMusicPlayer" );
 	m_isMusicPanelOn = true;
 }
 
@@ -87,6 +93,7 @@ void Wheel::RotateWheel()
 		}
 	case BoilerWheel:
 		{
+			m_sound->playSound( "rotateSound" );
 			if( !m_isOn )
 				m_isOn = true;
 			break;

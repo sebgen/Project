@@ -4,6 +4,7 @@
 #include "EventSys/EventManagerImpl.h"
 #include "EventSys/Events.h"
 #include "DrawableObject.h"
+#include "Sound.h"
 
 enum WheelType{ MusicWheel, BoilerWheel, ButtonWheel };
 
@@ -18,6 +19,7 @@ class Wheel : public DrawableObject
 		WheelType		m_wheelType;
 		bool			m_isOn;
 		bool			m_isMusicPanelOn;
+		Sound*			m_sound;
 
 	private:
 		void StartMusicPlayer( IEventDataPtr pEventData );

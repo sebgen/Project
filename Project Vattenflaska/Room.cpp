@@ -144,8 +144,8 @@ HRESULT Room::Draw( float deltaTime )
 	for (int i = 0; i < m_levers.size(); i++)
 		m_levers.at(i)->Draw( deltaTime );
 
-	for (int i = 0; i < m_doors.size(); i++)
-		m_doors.at(i)->Draw( deltaTime );
+	/*for (int i = 0; i < m_doors.size(); i++)
+		m_doors.at(i)->Draw( deltaTime );*/
 
 	for (int i = 0; i < m_wheels.size(); i++)
 		m_wheels.at(i)->Draw( deltaTime );

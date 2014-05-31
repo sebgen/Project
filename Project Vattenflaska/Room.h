@@ -27,12 +27,12 @@ class Room
 	private:
 		std::string			m_roomName;
 
-		std::vector<TestObject*> m_roomContent;
-		std::vector<Lever*> m_levers;
-		std::vector<Wheel*> m_wheels;
-		std::vector<Door*>  m_doors;
-		std::vector<Torch*> m_torches;
-		std::vector<GlobalLight> m_lights;
+		std::vector<TestObject*>	m_roomContent;
+		std::vector<Lever*>			m_levers;
+		std::vector<Wheel*>			m_wheels;
+		std::vector<Door*>			m_doors;
+		std::vector<Torch*>			m_torches;
+		std::vector<GlobalLight>	m_lights;
 
 	public:
 		Room();

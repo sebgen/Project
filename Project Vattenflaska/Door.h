@@ -37,6 +37,7 @@ class Door : public DrawableObject
 
 		void OpenDoor( IEventDataPtr pEventData ); // Tell Door to open
 		void RaiseDoor();
+		void CloseDoor( IEventDataPtr pEventData );
 		void UpdateAndSetVertexBuffer();
 
 		bool IsOpen() const;

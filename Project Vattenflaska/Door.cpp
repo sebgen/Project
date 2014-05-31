@@ -67,6 +67,11 @@ void Door::RaiseDoor()
 	UpdateAndSetVertexBuffer();
 }
 
+void Door::CloseDoor( IEventDataPtr pEventData )
+{
+
+}
+
 void Door::UpdateAndSetVertexBuffer()
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

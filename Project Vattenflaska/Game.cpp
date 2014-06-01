@@ -44,7 +44,7 @@ HRESULT Game::Update( float deltaTime )
 			{
 				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit, dist))
 				{
-					if(dist < 1.0f)
+					if(dist <= pickRange)
 					{
 						//{
 
@@ -83,7 +83,7 @@ HRESULT Game::Update( float deltaTime )
 			{
 				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit, dist))
 				{
-					if(dist < 1.0f)
+					if(dist <= pickRange)
 					{
 						m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
 					}
@@ -92,7 +92,7 @@ HRESULT Game::Update( float deltaTime )
 			}
 			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit, dist))
 			{
-				if(dist < 1.0f)
+				if(dist < 10000.0f)
 				{
 					OutputDebugString("door hit\n");
 					loadNextLevelNextFrame=true;
@@ -140,6 +140,7 @@ HRESULT Game::Update( float deltaTime )
 	handleMovement(deltaTime);
 	handleMenu(pos);
 	//m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
+	m_camera->UpdateViewMatrix();
 
 
 
@@ -768,7 +769,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 
 	m_particle->init(m_device, m_deviceContext, m_camera);
-	m_particle->addParticleEffect(XMFLOAT3(0, 0, 0),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	m_particle->addParticleEffect(XMFLOAT3(10, 0, 10),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 	//for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
 	//{
 	//	//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
@@ -816,10 +817,8 @@ void Game::loadNextLevel()
 
 		for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
 		{
-			//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
 			Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
 			XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
-			//tempvert.y=tempY;
 			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 		}
 		
@@ -861,7 +860,7 @@ void Game::loadNextLevel()
 			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 		}
 
-
+		pickRange=2.5f;
 		currentLevel=0;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
@@ -921,7 +920,7 @@ int Game::Run()
 	 menuState=MENU;
 	 m_checkClicked=false;
 
-
+	 pickRange=1.5f;
 	  drawLoadScreen=false;
 	 loadNextLevelNextFrame=false;
 	//-----------------------------

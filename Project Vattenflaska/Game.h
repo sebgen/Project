@@ -76,6 +76,7 @@ class Game : public Application
 		
 		//picking stuff
 		bool m_checkRClicked;
+		float pickRange;
 
 		//-------
 		// Game |

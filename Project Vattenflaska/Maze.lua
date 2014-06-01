@@ -12,6 +12,7 @@ end
 function PullLever( name )
 	if name == "leverShape" then 				--Level 2
 		Game.ResetMaze()
+		Game.ChangeNavMesh(2)
 		Game.OpenMazeDoor( "gate_5Shape" )
 		Game.OpenMazeDoor( "gate_8Shape" )
 		Game.OpenMazeDoor( "gate_9Shape" )
@@ -22,6 +23,7 @@ function PullLever( name )
 		--Game.CloseMazeDoor( "gate_7Shape" )
 	elseif name == "leverShape1" then			--Level 3
 		Game.ResetMaze()
+		Game.ChangeNavMesh(3)
 		Game.OpenMazeDoor( "gate_1Shape" )
 		Game.OpenMazeDoor( "gate_2Shape" )
 		Game.OpenMazeDoor( "gate_3Shape" )
@@ -34,6 +36,7 @@ function PullLever( name )
 		--Game.CloseMazeDoor( "gate_10Shape" )
 	elseif name == "leverShape2" then			--Level 4
 		Game.ResetMaze()
+		Game.ChangeNavMesh(4)
 		Game.OpenMazeDoor( "gate_1Shape" )
 		Game.OpenMazeDoor( "gate_3Shape" )
 		Game.OpenMazeDoor( "gate_5Shape" )
@@ -48,6 +51,7 @@ function PullLever( name )
 		--Game.CloseMazeDoor( "gate_12Shape" )
 	elseif name == "leverShape3" then			--Level 5
 		Game.ResetMaze()
+		Game.ChangeNavMesh(5)
 		Game.OpenMazeDoor( "gate_0Shape" )
 		Game.OpenMazeDoor( "gate_1Shape" )
 		Game.OpenMazeDoor( "gate_2Shape" )
@@ -63,6 +67,7 @@ function PullLever( name )
 		Game.OpenMazeDoor( "gate_14Shape" )
 	elseif name == "leverShape4" then      		--Level 6
 		Game.ResetMaze()
+		Game.ChangeNavMesh(6)
 		Game.OpenMazeDoor( "gate_0Shape" )
 		Game.OpenMazeDoor( "gate_1Shape" )
 		Game.OpenMazeDoor( "gate_2Shape" )
@@ -77,6 +82,8 @@ function PullLever( name )
 		Game.OpenMazeDoor( "gate_12Shape" )
 		Game.OpenMazeDoor( "gate_13Shape" )
 		Game.OpenMazeDoor( "gate_14Shape" )
+	elseif name == "leverShape5" then
+		Game.ChangeNavMesh(7)
 	end
 end
 

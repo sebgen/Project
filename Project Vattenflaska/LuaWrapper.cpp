@@ -11,6 +11,8 @@ extern "C"
 		int index = lua_tointeger( L, 1, nullptr );
 		
 		LuaWrapper::Instance()->CreateEvtChangeNavMesh( index );
+
+		return 0;
 	}
 
 	static int LuaResetMaze( lua_State* L )
@@ -117,7 +119,7 @@ extern "C"
 		LuaWrapper::Instance()->CreateEvtPlayMusicSequence();
 	}
 
-	static int LuaChangeNavMesh( lua_State* L )
+	/*static int LuaChangeNavMesh( lua_State* L )
 	{
 		const char* navMesh = lua_tostring( L, 1, nullptr );
 		if( navMesh != nullptr )
@@ -125,7 +127,7 @@ extern "C"
 			LuaWrapper::Instance()->CreateEvtChangeNavMesh( navMesh );
 		}
 		return 0;
-	}
+	}*/
 }
 
 void LuaWrapper::CreateEvtResetMaze()

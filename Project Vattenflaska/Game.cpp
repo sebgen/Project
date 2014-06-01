@@ -299,14 +299,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						//m_navMesh->moveForward(moveFactor);
-						m_camera->Walk( moveFactor );
+						m_navMesh->moveForward(moveFactor);
+						//m_camera->Walk( moveFactor );
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1  )
 						{
 							moveUnits = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isWalking = false;
 							isForward = false;
 						}
@@ -322,14 +322,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						m_camera->Walk( -moveFactor );
-						//m_navMesh->moveBackWard(moveFactor);
+						//m_camera->Walk( -moveFactor );
+						m_navMesh->moveBackWard(moveFactor);
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1 )
 						{
 							moveUnits  = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isWalking  = false;
 							isBackward = false;
 						}
@@ -448,7 +448,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer
@@ -736,7 +736,7 @@ Game::~Game()
 HRESULT Game::InitializeGame( EventManager* em )
 {
 	HRESULT hr = S_OK;
-
+	m_isMaze = false;
 	//--------------------------
 	// Create Rasterizer State |
 	//--------------------------
@@ -841,6 +841,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 void Game::loadNextLevel()
 {
+	m_isMaze = false,
 	releaseRoomResource();
 	if(currentLevel==0)
 	{
@@ -955,7 +956,6 @@ int Game::Run()
 	// Reset the timer
 	m_gameTime->Reset();
 
-
 	//-----CAMERA MOVEMENT---------
 	 isWalking   = false;
 	 isForward	 = false;
@@ -1055,6 +1055,8 @@ void Game::ChangeNavMesh( IEventDataPtr pEventData )
 		shared_ptr<EvtData_Change_NavMesh> mesh = std::static_pointer_cast<EvtData_Change_NavMesh>( pEventData );
 		int index = mesh->GetIndex();
 
-		// Change mesh here!
+		m_navMesh->clear();
+		m_navMesh->setMeshInfo( m_NavMeshes.at( index )->getInfo() );
+		m_navMesh->createTile();
 	}
 }

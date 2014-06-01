@@ -55,5 +55,6 @@ function CheckMusickWheels( )
 	
 	if solved then
 		Game.OpenDoor()
+		Game.ChangeNavMesh(2)
 	end
 end

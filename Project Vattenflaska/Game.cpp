@@ -448,7 +448,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer
@@ -461,7 +461,7 @@ HRESULT Game::Draw( float deltaTime )
 		float blendFactors [] = {0.0f, 0.0f, 0.0f, 0.0f} ;
 		m_deviceContext->OMSetBlendState( m_blendState, blendFactors, 0xffffffff );
 	}
-
+	
 	//---------------
 	// Light Buffer |
 	//---------------
@@ -472,7 +472,11 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_deviceContext->IASetInputLayout( m_inputLayout );
+	if(m_currentRoom->GetRoomName()=="maze")
+	{
+		int k=0;
 
+	}
 	// Set shader stages
 	m_deviceContext->VSSetShader( m_vertexShader, nullptr, 0 );
 	m_deviceContext->HSSetShader( nullptr, nullptr, 0 );
@@ -796,8 +800,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	CreateCbLightBuffer();  /// NY
 	CreateCbCameraBuffer();
 
-	if( m_currentRoom->GetRoomName() == "cave2" )
-		CreateBlendState();
+		
 
 
 	m_navMesh->init(m_picker, m_camera);
@@ -831,33 +834,63 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 void Game::loadNextLevel()
 {
+	releaseRoomResource();
 	if(currentLevel==0)
 	{
-		//load level 0;
-		LuaWrapper::Instance()->InitDungeonMeta();
-		OutputDebugString("load martin\n");
-		m_currentRoom = m_rooms.at(currentLevel);
-		
-		currentLevel++;
-		drawLoadScreen=false;
-		loadNextLevelNextFrame=false;
+		//end screen
 		return;
 
 	}
 	if(currentLevel==1)
 	{
-		LuaWrapper::Instance()->InitCaveMeta();
-		OutputDebugString("load cave\n");
-		m_rooms.clear();
-		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" );
+		LuaWrapper::Instance()->InitDungeonMeta();
+		OutputDebugString("load dungeon\n");
+	
+
+		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "torturelevelfirstdraft" );
 		m_currentRoom = m_rooms.at(0);
-		SAFE_RELEASE(m_cbCamera);
-		SAFE_RELEASE(m_cbLight);
+		
+
 		CreateCbLightBuffer();  /// NY
 		CreateCbCameraBuffer();
 
-		m_navMesh->clear();
-		m_NavMeshes.clear();
+	
+		
+		m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshLevel1");
+	
+
+		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+		m_navMesh->createTile();
+		m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+
+
+		for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
+		{
+			//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
+			Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
+			XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
+			//tempvert.y=tempY;
+			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+		}
+		
+		currentLevel++;
+		drawLoadScreen=false;
+		loadNextLevelNextFrame=false;
+		return;
+	}
+	if(currentLevel==2)
+	{
+		LuaWrapper::Instance()->InitCaveMeta();
+		OutputDebugString("load cave\n");
+		
+
+		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" );
+		m_currentRoom = m_rooms.at(0);
+	
+		CreateCbLightBuffer();  /// NY
+		CreateCbCameraBuffer();
+
+		CreateBlendState();
 		
 		m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave");
 	
@@ -867,41 +900,46 @@ void Game::loadNextLevel()
 		m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
 
 		m_camera->RotateY(XMConvertToRadians(180));
-		currentLevel++;
-		drawLoadScreen=false;
-		loadNextLevelNextFrame=false;
-		return;
-	}
-	if(currentLevel==2)
-	{
-		LuaWrapper::Instance()->InitMazeMeta();
-		OutputDebugString("load maze\n");
-		m_rooms.clear();
-		m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
-		m_currentRoom = m_rooms.at(0);
-		SAFE_RELEASE(m_cbCamera);
-		SAFE_RELEASE(m_cbLight);
-		CreateCbLightBuffer();  /// NY
-		CreateCbCameraBuffer();
 
-		m_navMesh->clear();
-		m_NavMeshes.clear();
-		
-		m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshMaze");
-	
 
-		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
-		m_navMesh->createTile();
-		m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+		for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
+		{
+			//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
+			Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(0).position;
+			XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
+			//tempvert.y=tempY;
+			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+		}
 
-		
+
 		currentLevel=0;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
 		return;
 	}
 }
+void Game::releaseRoomResource()
+{
+	m_rooms.clear();
+	SAFE_DELETE(m_currentRoom);
 
+	SAFE_RELEASE(m_cbCamera);
+	SAFE_RELEASE(m_cbLight);
+
+	m_lights.clear();
+
+	for (int i = 0; i < m_NavMeshes.size(); i++)
+	{
+		SAFE_DELETE(m_NavMeshes.at(i));
+	}
+
+	m_navMesh->clear();
+	m_NavMeshes.clear();
+
+	m_particle->clear();
+
+
+}
 int Game::Run()
 {
 	MSG msg = {0};

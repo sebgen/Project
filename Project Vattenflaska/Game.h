@@ -117,6 +117,7 @@ class Game : public Application
 
 		void loadNextLevel();
 		void handleMenu(POINT pos);
+		void releaseRoomResource();
 
 		HRESULT Update( float deltaTime );
 		HRESULT Draw( float deltaTime );

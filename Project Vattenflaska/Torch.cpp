@@ -22,7 +22,10 @@ HRESULT Torch::Update( float deltaTime, Camera* camera )
 
 	return hr;
 }
-
+MeshInfo Torch::getInfo()
+{
+	return m_meshInfo;
+}
 HRESULT Torch::Draw( float deltaTime )
 {
 	HRESULT hr = S_OK;

@@ -244,7 +244,6 @@ bool ParticleHandler::Update(float deltatime)
 			return false;
 		}
 	}
-	testRed=m_particles.at(0)->testRed;
 	return true;
 }
 void ParticleHandler::setParticlePos(int at, XMFLOAT3 pos)
@@ -276,6 +275,11 @@ void ParticleHandler::clear()
 	for(int i=0; i < m_particles.size(); i++)
 	{
 		m_particles.at(i)->shutdown();
+	}
+
+	for(int i=0; i < m_particles.size(); i++)
+	{
+		SAFE_DELETE(m_particles.at(i));
 	}
 
 	m_particles.clear();

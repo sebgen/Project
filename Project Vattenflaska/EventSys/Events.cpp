@@ -26,7 +26,7 @@ const EventType EvtData_Wheel_Created::sk_EventType( 0xd4e2fc16 );
 //=============================================================================================
 //										Lever Pull
 //=============================================================================================
-const EventType EvtData_Lever_Pull::sk_EventType( 0xa66483fc );
+const EventType EvtData_Lever_Pull::sk_EventType( 0xf077dedf );
 
 //=============================================================================================
 //										Rotate Wheel

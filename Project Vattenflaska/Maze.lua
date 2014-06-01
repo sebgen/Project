@@ -7,6 +7,7 @@ function SetLever( lever )
 	table.insert( levers, lever )
 end
 
+
 -- Pull a lever
 function PullLever( name )
 	if name == "leverShape" then 				--Level 2

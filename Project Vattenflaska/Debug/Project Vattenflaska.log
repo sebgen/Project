@@ -1,22 +1,22 @@
-﻿Build started 2014-06-01 18:44:19.
-     1>Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2014-06-01 19:33:10.
+     1>Project "C:\Users\linuz\git\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp
          Game.cpp
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(83): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(93): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(165): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(175): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(617): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(620): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(639): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(875): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(913): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(939): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(954): warning C4101: 'p' : unreferenced local variable
-     1>c:\users\sebastian\desktop\basse\dev\vattenflaska\project vattenflaska\game.cpp(1041): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(57): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(67): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(107): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(117): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(559): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(562): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(581): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(817): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(855): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(881): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(896): warning C4101: 'p' : unreferenced local variable
+     1>c:\users\linuz\git\project vattenflaska\game.cpp(983): warning C4018: '<' : signed/unsigned mismatch
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.exe" /INCREMENTAL /NOLOGO Lua.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.lib" /MACHINE:X86 Debug\Application.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\linuz\git\Debug\Project Vattenflaska.exe" /INCREMENTAL /NOLOGO Lua.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\linuz\git\Debug\Project Vattenflaska.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\linuz\git\Debug\Project Vattenflaska.lib" /MACHINE:X86 Debug\Application.obj
          Debug\Camera.obj
          Debug\Door.obj
          Debug\DrawableObject.obj
@@ -43,11 +43,11 @@
          Debug\TestObject.obj
          Debug\Torch.obj
          Debug\Wheel.obj
-         C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\Audio\Bin\Desktop_2012\Win32\Debug\DirectXTKAudioDX.lib
-         C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\DirectXTK\Bin\Desktop_2012\Win32\Debug\DirectXTK.lib
-         Project Vattenflaska.vcxproj -> C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Debug\Project Vattenflaska.exe
-     1>Done Building Project "C:\Users\Sebastian\Desktop\Basse\Dev\Vattenflaska\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)).
+         C:\Users\linuz\git\DirectXTK\Audio\Bin\Desktop_2012\Win32\Debug\DirectXTKAudioDX.lib
+         C:\Users\linuz\git\DirectXTK\Bin\Desktop_2012\Win32\Debug\DirectXTK.lib
+         Project Vattenflaska.vcxproj -> C:\Users\linuz\git\Debug\Project Vattenflaska.exe
+     1>Done Building Project "C:\Users\linuz\git\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.71
+Time Elapsed 00:00:03.87

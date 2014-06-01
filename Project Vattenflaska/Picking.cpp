@@ -226,7 +226,7 @@ bool Picking::testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, X
 
 	return true;
 }
-bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin, std::vector<MeshInfo> info, int &hitMesh)
+bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin, std::vector<MeshInfo> info, int &hitMesh, float& _dist)
 {
 	updateMatrix(_projMatrix, _viewMatrix, _worldMatrix, _orgin);
 	testIntersect(mouseX, mouseY);
@@ -252,12 +252,13 @@ bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix,
 			if(testIntersectTri(p_rayDirection, p_rayOrgin, p0, p1, p2,dist))
 			{
 				testWhatMesh(info.at(i).groupName);
+				_dist=dist;
 				hitMesh=i;
 				return true;
 			}
 		}
 	}
-	
+	dist=1000.0f;
 	return false;
 }
 void Picking::testWhatMesh(std::string name)

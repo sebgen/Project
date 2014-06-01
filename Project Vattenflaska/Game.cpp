@@ -34,6 +34,7 @@ HRESULT Game::Update( float deltaTime )
 		if(m_checkRClicked==false)
 		{
 			int whatMeshHit;
+			float dist;
 			XMFLOAT4X4 world;
 			XMMATRIX I=XMMatrixIdentity();
 			XMStoreFloat4x4(&world, I);
@@ -41,64 +42,38 @@ HRESULT Game::Update( float deltaTime )
 
 			if( m_currentRoom->GetLever().size() > 0 )
 			{
-				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
+				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit, dist))
 				{
-					m_currentRoom->GetALever( whatMeshHit )->PullLever();
-
-					//====================================================================================
-					//										DEBUG
-					//====================================================================================
-					std::string index = std::to_string( whatMeshHit );
-					OutputDebugString( index.c_str() );
-					OutputDebugString( (m_currentRoom->GetALever( whatMeshHit )->GetName().c_str() ) );
-					OutputDebugString("hit\n");
-					std::string ison = std::to_string( m_currentRoom->GetALever( whatMeshHit )->IsOn() );
-					OutputDebugString( ison.c_str() );
-					OutputDebugString("hit\n");
-
-					ison = std::to_string( m_currentRoom->GetALever( 2 )->IsOn() );
-					OutputDebugString("\nLever 1: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 1 )->IsOn() );
-					OutputDebugString("\nLever 2: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 0 )->IsOn() );
-					OutputDebugString("\nLever 3: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 3 )->IsOn() );
-					OutputDebugString("\nLever 4: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 4 )->IsOn() );
-					OutputDebugString("\nLever 5: ");
-					OutputDebugString( ison.c_str() );
-
-					//====================================================================================
-
-					if( m_isMaze )
+					if(dist < 1.0f)
 					{
-						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+						//{
+
+						m_currentRoom->GetALever( whatMeshHit )->PullLever();
+
+					
+
+						if( m_isMaze )
 						{
-							// Levers
-							std::string index = std::to_string( i );
-							std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
-							OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
-							OutputDebugString( ": ");
-							OutputDebugString( ison.c_str() );
-							OutputDebugString( "\n" );
-						}
-						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
-						{
-							// Doors
-							std::string index = std::to_string( i );
-							std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
-							OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
-							OutputDebugString( ": ");
-							OutputDebugString( isopen.c_str() );
-							OutputDebugString( "\n" );
+							for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+							{
+								// Levers
+								std::string index = std::to_string( i );
+								std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
+								OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
+								OutputDebugString( ": ");
+								OutputDebugString( ison.c_str() );
+								OutputDebugString( "\n" );
+							}
+							for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+							{
+								// Doors
+								std::string index = std::to_string( i );
+								std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
+								OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
+								OutputDebugString( ": ");
+								OutputDebugString( isopen.c_str() );
+								OutputDebugString( "\n" );
+							}
 						}
 					}
 				}
@@ -106,57 +81,24 @@ HRESULT Game::Update( float deltaTime )
 
 			if( m_currentRoom->GetWheel().size() > 0 )
 			{
-				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit))
+				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit, dist))
 				{
-					m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
-
-					//====================================================================================
-					//										DEBUG
-					//====================================================================================
-					OutputDebugString( "\nfirstMusicWheel: " );
-					OutputDebugString( "\nlastMusicWheel: " );
-
-					// Music
-					std::string value = std::to_string( m_currentRoom->GetAWheel( 2 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 1: " );
-					OutputDebugString( value.c_str() );
-				
-					value = std::to_string( m_currentRoom->GetAWheel( 3 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 2: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 4 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 3: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 5 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 4: " );
-					OutputDebugString( value.c_str() );
-
-					// Boiler
-					value = std::to_string( m_currentRoom->GetAWheel( 6 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 1: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 7 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 2: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 8 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 3: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 9 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 4: " );
-					OutputDebugString( value.c_str() );
-					//====================================================================================
+					if(dist < 1.0f)
+					{
+						m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
+					}
+					
 				}
 			}
-			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit))
+			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit, dist))
 			{
-				OutputDebugString("door hit\n");
-				loadNextLevelNextFrame=true;
-				drawLoadScreen=true;
+				if(dist < 1.0f)
+				{
+					OutputDebugString("door hit\n");
+					loadNextLevelNextFrame=true;
+					drawLoadScreen=true;
+				}
+				
 			}
 			else
 			{
@@ -197,7 +139,7 @@ HRESULT Game::Update( float deltaTime )
 
 	handleMovement(deltaTime);
 	handleMenu(pos);
-	m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
+	//m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
 
 
 

@@ -766,6 +766,13 @@ HRESULT Game::InitializeGame( EventManager* em )
 	// Event
 	m_em = em;
 
+	// Change navmesh
+	m_em->VAddListener(
+		   std::bind(	&Game::ChangeNavMesh,
+						this,
+						std::placeholders::_1),
+						EvtData_Change_NavMesh::sk_EventType);
+
 	// Lua
 	m_le = new LuaEngine();
 	LuaWrapper::Instance()->Initialize( m_le, m_em );
@@ -1039,4 +1046,15 @@ void Game::Shutdown()
 	SAFE_RELEASE( m_cbLight );
 
 	Application::Shutdown();
+}
+
+void Game::ChangeNavMesh( IEventDataPtr pEventData )
+{
+	if( EvtData_Change_NavMesh::sk_EventType == pEventData->VGetEventType() )
+	{
+		shared_ptr<EvtData_Change_NavMesh> mesh = std::static_pointer_cast<EvtData_Change_NavMesh>( pEventData );
+		int index = mesh->GetIndex();
+
+		// Change mesh here!
+	}
 }

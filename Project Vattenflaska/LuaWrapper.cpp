@@ -6,6 +6,13 @@
 
 extern "C"
 {
+	static int LuaChangeNavMesh( lua_State* L )
+	{
+		int index = lua_tointeger( L, 1, nullptr );
+		
+		LuaWrapper::Instance()->CreateEvtChangeNavMesh( index );
+	}
+
 	static int LuaResetMaze( lua_State* L )
 	{
 		LuaWrapper::Instance()->CreateEvtResetMaze();
@@ -127,9 +134,9 @@ void LuaWrapper::CreateEvtResetMaze()
 	m_em->VQueueEvent( e );
 }
 
-void LuaWrapper::CreateEvtChangeNavMesh( const char* meshName )
+void LuaWrapper::CreateEvtChangeNavMesh( int index )
 {
-	IEventDataPtr e(GCC_NEW EvtData_Change_NavMesh( meshName ) );
+	IEventDataPtr e(GCC_NEW EvtData_Change_NavMesh( index ) );
 	m_em->VQueueEvent( e );
 }
 
@@ -350,6 +357,7 @@ void LuaWrapper::InitMazeMeta()
 
 	luaL_Reg GameRegs[] = 
 	{
+		{ "ChangeNavMesh", LuaChangeNavMesh },
 		{ "ResetMaze",	   LuaResetMaze },
 		{ "OpenMazeDoor",  LuaOpenMazeDoor },
 		{ "CloseMazeDoor", LuaCloseMazeDoor },
@@ -392,6 +400,7 @@ void LuaWrapper::InitDungeonMeta()
 
 	luaL_Reg GameRegs[] = 
 	{
+		{ "ChangeNavMesh", LuaChangeNavMesh },
 		{ "OpenDoor", LuaOpenDoor },
 		{ NULL, NULL },
 	};
@@ -430,6 +439,7 @@ void LuaWrapper::InitCaveMeta()
 
 	luaL_Reg GameRegs[] = 
 	{
+		{ "ChangeNavMesh", LuaChangeNavMesh },
 		{ "OpenDoor", LuaOpenDoor },
 		{ "StartMusicPanel", StartMusicPanel },
 		{ NULL, NULL },

@@ -126,7 +126,7 @@ class Game : public Application
 		Game();
 		~Game();
 
-
+		void ChangeNavMesh( IEventDataPtr pEventData );
 		void handleMovement(float deltaTime);
 		HRESULT InitializeGame( EventManager* em );
 		int Run();

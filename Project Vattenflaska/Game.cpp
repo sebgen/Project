@@ -77,6 +77,30 @@ HRESULT Game::Update( float deltaTime )
 					OutputDebugString( ison.c_str() );
 
 					//====================================================================================
+
+					if( m_isMaze )
+					{
+						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+						{
+							// Levers
+							std::string index = std::to_string( i );
+							std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
+							OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
+							OutputDebugString( ": ");
+							OutputDebugString( ison.c_str() );
+							OutputDebugString( "\n" );
+						}
+						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+						{
+							// Doors
+							std::string index = std::to_string( i );
+							std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
+							OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
+							OutputDebugString( ": ");
+							OutputDebugString( isopen.c_str() );
+							OutputDebugString( "\n" );
+						}
+					}
 				}
 			}
 
@@ -136,7 +160,29 @@ HRESULT Game::Update( float deltaTime )
 			}
 			else
 			{
-				//miss
+				if( m_isMaze )
+					{
+						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+						{
+							// Levers
+							std::string index = std::to_string( i );
+							std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
+							OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
+							OutputDebugString( ": ");
+							OutputDebugString( ison.c_str() );
+							OutputDebugString( "\n" );
+						}
+						for( int i = 0; i < m_currentRoom->GetDoors().size(); i++)
+						{
+							// Doors
+							std::string index = std::to_string( i );
+							std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
+							OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
+							OutputDebugString( ": ");
+							OutputDebugString( isopen.c_str() );
+							OutputDebugString( "\n" );
+						}
+					}
 			}
 		}
 	}
@@ -149,11 +195,11 @@ HRESULT Game::Update( float deltaTime )
 		m_particle->Update(deltaTime);
 		m_currentRoom->Update( deltaTime, m_camera );
 
-
-
 	handleMovement(deltaTime);
 	handleMenu(pos);
 	m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
+
+
 
 	return hr;
 }
@@ -723,8 +769,8 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Maze.lua
 	//===========================
-	//LuaWrapper::Instance()->InitMazeMeta();
-	//m_isMaze = true;
+	LuaWrapper::Instance()->InitMazeMeta();
+	m_isMaze = true;
 
 	//===========================
 	// Init Scripts --Dungeon.lua
@@ -734,7 +780,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//===========================
 	// Init Scripts --Cave.lua
 	//===========================
-	LuaWrapper::Instance()->InitCaveMeta();
+	//LuaWrapper::Instance()->InitCaveMeta();
 
 	//=================================
 	//          LOAD LEVELS          ||
@@ -744,7 +790,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	//---------------------
 	// Load Torture Level |
 	//---------------------
-	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "cave2" ); //"torturelevelfirstdraft" );
+	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" ); //"torturelevelfirstdraft" );
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -756,7 +802,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 	m_navMesh->init(m_picker, m_camera);
 
-	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshCave" ); //"navMeshLevel1");
+	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshMaze" ); //"navMeshLevel1");
 	
 
 	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());

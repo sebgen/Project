@@ -381,3 +381,31 @@ public:
         return "EvtData_Lock_Maze_Door";
     }
 };
+
+//=============================================================================================
+//										Reset Maze
+//=============================================================================================
+class EvtData_Reset_Maze : public BaseEventData
+{
+public:
+	static const EventType sk_EventType;
+
+	virtual const EventType& VGetEventType( void ) const
+	{
+		return sk_EventType;
+	}
+
+	virtual IEventDataPtr VCopy() const
+	{
+		return IEventDataPtr (GCC_NEW EvtData_Reset_Maze ( ) );
+	}
+
+	virtual void VSerialize( std::ostrstream & out )
+	{
+	}
+
+    virtual const char* GetName(void) const
+    {
+        return "EvtData_Reset_Maze";
+    }
+};

@@ -6,6 +6,12 @@
 
 extern "C"
 {
+	static int LuaResetMaze( lua_State* L )
+	{
+		LuaWrapper::Instance()->CreateEvtResetMaze();
+		return 0;
+	}
+
 	static int LuaOpenDoor( lua_State* L )
 	{
 		LuaWrapper::Instance()->CreateEvtOpenDoor();
@@ -113,6 +119,12 @@ extern "C"
 		}
 		return 0;
 	}
+}
+
+void LuaWrapper::CreateEvtResetMaze()
+{
+	IEventDataPtr e(GCC_NEW EvtData_Reset_Maze() );
+	m_em->VQueueEvent( e );
 }
 
 void LuaWrapper::CreateEvtChangeNavMesh( const char* meshName )
@@ -338,7 +350,8 @@ void LuaWrapper::InitMazeMeta()
 
 	luaL_Reg GameRegs[] = 
 	{
-		{ "OpenMazeDoor", LuaOpenMazeDoor },
+		{ "ResetMaze",	   LuaResetMaze },
+		{ "OpenMazeDoor",  LuaOpenMazeDoor },
 		{ "CloseMazeDoor", LuaCloseMazeDoor },
 		{ "ChangeNavMesh", LuaChangeNavMesh },
 		{ NULL, NULL },

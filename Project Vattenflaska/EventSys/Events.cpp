@@ -62,3 +62,8 @@ const EventType EvtData_Unlock_Maze_Door::sk_EventType( 0x1d99db7b );
 //										Lock Maze Door
 //=============================================================================================
 const EventType EvtData_Lock_Maze_Door::sk_EventType( 0xa082a891 );
+
+//=============================================================================================
+//										Reset Maze
+//=============================================================================================
+const EventType EvtData_Reset_Maze::sk_EventType( 0xa0469003 );

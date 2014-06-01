@@ -1,5 +1,6 @@
 -- SetupMaze.lua
 
+Game.ResetMaze()
 Game.OpenMazeDoor( "gate_6Shape" )
 Game.OpenMazeDoor( "gate_7Shape" )
 Game.OpenMazeDoor( "gate_8Shape" )

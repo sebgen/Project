@@ -23,6 +23,13 @@ Room::Room( std::string roomName, EventManager* em )
 						this,
 						std::placeholders::_1),
 						EvtData_Lock_Maze_Door::sk_EventType);
+
+	// Reset Maze
+	m_em->VAddListener(
+		   std::bind(	&Room::ResetMaze,
+						this,
+						std::placeholders::_1),
+						EvtData_Reset_Maze::sk_EventType);
 }
 
 Room::~Room()
@@ -97,9 +104,9 @@ std::vector<MeshInfo> Room::GetWheel()
 }
 
 
-Door* Room::GetDoor() const
+Door* Room::GetADoor( int index ) const
 {
-	return m_doors.front();
+	return m_doors.at( index );
 }
 
 const std::vector<GlobalLight>& Room::GetLights() const
@@ -137,6 +144,12 @@ void Room::CloseMazeDoor( IEventDataPtr pEventData )
 	}
 }
 
+void Room::ResetMaze( IEventDataPtr pEventData )
+{
+	for( int i = 0; i < m_doors.size(); i++ )
+		m_doors.at( i )->CloseDoor( pEventData );
+}
+
 Lever* Room::GetALever( int index ) const
 {
 	return m_levers.at( index );
@@ -150,6 +163,11 @@ Wheel* Room::GetAWheel( int index ) const
 std::vector<Lever*> Room::GetLevers() const
 {
 	return m_levers;
+}
+
+std::vector<Door*> Room::GetDoors()
+{
+	return m_doors;
 }
 
 HRESULT Room::Update( float deltaTime, Camera* camera )

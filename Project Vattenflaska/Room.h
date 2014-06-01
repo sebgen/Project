@@ -54,15 +54,18 @@ class Room
 		std::vector<MeshInfo> GetWheel();
 		//std::vector<MeshInfo> getExitDoor();
 		std::vector<MeshInfo> getDoorMesh();
-		Door* GetDoor() const;
 		const std::vector<GlobalLight>& GetLights() const;
 		
 		void OpenMazeDoor( IEventDataPtr pEventData ); 
 		void CloseMazeDoor( IEventDataPtr pEventData ); 
+		void ResetMaze( IEventDataPtr pEventData );
 
 		Lever* GetALever( int index ) const;
 		Wheel* GetAWheel( int index ) const;
+		Door* GetADoor( int index ) const;
+
 		std::vector<Lever*> GetLevers() const;
+		std::vector< Door*> GetDoors();
 		
 
 		HRESULT Update( float deltaTime, Camera* camera );

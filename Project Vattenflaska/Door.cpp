@@ -78,7 +78,14 @@ void Door::RaiseDoor()
 
 void Door::CloseDoor( IEventDataPtr pEventData )
 {
-	if( EvtData_Unlock_Maze_Door::sk_EventType == pEventData->VGetEventType() )
+	if( EvtData_Lock_Maze_Door::sk_EventType == pEventData->VGetEventType() )
+	{
+		m_isMazeDoor = true;
+		m_isOpen = false;
+		m_sound->playSound( "isOpeningSound" );
+	}
+
+	if( EvtData_Reset_Maze::sk_EventType == pEventData->VGetEventType() )
 	{
 		m_isMazeDoor = true;
 		m_isOpen = false;
@@ -155,7 +162,7 @@ HRESULT Door::Draw( float deltaTime )
 {
 	HRESULT hr = S_OK;
 
-	if( !m_isMazeDoor && !m_isOpen )
+	if( !m_isMazeDoor || !m_isOpen )
 	{
 		UpdateAndSetConstantBuffer();
 		UpdateLightConstantBuffer();

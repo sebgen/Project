@@ -194,6 +194,7 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 
 	for (int i = 0; i < m_lights.size(); i++)
 	{
+	
 		tempRoom->AddLight( GlobalLight( XMFLOAT4( m_lights.at(i).diffuse.x, m_lights.at(i).diffuse.y, m_lights.at(i).diffuse.z, 1.0f ),
 								 XMFLOAT3( m_lights.at(i).position.x, m_lights.at(i).position.y, m_lights.at(i).position.z ),
 								 m_lights.at(i).range ) );
@@ -201,13 +202,24 @@ bool ImportReader::LoadObject( ID3D11Device* device, ID3D11DeviceContext* device
 
 
 	rooms.push_back( tempRoom );
-	//m_lights.clear();
-	//m_cameras.clear();
+	m_lights.clear();
+	m_cameras.clear();
 	m_meshInfo.clear();
+	/*std::string yolo=std::to_string(m_meshInfo.size())+"in Load object";
+	OutputDebugString("\n");
+	OutputDebugString(yolo.c_str());
+	OutputDebugString("\n");*/
 	return true;
 }
 bool ImportReader::LoadNavMeshObject( ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<NavMeshObject*>& navMeshObj, std::string fileName )
-{
+{   
+	/*OutputDebugString("test test test\n");
+	
+	std::string yolo=std::to_string(m_meshInfo.size())+"in navMesh";
+	OutputDebugString("\n");
+	OutputDebugString(yolo.c_str());
+	OutputDebugString("\n");
+	m_meshInfo.clear();*/
 	if( !OpenFile( fileName, true ) )
 		return false;
 

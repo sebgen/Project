@@ -69,13 +69,21 @@ std::string Room::GetRoomName() const
 {
 	return m_roomName;
 }
-
+std::vector<MeshInfo> Room::getTorchMesh()
+{
+	std::vector<MeshInfo> temp;
+	for(int i=0; i< m_torches.size(); i++)
+	{
+		temp.push_back(m_torches.at(i)->getInfo());
+	}
+	return temp;
+}
 std::vector<MeshInfo> Room::getDoorMesh()
 {
 	std::vector<MeshInfo> temp;
 	for(int i=0; i< m_roomContent.size(); i++)
 	{
-		if(m_roomContent.at(i)->GetGroupName()=="door_exitShape")
+		if(m_roomContent.at(i)->GetGroupName()=="door_exitShape" || m_roomContent.at(i)->GetGroupName()=="door_ExitShape")
 		{
 			temp.push_back(m_roomContent.at(i)->getInfo());
 		}

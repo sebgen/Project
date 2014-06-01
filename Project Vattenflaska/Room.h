@@ -52,6 +52,7 @@ class Room
 		std::string GetRoomName() const;
 		std::vector<MeshInfo> GetLever();
 		std::vector<MeshInfo> GetWheel();
+		std::vector<MeshInfo> getTorchMesh();
 		//std::vector<MeshInfo> getExitDoor();
 		std::vector<MeshInfo> getDoorMesh();
 		const std::vector<GlobalLight>& GetLights() const;

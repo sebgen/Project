@@ -76,6 +76,8 @@ class Game : public Application
 		
 		//picking stuff
 		bool m_checkRClicked;
+		float pickRange;
+		float pickvalue;
 
 		//-------
 		// Game |
@@ -126,7 +128,7 @@ class Game : public Application
 		Game();
 		~Game();
 
-
+		void ChangeNavMesh( IEventDataPtr pEventData );
 		void handleMovement(float deltaTime);
 		HRESULT InitializeGame( EventManager* em );
 		int Run();

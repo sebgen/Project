@@ -34,6 +34,7 @@ HRESULT Game::Update( float deltaTime )
 		if(m_checkRClicked==false)
 		{
 			int whatMeshHit;
+			float dist;
 			XMFLOAT4X4 world;
 			XMMATRIX I=XMMatrixIdentity();
 			XMStoreFloat4x4(&world, I);
@@ -41,64 +42,40 @@ HRESULT Game::Update( float deltaTime )
 
 			if( m_currentRoom->GetLever().size() > 0 )
 			{
-				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit))
+				
+				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit, dist))
 				{
-					m_currentRoom->GetALever( whatMeshHit )->PullLever();
-
-					//====================================================================================
-					//										DEBUG
-					//====================================================================================
-					std::string index = std::to_string( whatMeshHit );
-					OutputDebugString( index.c_str() );
-					OutputDebugString( (m_currentRoom->GetALever( whatMeshHit )->GetName().c_str() ) );
-					OutputDebugString("hit\n");
-					std::string ison = std::to_string( m_currentRoom->GetALever( whatMeshHit )->IsOn() );
-					OutputDebugString( ison.c_str() );
-					OutputDebugString("hit\n");
-
-					ison = std::to_string( m_currentRoom->GetALever( 2 )->IsOn() );
-					OutputDebugString("\nLever 1: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 1 )->IsOn() );
-					OutputDebugString("\nLever 2: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 0 )->IsOn() );
-					OutputDebugString("\nLever 3: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 3 )->IsOn() );
-					OutputDebugString("\nLever 4: ");
-					OutputDebugString( ison.c_str() );
-
-					ison = std::to_string( m_currentRoom->GetALever( 4 )->IsOn() );
-					OutputDebugString("\nLever 5: ");
-					OutputDebugString( ison.c_str() );
-
-					//====================================================================================
-
-					if( m_isMaze )
+					m_menu->dist=dist;
+					if(dist <= pickRange)
 					{
-						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+						//{
+
+						m_currentRoom->GetALever( whatMeshHit )->PullLever();
+
+					
+
+						if( m_isMaze )
 						{
-							// Levers
-							std::string index = std::to_string( i );
-							std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
-							OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
-							OutputDebugString( ": ");
-							OutputDebugString( ison.c_str() );
-							OutputDebugString( "\n" );
-						}
-						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
-						{
-							// Doors
-							std::string index = std::to_string( i );
-							std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
-							OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
-							OutputDebugString( ": ");
-							OutputDebugString( isopen.c_str() );
-							OutputDebugString( "\n" );
+							for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+							{
+								// Levers
+								std::string index = std::to_string( i );
+								std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
+								OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
+								OutputDebugString( ": ");
+								OutputDebugString( ison.c_str() );
+								OutputDebugString( "\n" );
+							}
+							for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
+							{
+								// Doors
+								std::string index = std::to_string( i );
+								std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
+								OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
+								OutputDebugString( ": ");
+								OutputDebugString( isopen.c_str() );
+								OutputDebugString( "\n" );
+							}
 						}
 					}
 				}
@@ -106,60 +83,30 @@ HRESULT Game::Update( float deltaTime )
 
 			if( m_currentRoom->GetWheel().size() > 0 )
 			{
-				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit))
+				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit, dist))
 				{
-					m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
-
-					//====================================================================================
-					//										DEBUG
-					//====================================================================================
-					OutputDebugString( "\nfirstMusicWheel: " );
-					OutputDebugString( "\nlastMusicWheel: " );
-
-					// Music
-					std::string value = std::to_string( m_currentRoom->GetAWheel( 2 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 1: " );
-					OutputDebugString( value.c_str() );
-				
-					value = std::to_string( m_currentRoom->GetAWheel( 3 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 2: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 4 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 3: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 5 )->GetValue() );
-					OutputDebugString( "\nMusicWheel 4: " );
-					OutputDebugString( value.c_str() );
-
-					// Boiler
-					value = std::to_string( m_currentRoom->GetAWheel( 6 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 1: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 7 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 2: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 8 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 3: " );
-					OutputDebugString( value.c_str() );
-
-					value = std::to_string( m_currentRoom->GetAWheel( 9 )->IsOn() );
-					OutputDebugString( "\nBoilerWheel 4: " );
-					OutputDebugString( value.c_str() );
-					//====================================================================================
+					m_menu->dist=dist;
+					if(dist <= pickRange)
+					{
+						m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
+					}
+					
 				}
 			}
-			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit))
+			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit, dist))
 			{
-				OutputDebugString("door hit\n");
-				loadNextLevelNextFrame=true;
-				drawLoadScreen=true;
+				m_menu->dist=dist;
+				if(dist < 10000.0f)
+				{
+					OutputDebugString("door hit\n");
+					loadNextLevelNextFrame=true;
+					drawLoadScreen=true;
+				}
+				
 			}
 			else
 			{
+				OutputDebugString("\n miss\n");
 				if( m_isMaze )
 					{
 						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
@@ -192,12 +139,25 @@ HRESULT Game::Update( float deltaTime )
 	}
 	
 
-		m_particle->Update(deltaTime);
-		m_currentRoom->Update( deltaTime, m_camera );
+	m_particle->Update(deltaTime);
+	m_currentRoom->Update( deltaTime, m_camera );
 
+	if(GetAsyncKeyState('X'))
+	{
+		m_navMesh->setMeshInfo(m_NavMeshes.at(2)->getInfo());
+		m_navMesh->clear();
+		m_navMesh->createTile();
+	}
+	if(GetAsyncKeyState('Z'))
+	{
+		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+		m_navMesh->clear();
+		m_navMesh->createTile();
+	}
 	handleMovement(deltaTime);
 	handleMenu(pos);
-	m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
+	//m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
+	m_camera->UpdateViewMatrix();
 
 
 
@@ -299,14 +259,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						//m_navMesh->moveForward(moveFactor);
-						m_camera->Walk( moveFactor );
+						m_navMesh->moveForward(moveFactor);
+						//m_camera->Walk( moveFactor );
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1  )
 						{
 							moveUnits = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isWalking = false;
 							isForward = false;
 						}
@@ -322,14 +282,14 @@ void Game::handleMovement(float deltaTime)
 				{
 					if( animationTimer >= 0.01f )
 					{
-						m_camera->Walk( -moveFactor );
-						//m_navMesh->moveBackWard(moveFactor);
+						//m_camera->Walk( -moveFactor );
+						m_navMesh->moveBackWard(moveFactor);
 						animationTimer = 0.0f;
 
 						if ( moveUnits <= 1 )
 						{
 							moveUnits  = nrOfMovement;
-							//m_navMesh->moveDone();
+							m_navMesh->moveDone();
 							isWalking  = false;
 							isBackward = false;
 						}
@@ -472,11 +432,7 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_deviceContext->IASetInputLayout( m_inputLayout );
-	if(m_currentRoom->GetRoomName()=="maze")
-	{
-		int k=0;
-
-	}
+	
 	// Set shader stages
 	m_deviceContext->VSSetShader( m_vertexShader, nullptr, 0 );
 	m_deviceContext->HSSetShader( nullptr, nullptr, 0 );
@@ -485,8 +441,10 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->PSSetShader( m_pixelShader, nullptr, 0 );
 	//---------------------------------------------
 
-	
+	//m_rooms2.at(0)->Draw(deltaTime);
 	m_currentRoom->Draw( deltaTime );
+
+	
 
 	m_particle->Render();
 
@@ -620,7 +578,7 @@ HRESULT Game::CreateCbLightBuffer()  /// NY
 	m_LightData.nrOfLights = m_lights.size();
 	memcpy( m_LightData.lights, &m_lights[0], sizeof(GlobalLight) * m_lights.size() );
 	
-
+	
 	D3D11_BUFFER_DESC cbDesc;
 	cbDesc.ByteWidth = sizeof( m_LightData );
 	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -628,7 +586,7 @@ HRESULT Game::CreateCbLightBuffer()  /// NY
 	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	cbDesc.MiscFlags = 0;
 	cbDesc.StructureByteStride = 0;
-
+	 
 	HRESULT hr = m_device->CreateBuffer( &cbDesc, nullptr, &m_cbLight );
 
 	return hr;
@@ -736,7 +694,7 @@ Game::~Game()
 HRESULT Game::InitializeGame( EventManager* em )
 {
 	HRESULT hr = S_OK;
-
+	m_isMaze = false;
 	//--------------------------
 	// Create Rasterizer State |
 	//--------------------------
@@ -765,6 +723,13 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_menu->init(m_deviceContext, m_device);
 	// Event
 	m_em = em;
+
+	// Change navmesh
+	m_em->VAddListener(
+		   std::bind(	&Game::ChangeNavMesh,
+						this,
+						std::placeholders::_1),
+						EvtData_Change_NavMesh::sk_EventType);
 
 	// Lua
 	m_le = new LuaEngine();
@@ -795,6 +760,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	// Load Torture Level |
 	//---------------------
 	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" ); //"torturelevelfirstdraft" );
+
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -819,7 +785,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 
 	m_particle->init(m_device, m_deviceContext, m_camera);
-	m_particle->addParticleEffect(XMFLOAT3(0, 0, 0),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	m_particle->addParticleEffect(XMFLOAT3(10, 0, 10),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 	//for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
 	//{
 	//	//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
@@ -834,10 +800,16 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 void Game::loadNextLevel()
 {
-	releaseRoomResource();
+	m_isMaze = false;
+	if(currentLevel!=0)
+	{
+		releaseRoomResource();
+	}
+	
 	if(currentLevel==0)
 	{
 		//end screen
+
 		return;
 
 	}
@@ -866,10 +838,8 @@ void Game::loadNextLevel()
 
 		for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
 		{
-			//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
 			Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
 			XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
-			//tempvert.y=tempY;
 			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 		}
 		
@@ -911,7 +881,7 @@ void Game::loadNextLevel()
 			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 		}
 
-
+		pickRange=2.5f;
 		currentLevel=0;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
@@ -923,8 +893,12 @@ void Game::releaseRoomResource()
 	m_rooms.clear();
 	SAFE_DELETE(m_currentRoom);
 
+	//memset(m_LightData.lights, 0, (sizeof(GlobalLight)*m_lights.size()));
+	//m_LightData.clear();
+
 	SAFE_RELEASE(m_cbCamera);
 	SAFE_RELEASE(m_cbLight);
+
 
 	m_lights.clear();
 
@@ -947,7 +921,6 @@ int Game::Run()
 
 	// Reset the timer
 	m_gameTime->Reset();
-
 
 	//-----CAMERA MOVEMENT---------
 	 isWalking   = false;
@@ -972,7 +945,7 @@ int Game::Run()
 	 menuState=MENU;
 	 m_checkClicked=false;
 
-
+	 pickRange=1.5f;
 	  drawLoadScreen=false;
 	 loadNextLevelNextFrame=false;
 	//-----------------------------
@@ -1039,4 +1012,17 @@ void Game::Shutdown()
 	SAFE_RELEASE( m_cbLight );
 
 	Application::Shutdown();
+}
+
+void Game::ChangeNavMesh( IEventDataPtr pEventData )
+{
+	if( EvtData_Change_NavMesh::sk_EventType == pEventData->VGetEventType() )
+	{
+		shared_ptr<EvtData_Change_NavMesh> mesh = std::static_pointer_cast<EvtData_Change_NavMesh>( pEventData );
+		int index = mesh->GetIndex();
+
+		m_navMesh->clear();
+		m_navMesh->setMeshInfo( m_NavMeshes.at( index )->getInfo() );
+		m_navMesh->createTile();
+	}
 }

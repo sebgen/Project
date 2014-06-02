@@ -128,6 +128,7 @@ void ComputePointLight(Pointlight p, float3 pos, float3 normal, float2 tex, floa
 //-----------------------------------------------------------------------------------------
 float4 PS_main(PSIn input) : SV_Target
 {		
+	//return float4(0, 0, 1, 1);
 	//Calculate distance to eye;
 	float3 toEye = gEyePosW.xyz - input.PosW;
 	float3 distToEye = length(toEye);
@@ -154,7 +155,7 @@ float4 PS_main(PSIn input) : SV_Target
 
 	//Lightning
 	float4 litColor = texColor;
-	float4 ambient = float4(0.03f,0.03f,0.03f,1.0f);
+	float4 ambient = float4(0.05f,0.05f,0.05f,1.0f);
 	//float4 ambient = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 diffuse = float4(0,0,0,0);
 	float4 spec = float4(0,0,0,0);

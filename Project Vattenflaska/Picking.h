@@ -35,21 +35,21 @@ private:
 	static const int PAUS=9;
 	static const int PAUS_RESUME=10;
 	static const int PAUS_EXIT=11;
-
+	float dist;
 	void testIntersect(int mouseX, int mouseY);
 	void updateMatrix(XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin);
 
 public:
 	Picking();
 	~Picking();
-	float dist;
+	
 	void Initialize(int width, int height);
 	void testWhatMesh(std::string name);
 	//bool testIntersectTri(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin);
 	bool testIntersectTri(XMFLOAT3 ray_direction, XMFLOAT3 ray_orgin, XMFLOAT3 p0, XMFLOAT3 p1, XMFLOAT3 p2, float& dist);
 	bool testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin);
 	int testIntersectMenu(int mouseX, int mouseY, int state);
-	bool testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin, std::vector<MeshInfo> info, int &hitMesh);
+	bool testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 projMatrix, XMFLOAT4X4 viewMatrix,XMFLOAT4X4 worldMatrix, XMFLOAT3 orgin, std::vector<MeshInfo> info, int &hitMesh, float& _dist);
 	bool testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float &height);
 
 };

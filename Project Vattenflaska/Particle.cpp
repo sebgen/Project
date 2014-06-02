@@ -150,9 +150,9 @@ bool Particle::initParticle()
 
 	m_particleSize=0.05f;
 
-	m_particlesPerSecond=50;
+	m_particlesPerSecond=10;
 	
-	m_maxParticels=50;
+	m_maxParticels=10;
 
 	// create particle list
 	m_particleList=new ParticleType[m_maxParticels];

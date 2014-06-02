@@ -45,7 +45,7 @@ public: // Lua wrapper
 	void CreateEvtStartMusicPanel();
 	void CreateEvtPlayMusicSequence();
 	void CreateEvtResetMaze();
-	void CreateEvtChangeNavMesh( const char* meshName );
+	void CreateEvtChangeNavMesh( int index );
 	void CreateEvtOpenMazeDoor( const char* doorName );
 	void CreateEvtCloseMazeDoor( const char* doorName );
 

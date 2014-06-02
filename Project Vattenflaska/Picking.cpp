@@ -95,9 +95,12 @@ bool Picking::testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float&
 	XMVECTOR dir=XMLoadFloat3(&xdir);
 	for(int i=0; i < info.size(); i++)
 	{
+
 		if(info.at(i).Intersects(org, dir, dist))
 		{
 			height=info.at(i).Center.y;
+			std::string text="\n X: "+std::to_string(info.at(i).Center.x)+" Y: "+std::to_string(info.at(i).Center.y)+" Z: "+std::to_string(info.at(i).Center.z);
+			OutputDebugString(text.c_str());
 			return true;
 		}
 	}
@@ -226,7 +229,7 @@ bool Picking::testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, X
 
 	return true;
 }
-bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin, std::vector<MeshInfo> info, int &hitMesh)
+bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin, std::vector<MeshInfo> info, int &hitMesh, float& _dist)
 {
 	updateMatrix(_projMatrix, _viewMatrix, _worldMatrix, _orgin);
 	testIntersect(mouseX, mouseY);
@@ -252,12 +255,13 @@ bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix,
 			if(testIntersectTri(p_rayDirection, p_rayOrgin, p0, p1, p2,dist))
 			{
 				testWhatMesh(info.at(i).groupName);
+				_dist=dist;
 				hitMesh=i;
 				return true;
 			}
 		}
 	}
-	
+	dist=1000.0f;
 	return false;
 }
 void Picking::testWhatMesh(std::string name)

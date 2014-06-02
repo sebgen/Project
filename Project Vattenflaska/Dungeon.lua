@@ -29,6 +29,7 @@ function PullLever( name )
 	
 	if count == #solution then
 		Game.OpenDoor()
+		Game.ChangeNavMesh(2)
 	end
 end
 

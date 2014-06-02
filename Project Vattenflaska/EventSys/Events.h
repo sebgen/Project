@@ -267,19 +267,19 @@ public:
 //=============================================================================================
 class EvtData_Change_NavMesh : public BaseEventData
 {
-    const char* m_meshName;
+    int m_index;
 
 public:
 	static const EventType sk_EventType;
 
-    explicit EvtData_Change_NavMesh( const char* meshName )
-        : m_meshName( meshName )
+    explicit EvtData_Change_NavMesh( int index )
+        : m_index( index )
     {
     }
 
-	const char* GetMeshName() const
+	int GetIndex() const
 	{
-		return m_meshName;
+		return m_index;
 	}
 
 	virtual const EventType& VGetEventType( void ) const
@@ -289,7 +289,7 @@ public:
 
 	virtual IEventDataPtr VCopy() const
 	{
-		return IEventDataPtr (GCC_NEW EvtData_Change_NavMesh ( m_meshName ) );
+		return IEventDataPtr (GCC_NEW EvtData_Change_NavMesh ( m_index ) );
 	}
 
 	virtual void VSerialize( std::ostrstream & out )

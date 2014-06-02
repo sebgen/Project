@@ -62,6 +62,32 @@ bool Sound::addSoundEffect(std::wstring filepath,std::string effectName)
 	nrOfEffects++;
 	return true;
 }
+
+bool Sound::IsInUse( std::string soundName ) const
+{
+	for (int i = 0; i < nrOfEffects; i++)
+	{
+		if( names[i] == soundName )
+			return m_soundEffects[i]->IsInUse();
+	}
+	return false;
+}
+
+SoundEffect* Sound::GetInstance( std::string soundName ) const
+{
+	int index = -1;
+	for (int i = 0; i < nrOfEffects; i++)
+	{
+		if( names[i] == soundName )
+		{
+			index = i;
+			break;
+		}
+	}
+
+	return m_soundEffects[index].get();
+}
+
 void Sound::shutDown()
 {
 	audEng.release();

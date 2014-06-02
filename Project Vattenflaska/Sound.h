@@ -20,6 +20,8 @@ class Sound
 		Sound(const Sound& other);
 		~Sound();
 		bool addSoundEffect(std::wstring filepath, std::string effectName);
+		bool IsInUse( std::string soundName ) const;
+		SoundEffect* GetInstance( std::string soundName ) const;
 		void init();
 		void playSound(std::string effectname);
 		void shutDown();

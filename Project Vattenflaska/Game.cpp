@@ -42,8 +42,10 @@ HRESULT Game::Update( float deltaTime )
 
 			if( m_currentRoom->GetLever().size() > 0 )
 			{
+				
 				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit, dist))
 				{
+					m_menu->dist=dist;
 					if(dist <= pickRange)
 					{
 						//{
@@ -83,6 +85,7 @@ HRESULT Game::Update( float deltaTime )
 			{
 				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit, dist))
 				{
+					m_menu->dist=dist;
 					if(dist <= pickRange)
 					{
 						m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
@@ -92,6 +95,7 @@ HRESULT Game::Update( float deltaTime )
 			}
 			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit, dist))
 			{
+				m_menu->dist=dist;
 				if(dist < 10000.0f)
 				{
 					OutputDebugString("door hit\n");
@@ -102,6 +106,7 @@ HRESULT Game::Update( float deltaTime )
 			}
 			else
 			{
+				OutputDebugString("\n miss\n");
 				if( m_isMaze )
 					{
 						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
@@ -134,9 +139,21 @@ HRESULT Game::Update( float deltaTime )
 	}
 	
 
-		m_particle->Update(deltaTime);
-		m_currentRoom->Update( deltaTime, m_camera );
+	m_particle->Update(deltaTime);
+	m_currentRoom->Update( deltaTime, m_camera );
 
+	if(GetAsyncKeyState('X'))
+	{
+		m_navMesh->setMeshInfo(m_NavMeshes.at(2)->getInfo());
+		m_navMesh->clear();
+		m_navMesh->createTile();
+	}
+	if(GetAsyncKeyState('Z'))
+	{
+		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+		m_navMesh->clear();
+		m_navMesh->createTile();
+	}
 	handleMovement(deltaTime);
 	handleMenu(pos);
 	//m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
@@ -391,7 +408,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer
@@ -415,11 +432,7 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_deviceContext->IASetInputLayout( m_inputLayout );
-	if(m_currentRoom->GetRoomName()=="maze")
-	{
-		int k=0;
-
-	}
+	
 	// Set shader stages
 	m_deviceContext->VSSetShader( m_vertexShader, nullptr, 0 );
 	m_deviceContext->HSSetShader( nullptr, nullptr, 0 );
@@ -428,8 +441,10 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->PSSetShader( m_pixelShader, nullptr, 0 );
 	//---------------------------------------------
 
-	
+	//m_rooms2.at(0)->Draw(deltaTime);
 	m_currentRoom->Draw( deltaTime );
+
+	
 
 	m_particle->Render();
 
@@ -563,7 +578,7 @@ HRESULT Game::CreateCbLightBuffer()  /// NY
 	m_LightData.nrOfLights = m_lights.size();
 	memcpy( m_LightData.lights, &m_lights[0], sizeof(GlobalLight) * m_lights.size() );
 	
-
+	
 	D3D11_BUFFER_DESC cbDesc;
 	cbDesc.ByteWidth = sizeof( m_LightData );
 	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -571,7 +586,7 @@ HRESULT Game::CreateCbLightBuffer()  /// NY
 	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	cbDesc.MiscFlags = 0;
 	cbDesc.StructureByteStride = 0;
-
+	 
 	HRESULT hr = m_device->CreateBuffer( &cbDesc, nullptr, &m_cbLight );
 
 	return hr;
@@ -745,6 +760,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 	// Load Torture Level |
 	//---------------------
 	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" ); //"torturelevelfirstdraft" );
+
 	m_currentRoom = m_rooms.at(0);
 
 	CreateCbLightBuffer();  /// NY
@@ -784,11 +800,16 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 void Game::loadNextLevel()
 {
-	m_isMaze = false,
-	releaseRoomResource();
+	m_isMaze = false;
+	if(currentLevel!=0)
+	{
+		releaseRoomResource();
+	}
+	
 	if(currentLevel==0)
 	{
 		//end screen
+
 		return;
 
 	}
@@ -872,8 +893,12 @@ void Game::releaseRoomResource()
 	m_rooms.clear();
 	SAFE_DELETE(m_currentRoom);
 
+	//memset(m_LightData.lights, 0, (sizeof(GlobalLight)*m_lights.size()));
+	//m_LightData.clear();
+
 	SAFE_RELEASE(m_cbCamera);
 	SAFE_RELEASE(m_cbLight);
+
 
 	m_lights.clear();
 

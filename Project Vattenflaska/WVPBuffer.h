@@ -16,6 +16,11 @@ struct WVP_PerFrameLightBuffer  /// NY
 	DirectX::XMFLOAT4 cameraPosition;
 	float nrOfLights;
 	float padding[3];
+
+	void clear()
+	{
+		
+	}
 };
 
 struct WVP_PerObjectBuffer

@@ -211,5 +211,8 @@
     <None Include="Dungeon.lua">
       <Filter>Resource Files\Scripts</Filter>
     </None>
+    <None Include="Maze.lua">
+      <Filter>Resource Files\Scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Dungeon.lua" />
+    <None Include="Maze.lua" />
     <None Include="PixelShader.sh" />
     <None Include="Shaders.sh" />
     <None Include="VertexShader.sh" />

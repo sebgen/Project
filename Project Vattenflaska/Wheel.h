@@ -21,9 +21,16 @@ class Wheel : public DrawableObject
 		bool			m_isMusicPanelOn;
 		Sound*			m_sound;
 
+		// MUSIC PLAYER
+		bool			m_isSequencePlaying;
+		std::unique_ptr<SoundEffect> m_blowSound1Instance;
+		std::unique_ptr<SoundEffect> m_blowSound2Instance;
+		std::unique_ptr<SoundEffect> m_blowSound3Instance;
+		std::unique_ptr<SoundEffect> m_blowSound4Instance;
+		int				m_sequence;
+
 	private:
 		void StartMusicPlayer( IEventDataPtr pEventData );
-		void PlaySequence( IEventDataPtr pEventData );
 
 	public:
 		Wheel();

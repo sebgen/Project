@@ -408,7 +408,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	
 	// Clear Back Buffer
-	static float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	static float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_deviceContext->ClearRenderTargetView( m_renderTargetView, clearColor );
 
 	// Clear Depth Buffer

@@ -49,6 +49,12 @@ const EventType EvtData_Start_MusicPanel::sk_EventType( 0xefa287fd );
 const EventType EvtData_Play_Music_Sequence::sk_EventType( 0xc953e9ba );
 
 //=============================================================================================
+//										Play Player Sequence
+//=============================================================================================
+const EventType EvtData_Play_Player_Sequence::sk_EventType( 0x89e1b7fa );
+
+
+//=============================================================================================
 //										Change NavMesh
 //=============================================================================================
 const EventType EvtData_Change_NavMesh::sk_EventType( 0xabdd5913 );

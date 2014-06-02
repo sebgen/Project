@@ -263,6 +263,34 @@ public:
 };
 
 //=============================================================================================
+//										Play Player Sequence
+//=============================================================================================
+class EvtData_Play_Player_Sequence : public BaseEventData
+{
+public:
+	static const EventType sk_EventType;
+
+	virtual const EventType& VGetEventType( void ) const
+	{
+		return sk_EventType;
+	}
+
+	virtual IEventDataPtr VCopy() const
+	{
+		return IEventDataPtr (GCC_NEW EvtData_Play_Player_Sequence ( ) );
+	}
+
+	virtual void VSerialize( std::ostrstream & out )
+	{
+	}
+
+    virtual const char* GetName(void) const
+    {
+        return "EvtData_Play_Player_Sequence";
+    }
+};
+
+//=============================================================================================
 //										Change NavMesh
 //=============================================================================================
 class EvtData_Change_NavMesh : public BaseEventData

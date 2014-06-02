@@ -251,6 +251,8 @@ void LuaWrapper::RotateWheel( IEventDataPtr pEventData )
 
 			if( wheel->GetWheel()->GetName() == "lastMusicWheelShape" )
 			{
+				LuaWrapper::Instance()->CreateEvtPlayPlayerSequence();
+
 				lua_getglobal( m_L, "CheckMusickWheels" );
 				err = lua_pcall( m_L, 0, 0, 0 );
 				if( err )
@@ -258,6 +260,11 @@ void LuaWrapper::RotateWheel( IEventDataPtr pEventData )
 					OutputDebugString( "\nError Rotating music wheel: ");
 					OutputDebugString( lua_tostring( m_L, -1 ) );
 				}
+			}
+
+			if( wheel->GetWheel()->GetName() == "firstMusicWheelShape" )
+			{
+				LuaWrapper::Instance()->CreateEvtPlayMusicSequence();				
 			}
 		}
 	}
@@ -272,6 +279,12 @@ void LuaWrapper::CreateEvtOpenDoor()
 void LuaWrapper::CreateEvtPlayMusicSequence()
 {
 	IEventDataPtr e(GCC_NEW EvtData_Play_Music_Sequence() );
+	m_em->VQueueEvent( e );
+}
+
+void LuaWrapper::CreateEvtPlayPlayerSequence()
+{
+	IEventDataPtr e(GCC_NEW EvtData_Play_Player_Sequence() );
 	m_em->VQueueEvent( e );
 }
 

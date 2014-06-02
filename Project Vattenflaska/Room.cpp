@@ -275,14 +275,7 @@ HRESULT Room::Update( float deltaTime, Camera* camera )
 		if( !m_sound->GetInstance( "caveAmbientSound" )->IsInUse() )
 			m_sound->GetInstance( "caveAmbientSound" )->Play();
 	}
-	
-
-
-
-	
-
-	
-		
+			
 
 	if( m_isSequencePlaying )
 	{

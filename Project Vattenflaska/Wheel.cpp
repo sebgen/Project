@@ -9,6 +9,9 @@ Wheel::Wheel()
 
 Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo meshInfo, EventManager* em  )
 {
+	
+
+
 	m_isRotating	= false;
 	m_rotationTimer = 0.0f;
 	m_device		= device;
@@ -25,6 +28,13 @@ Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 	m_sound->init();
 	m_sound->addSoundEffect( L"lever_pull.wav", "rotateSound" );
 	m_sound->addSoundEffect( L"startMusicPlayer.wav", "startMusicPlayer" );
+
+	// Blow sounds
+	m_sound->addSoundEffect( L"cave_blowSound1.wav", "blowSound1" );
+	m_sound->addSoundEffect( L"cave_blowSound2.wav", "blowSound2" );
+	m_sound->addSoundEffect( L"cave_blowSound3.wav", "blowSound3" );
+	m_sound->addSoundEffect( L"cave_blowSound4.wav", "blowSound4" );
+
 
 	if( m_name == "wheel1Shape" ||
 		m_name == "wheel2Shape" ||
@@ -63,11 +73,6 @@ void Wheel::StartMusicPlayer( IEventDataPtr pEventData )
 	m_isMusicPanelOn = true;
 }
 
-void Wheel::PlaySequence( IEventDataPtr pEventData )
-{
-	// Play sequence
-}
-
 void Wheel::RotateWheel()
 {
 	switch( m_wheelType )
@@ -79,11 +84,19 @@ void Wheel::RotateWheel()
 				switch( m_value )
 				{
 				case 1:
+					m_sound->playSound( "blowSound2" );
+					m_value = 2;
+					break;
 				case 2:
+					m_sound->playSound( "blowSound3" );
+					m_value = 3;
+					break;
 				case 3:
-					m_value++;
+					m_sound->playSound( "blowSound4" );
+					m_value = 4;
 					break;
 				case 4:
+					m_sound->playSound( "blowSound1" );
 					m_value = 1;
 					break;
 				}
@@ -141,6 +154,8 @@ std::string Wheel::GetName() const
 HRESULT Wheel::Update( float deltaTime, Camera* camera )
 {
 	HRESULT hr = S_OK;
+
+
 
 	return hr;
 }

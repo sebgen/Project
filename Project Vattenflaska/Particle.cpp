@@ -150,9 +150,9 @@ bool Particle::initParticle()
 
 	m_particleSize=0.05f;
 
-	m_particlesPerSecond=10;
+	m_particlesPerSecond=50;
 	
-	m_maxParticels=10;
+	m_maxParticels=50;
 
 	// create particle list
 	m_particleList=new ParticleType[m_maxParticels];
@@ -164,7 +164,7 @@ bool Particle::initParticle()
 	//set all particles to inactive
 	for(int i=0; i<m_maxParticels; i++)
 	{
-		m_particleList[i].active=true;
+		m_particleList[i].active=false;
 		m_particleList[i].life=m_lifeTime;
 	}
 	// Initialize the current particle count to zero since none are emitted yet.

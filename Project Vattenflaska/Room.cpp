@@ -10,6 +10,36 @@ Room::Room( std::string roomName, EventManager* em )
 	m_roomName = roomName;
 	m_em = em;
 
+	m_sound = new Sound();
+	m_sound->init();
+
+	// Blow sounds
+	m_sound->addSoundEffect( L"cave_blowSound1LONG.wav", "blowSound1" );
+	m_sound->addSoundEffect( L"cave_blowSound2LONG.wav", "blowSound2" );
+	m_sound->addSoundEffect( L"cave_blowSound3LONG.wav", "blowSound3" );
+	m_sound->addSoundEffect( L"cave_blowSound4LONG.wav", "blowSound4" );
+
+	// Cave Ambient Sound
+	m_sound->addSoundEffect( L"cave_ambient.wav", "caveAmbientSound" );
+
+	// Tortue Level Ambient Sound
+	m_sound->addSoundEffect( L"torture_ambient.wav", "tortureAmbientSound" );
+
+	// Maze Ambient Sound
+	m_sound->addSoundEffect( L"maze_ambient.wav", "mazeAmbientSound" );
+
+	// Giggle sound
+	m_sound->addSoundEffect( L"giggle.wav", "giggleSound" );
+
+	// Maze Scream
+	m_sound->addSoundEffect( L"scream.wav", "screamSound" );
+	m_screamTimer = 0.0f;
+
+	m_isSequencePlaying = false;
+	m_isPlayerSequencePlaying = false;
+	m_sequence = 0;
+	//===========================================
+
 	// Open Door
 	m_em->VAddListener(
 		   std::bind(	&Room::OpenMazeDoor,
@@ -30,6 +60,20 @@ Room::Room( std::string roomName, EventManager* em )
 						this,
 						std::placeholders::_1),
 						EvtData_Reset_Maze::sk_EventType);
+
+	// Play Music Sequence
+	m_em->VAddListener(
+		std::bind(	&Room::PlaySequence,
+						this,
+						std::placeholders::_1),
+						EvtData_Play_Music_Sequence::sk_EventType);
+
+	// Play Player Sequence
+	m_em->VAddListener(
+		std::bind(	&Room::PlayPlayerSequence,
+						this,
+						std::placeholders::_1),
+						EvtData_Play_Player_Sequence::sk_EventType);
 }
 
 Room::~Room()
@@ -178,9 +222,101 @@ std::vector<Door*> Room::GetDoors()
 	return m_doors;
 }
 
+void Room::PlaySequence( IEventDataPtr pEventData )
+{
+	// Play sequence
+	m_isSequencePlaying = true;	
+}
+
+void Room::PlayPlayerSequence( IEventDataPtr pEventData )
+{
+	// Play player sequence
+	m_isPlayerSequencePlaying = true;	
+}
+
 HRESULT Room::Update( float deltaTime, Camera* camera )
 {	
 	HRESULT hr = S_OK;
+
+	// Play Maze Level Ambient Sound
+	if( m_roomName == "maze" )
+	{
+		if( m_sound->GetInstance( "caveAmbientSound" )->IsInUse() )
+			m_sound->GetInstance( "caveAmbientSound" )->CreateInstance()->Stop();
+
+		if( !m_sound->GetInstance( "mazeAmbientSound" )->IsInUse() )
+			m_sound->GetInstance( "mazeAmbientSound" )->Play();
+
+		// Scream Sound
+		m_screamTimer += deltaTime;
+		if( m_screamTimer >= 100.0f )
+		{
+			m_sound->GetInstance( "screamSound" )->Play();
+			m_screamTimer = -100.0f;
+		}
+	}
+
+	// Play Torture Level Ambient Sound
+	if( m_roomName == "torturelevelfirstdraft" )
+	{
+		if( m_sound->GetInstance( "mazeAmbientSound" )->IsInUse() )
+			m_sound->GetInstance( "mazeAmbientSound" )->CreateInstance()->Stop();
+
+		if( !m_sound->GetInstance( "tortureAmbientSound" )->IsInUse() )
+			m_sound->GetInstance( "tortureAmbientSound" )->Play();
+	}
+
+	// Play Cave Ambient Sound
+	if( m_roomName == "cave2" )
+	{
+		if( m_sound->GetInstance( "tortureAmbientSound" )->IsInUse() )
+			m_sound->GetInstance( "tortureAmbientSound" )->CreateInstance()->Stop();
+
+		if( !m_sound->GetInstance( "caveAmbientSound" )->IsInUse() )
+			m_sound->GetInstance( "caveAmbientSound" )->Play();
+	}
+	
+
+
+
+	
+
+	
+		
+
+	if( m_isSequencePlaying )
+	{
+		if( m_sequence == 0 && !m_sound->IsInUse( "blowSound1" ) && !m_sound->IsInUse( "blowSound2" ) && !m_sound->IsInUse( "blowSound3" ) && !m_sound->IsInUse( "blowSound4" ) )
+			m_sound->playSound( "blowSound2" );
+
+		if( m_sequence == 1 && !m_sound->IsInUse( "blowSound1" ) && !m_sound->IsInUse( "blowSound2" ) && !m_sound->IsInUse( "blowSound3" ) && !m_sound->IsInUse( "blowSound4" ) )
+			m_sound->playSound( "blowSound4" );
+
+		if( m_sequence == 2 && !m_sound->IsInUse( "blowSound1" ) && !m_sound->IsInUse( "blowSound2" ) && !m_sound->IsInUse( "blowSound3" ) && !m_sound->IsInUse( "blowSound4" ) )
+			m_sound->playSound( "blowSound2" );
+
+		if( m_sequence == 3 && !m_sound->IsInUse( "blowSound1" ) && !m_sound->IsInUse( "blowSound2" ) && !m_sound->IsInUse( "blowSound3" ) && !m_sound->IsInUse( "blowSound4" ) )
+			m_sound->playSound( "blowSound1" );
+
+		if( m_sound->IsInUse( "blowSound2" ) && m_sequence == 0 )
+			m_sequence = 1;
+		if( m_sound->IsInUse( "blowSound4" ) && m_sequence == 1 )
+			m_sequence = 2;
+		if( m_sound->IsInUse( "blowSound2" ) && m_sequence == 2 )
+			m_sequence = 3;
+		if( m_sound->IsInUse( "blowSound1" ) && m_sequence == 3 )
+		{
+			m_isSequencePlaying = false;
+			m_sequence = 0;
+		}
+	}
+
+	if( m_isPlayerSequencePlaying )
+	{
+		m_sound->playSound( "giggleSound" );
+		m_isPlayerSequencePlaying = false;
+	}
+
 
 	// Update content
 	for (int i = 0; i < m_roomContent.size(); i++)
@@ -200,6 +336,7 @@ HRESULT Room::Update( float deltaTime, Camera* camera )
 
 	return hr;
 }
+
 
 HRESULT Room::Draw( float deltaTime )
 {

@@ -37,6 +37,15 @@ class Room
 		std::vector<Torch*>			m_torches;
 		std::vector<GlobalLight>	m_lights;
 
+
+		///==== TEST ===
+		Sound* m_sound;
+		bool   m_isSequencePlaying;
+		bool   m_isPlayerSequencePlaying;
+		int	   m_sequence;
+		float  m_screamTimer;
+		///=============
+
 	public:
 		Room();
 		Room( std::string roomName, EventManager* em );
@@ -60,6 +69,8 @@ class Room
 		void OpenMazeDoor( IEventDataPtr pEventData ); 
 		void CloseMazeDoor( IEventDataPtr pEventData ); 
 		void ResetMaze( IEventDataPtr pEventData );
+		void PlaySequence( IEventDataPtr pEventData );
+		void PlayPlayerSequence( IEventDataPtr pEventData );
 
 		Lever* GetALever( int index ) const;
 		Wheel* GetAWheel( int index ) const;

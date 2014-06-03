@@ -785,15 +785,15 @@ HRESULT Game::InitializeGame( EventManager* em )
 
 
 	m_particle->init(m_device, m_deviceContext, m_camera);
-	m_particle->addParticleEffect(XMFLOAT3(10, 0, 10),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
-	//for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
-	//{
-	//	//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
-	//	Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
-	//	XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
-	//	//tempvert.y=tempY;
-	//	m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
-	//}
+	//m_particle->addParticleEffect(XMFLOAT3(10, 0, 10),XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
+	{
+		//Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(1).position;
+		Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(0).position;
+		XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
+		//tempvert.y=tempY;
+		m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	}
 
 	return hr;
 }

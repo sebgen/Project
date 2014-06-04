@@ -118,6 +118,7 @@ HRESULT Game::Update( float deltaTime )
 	{
 		drawLetter=false;
 	}
+	
 	if(menuState==PLAY)
 	{
 		handleMovement(deltaTime);
@@ -382,7 +383,7 @@ HRESULT Game::Draw( float deltaTime )
 
 	// Clear Depth Buffer
 	m_deviceContext->ClearDepthStencilView( m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
-
+	
 	//========== START ===============
 	if(menuState==PLAY)
 	{
@@ -410,28 +411,28 @@ HRESULT Game::Draw( float deltaTime )
 		m_currentRoom->Draw( deltaTime );
 
 		m_particle->Render();
-
+		
 	
 	}
-	if(drawLoadScreen)
-	{
-		m_menu->DrawLoadScreen();
-	}
+	
 	if(menuState!=PLAY)
 	{
 		m_menu->Render();
 	}
 
-	if(drawEndScreen)
-	{
-		m_menu->DrawEndScreen();
-	}
 	if(drawLetter)
 	{
 		m_menu->DrawLetter();
 	}
-	
-	
+
+	if(drawLoadScreen)
+	{
+			m_menu->DrawLoadScreen();
+	}	
+	if(drawEndScreen)
+	{
+			m_menu->DrawEndScreen();
+	}
 	//========== END ===============
 
 	// Swap Front and Back Bufffer
@@ -776,6 +777,7 @@ void Game::loadNextLevel()
 		menuState=ENDSCREEN;
 		m_menu->setMenuState(ENDSCREEN);
 		drawEndScreen=true;
+		drawLoadScreen=false;
 		return;
 
 	}
@@ -959,8 +961,8 @@ int Game::Run()
 
 	 hasInitMaze=false;
 	 pickRange=1.5f;
-	 doorPickRange=10000.0f;
-	  drawLoadScreen=false;
+	 doorPickRange=2.0f;
+	 drawLoadScreen=false;
 	 loadNextLevelNextFrame=false;
 	//-----------------------------
 

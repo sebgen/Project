@@ -294,7 +294,7 @@ HRESULT Application::InitializeDirectX11()
 	sd.BufferUsage							= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.OutputWindow							= m_hWnd;
 	sd.SampleDesc.Count						= 1;
-	sd.Windowed								= FALSE;
+	sd.Windowed								= TRUE;
 
 	D3D_FEATURE_LEVEL featureLevelsToTry[] = { D3D_FEATURE_LEVEL_11_0 };
 	D3D_FEATURE_LEVEL initiatedFeatureLevel;

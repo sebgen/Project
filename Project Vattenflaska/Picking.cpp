@@ -99,8 +99,6 @@ bool Picking::testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float&
 		if(info.at(i).Intersects(org, dir, dist))
 		{
 			height=info.at(i).Center.y;
-			std::string text="\n X: "+std::to_string(info.at(i).Center.x)+" Y: "+std::to_string(info.at(i).Center.y)+" Z: "+std::to_string(info.at(i).Center.z);
-			OutputDebugString(text.c_str());
 			return true;
 		}
 	}

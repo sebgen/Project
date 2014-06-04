@@ -32,6 +32,7 @@ Door::Door( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo m
 	m_isOpeningSoundPlaying	= false;
 
 	m_sound->addSoundEffect( L"doorIsOpening3SECNEW.wav", "isOpeningSound" );
+	m_sound->addSoundEffect( L"cinderblockOpening.wav", "isOpeningCinderBlockSound" );
 	m_sound->addSoundEffect( L"doorIsOpen.wav", "isOpenSound" );
 
 	m_em = em;
@@ -63,7 +64,9 @@ void Door::OpenDoor( IEventDataPtr pEventData )
 	{
 		m_isMazeDoor = true;
 		m_isOpen = true;
-		m_sound->playSound( "isOpeningSound" );
+
+
+			m_sound->playSound( "isOpeningCinderBlockSound" );
 	}
 }
 
@@ -82,14 +85,17 @@ void Door::CloseDoor( IEventDataPtr pEventData )
 	{
 		m_isMazeDoor = true;
 		m_isOpen = false;
-		m_sound->playSound( "isOpeningSound" );
+
+
+			m_sound->playSound( "isOpeningSound" );
 	}
 
 	if( EvtData_Reset_Maze::sk_EventType == pEventData->VGetEventType() )
 	{
 		m_isMazeDoor = true;
 		m_isOpen = false;
-		m_sound->playSound( "isOpeningSound" );
+
+			m_sound->playSound( "isOpeningCinderBlockSound" );
 	}
 }
 

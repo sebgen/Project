@@ -305,6 +305,7 @@ void Particle::emitParticle(float frameTime)
 			i--;
 			j--;
 		}
+		
 		//now randomize new values
 		
 		m_particleList[index].posX =(((float)rand()-(float)rand())/RAND_MAX) * m_spread.x;

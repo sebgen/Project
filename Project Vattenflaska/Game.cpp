@@ -21,8 +21,12 @@ HRESULT Game::Update( float deltaTime )
 	HRESULT hr = S_OK;
 	POINT pos= m_input->GetMousePos();
 
-	UpdateCbCamera();
-	UpdateCbLight( deltaTime );  /// NY
+	if(menuState==PLAY)
+	{
+		UpdateCbCamera();
+		UpdateCbLight( deltaTime );  /// NY
+	}
+	
 
 	if(loadNextLevelNextFrame)
 	{
@@ -45,38 +49,12 @@ HRESULT Game::Update( float deltaTime )
 				
 				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetLever(),whatMeshHit, dist))
 				{
-					m_menu->dist=dist;
 					if(dist <= pickRange)
 					{
 						//{
 
 						m_currentRoom->GetALever( whatMeshHit )->PullLever();
 
-					
-
-						if( m_isMaze )
-						{
-							for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
-							{
-								// Levers
-								std::string index = std::to_string( i );
-								std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
-								OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
-								OutputDebugString( ": ");
-								OutputDebugString( ison.c_str() );
-								OutputDebugString( "\n" );
-							}
-							for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
-							{
-								// Doors
-								std::string index = std::to_string( i );
-								std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
-								OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
-								OutputDebugString( ": ");
-								OutputDebugString( isopen.c_str() );
-								OutputDebugString( "\n" );
-							}
-						}
 					}
 				}
 			}
@@ -85,7 +63,6 @@ HRESULT Game::Update( float deltaTime )
 			{
 				if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->GetWheel(),whatMeshHit, dist))
 				{
-					m_menu->dist=dist;
 					if(dist <= pickRange)
 					{
 						m_currentRoom->GetAWheel( whatMeshHit )->RotateWheel();
@@ -95,10 +72,8 @@ HRESULT Game::Update( float deltaTime )
 			}
 			if(m_picker->testIntersectTriXM(pos.x, pos.y, m_camera->GetProjMatrix(), m_camera->GetViewMatrix(), world, m_camera->GetEyePosAsFloat(), m_currentRoom->getDoorMesh(),whatMeshHit, dist))
 			{
-				m_menu->dist=dist;
-				if(dist < 10000.0f)
+				if(dist < doorPickRange)
 				{
-					OutputDebugString("door hit\n");
 					loadNextLevelNextFrame=true;
 					drawLoadScreen=true;
 				}
@@ -106,30 +81,7 @@ HRESULT Game::Update( float deltaTime )
 			}
 			else
 			{
-				OutputDebugString("\n miss\n");
-				if( m_isMaze )
-					{
-						for( int i = 0; i < m_currentRoom->GetLevers().size(); i++)
-						{
-							// Levers
-							std::string index = std::to_string( i );
-							std::string ison = std::to_string( m_currentRoom->GetALever( i )->IsOn() );
-							OutputDebugString( m_currentRoom->GetALever( i )->GetName().c_str() );
-							OutputDebugString( ": ");
-							OutputDebugString( ison.c_str() );
-							OutputDebugString( "\n" );
-						}
-						for( int i = 0; i < m_currentRoom->GetDoors().size(); i++)
-						{
-							// Doors
-							std::string index = std::to_string( i );
-							std::string isopen = std::to_string( m_currentRoom->GetADoor( i )->IsOpen() );
-							OutputDebugString( m_currentRoom->GetADoor( i )->GetName().c_str() );
-							OutputDebugString( ": ");
-							OutputDebugString( isopen.c_str() );
-							OutputDebugString( "\n" );
-						}
-					}
+				//miss
 			}
 		}
 	}
@@ -138,23 +90,39 @@ HRESULT Game::Update( float deltaTime )
 		m_checkRClicked=false;
 	}
 	
-
-	m_particle->Update(deltaTime);
-	m_currentRoom->Update( deltaTime, m_camera );
+	if(menuState==PLAY)
+	{
+		m_particle->Update(deltaTime);
+		m_currentRoom->Update( deltaTime, m_camera );
+	}
+	
 
 	if(GetAsyncKeyState('X'))
 	{
-		m_navMesh->setMeshInfo(m_NavMeshes.at(2)->getInfo());
-		m_navMesh->clear();
-		m_navMesh->createTile();
+		
 	}
 	if(GetAsyncKeyState('Z'))
 	{
-		m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
-		m_navMesh->clear();
-		m_navMesh->createTile();
+		
 	}
-	handleMovement(deltaTime);
+
+	if(GetAsyncKeyState(VK_ESCAPE))
+	{
+		if(menuState==PLAY)
+		{
+			menuState=PAUS;
+			m_menu->setMenuState(PAUS);
+		}
+	}
+	if(GetAsyncKeyState(VK_RETURN))
+	{
+		drawLetter=false;
+	}
+	if(menuState==PLAY)
+	{
+		handleMovement(deltaTime);
+	}
+	
 	handleMenu(pos);
 	//m_input->MouseMove(m_input->GetMouseLButton(),pos.x, pos.y,m_camera);
 	m_camera->UpdateViewMatrix();
@@ -175,48 +143,46 @@ void Game::handleMenu(POINT pos)
 		if(m_checkClicked==false)
 		{
 			m_checkClicked=true;
-			
+			std::string text="\n X: "+std::to_string(pos.x) + " Y: "+ std::to_string(pos.y);
+			OutputDebugString(text.c_str());
 			int menuChoice=m_picker->testIntersectMenu(pos.x, pos.y, menuState);
 			if(menuChoice>-1)
 			{
-
+				
 				//start menu
 				if(menuChoice==START_PLAY)
 				{
-					OutputDebugString("klickade play\n");
 					menuState=PLAY;
 					m_menu->setMenuState(PLAY);
-					//loadNextLevel();
+					if(!hasInitMaze)
+					{
+						m_le->ExecuteFile("SetupMaze.lua");
+						hasInitMaze=true;
+					}
+					drawLetter=true;
 					
 				}
 				else if(menuChoice==START_OPTION)
 				{
-					OutputDebugString("klickade option\n");
 					menuState=OPTION;
 					m_menu->setMenuState(OPTION);
 				}
 				else if(menuChoice==START_EXIT)
 				{
-					OutputDebugString("klickade exit\n");
-					exit(0);
+					PostQuitMessage(0);
 				}
 
 				//Option menu
 				else if(menuChoice==OPTION_MUTE)
 				{
-					OutputDebugString("klickade option mute\n");
-					//menuState=MENU;
-					//m_menu->setState(MENU);
+					isMute=true;
 				}
 				else if(menuChoice==OPTION_UNMUTE)
 				{
-					OutputDebugString("klickade option unmute\n");
-					//menuState=MENU;
-					//m_menu->setState(MENU);
+					isMute=false;
 				}
 				else if(menuChoice==OPTION_BACK)
 				{
-					OutputDebugString("klickade option back\n");
 					menuState=MENU;
 					m_menu->setMenuState(MENU);
 				}
@@ -224,22 +190,25 @@ void Game::handleMenu(POINT pos)
 				//paus menu
 				else if(menuChoice==PAUS_RESUME)
 				{
-					OutputDebugString("klickade paus resume\n");
-					menuState=MENU;
-					m_menu->setMenuState(MENU);
+					menuState=PLAY;
+					m_menu->setMenuState(PLAY);
 				}
 				else if(menuChoice==PAUS_EXIT)
 				{
-					OutputDebugString("klickade paus exit\n");
-					exit(0);
-					
+					PostQuitMessage(0);
 				}
-
-			}
-			
-			
+				//endscreen
+				else if(menuChoice==ENDSCREEN_RESUME)
+				{
+					/*currentLevel=1;
+					menuState=MENU;
+					m_menu->setMenuState(MENU);
+					hasInitMaze=false;
+					drawEndScreen=false;*/
+					PostQuitMessage(0);
+				}
+			}	
 		}
-		
 	}
 	if(!m_input->GetMouseLButton())
 	{
@@ -415,57 +384,54 @@ HRESULT Game::Draw( float deltaTime )
 	m_deviceContext->ClearDepthStencilView( m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 	//========== START ===============
-	m_deviceContext->RSSetState( m_rasterizerState );
-	if( m_currentRoom->GetRoomName() == "cave2" )
+	if(menuState==PLAY)
 	{
-		float blendFactors [] = {0.0f, 0.0f, 0.0f, 0.0f} ;
-		m_deviceContext->OMSetBlendState( m_blendState, blendFactors, 0xffffffff );
+		m_deviceContext->RSSetState( m_rasterizerState );
+	
+		//---------------
+		// Light Buffer |
+		//---------------
+		m_deviceContext->VSSetConstantBuffers( 0, 1, &m_cbCamera );
+		m_deviceContext->PSSetConstantBuffers( 0, 1, &m_cbLight );  /// NY
+	
+		// Set topology
+		m_deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		m_deviceContext->IASetInputLayout( m_inputLayout );
+	
+		// Set shader stages
+		m_deviceContext->VSSetShader( m_vertexShader, nullptr, 0 );
+		m_deviceContext->HSSetShader( nullptr, nullptr, 0 );
+		m_deviceContext->DSSetShader( nullptr, nullptr, 0 );
+		m_deviceContext->GSSetShader( nullptr, nullptr, 0 );
+		m_deviceContext->PSSetShader( m_pixelShader, nullptr, 0 );
+		//---------------------------------------------
+
+		m_currentRoom->Draw( deltaTime );
+
+		m_particle->Render();
+
+	
 	}
-	
-	//---------------
-	// Light Buffer |
-	//---------------
-	m_deviceContext->VSSetConstantBuffers( 0, 1, &m_cbCamera );
-	m_deviceContext->PSSetConstantBuffers( 0, 1, &m_cbLight );  /// NY
-	
-	// Set topology
-	m_deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_deviceContext->IASetInputLayout( m_inputLayout );
-	
-	// Set shader stages
-	m_deviceContext->VSSetShader( m_vertexShader, nullptr, 0 );
-	m_deviceContext->HSSetShader( nullptr, nullptr, 0 );
-	m_deviceContext->DSSetShader( nullptr, nullptr, 0 );
-	m_deviceContext->GSSetShader( nullptr, nullptr, 0 );
-	m_deviceContext->PSSetShader( m_pixelShader, nullptr, 0 );
-	//---------------------------------------------
-
-	//m_rooms2.at(0)->Draw(deltaTime);
-	m_currentRoom->Draw( deltaTime );
-
-	
-
-	m_particle->Render();
-
-
-
-	POINT pos=m_input->GetMousePos();
-
-	float pointX =(+2.0f * (float) pos.x / SCREEN_WIDTH -1.0f);
-	float pointY =(-2.0f * (float) pos.y / SCREEN_HEIGHT +1.0f);
-	XMMATRIX pm = m_camera->Proj();
-	XMFLOAT4X4 projMatrix1;
-	XMStoreFloat4x4(&projMatrix1, pm);
-	pointX /= projMatrix1._11;
-	pointY /= projMatrix1._22;
-
-	m_menu->Render(pos.x, pos.y, pointX, pointY, true, 0);
-
 	if(drawLoadScreen)
 	{
 		m_menu->DrawLoadScreen();
 	}
+	if(menuState!=PLAY)
+	{
+		m_menu->Render();
+	}
+
+	if(drawEndScreen)
+	{
+		m_menu->DrawEndScreen();
+	}
+	if(drawLetter)
+	{
+		m_menu->DrawLetter();
+	}
+	
+	
 	//========== END ===============
 
 	// Swap Front and Back Bufffer
@@ -778,10 +744,6 @@ HRESULT Game::InitializeGame( EventManager* em )
 	m_navMesh->createTile();
 	m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
 
-	if(m_isMaze)
-	{
-		m_le->ExecuteFile("SetupMaze.lua");
-	}
 
 
 	m_particle->init(m_device, m_deviceContext, m_camera);
@@ -794,6 +756,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 		//tempvert.y=tempY;
 		m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 	}
+	m_camera->RotateY(XMConvertToRadians(-90));
 
 	return hr;
 }
@@ -801,6 +764,7 @@ HRESULT Game::InitializeGame( EventManager* em )
 void Game::loadNextLevel()
 {
 	m_isMaze = false;
+	
 	if(currentLevel!=0)
 	{
 		releaseRoomResource();
@@ -809,10 +773,49 @@ void Game::loadNextLevel()
 	if(currentLevel==0)
 	{
 		//end screen
-
+		menuState=ENDSCREEN;
+		m_menu->setMenuState(ENDSCREEN);
+		drawEndScreen=true;
 		return;
 
 	}
+	//if(currentLevel==1)
+	//{
+	//	m_isMaze=true;
+	//	LuaWrapper::Instance()->InitMazeMeta();
+	//	OutputDebugString("load maze\n");
+	//
+
+	//	m_importReader->LoadObject( m_device, m_deviceContext, m_rooms, "maze" );
+	//	m_currentRoom = m_rooms.at(0);
+	//	
+
+	//	CreateCbLightBuffer();  /// NY
+	//	CreateCbCameraBuffer();
+
+	//
+	//	
+	//	m_importReader->LoadNavMeshObject(m_device, m_deviceContext, m_NavMeshes, "navMeshMaze");
+	//
+
+	//	m_navMesh->setMeshInfo(m_NavMeshes.at(1)->getInfo());
+	//	m_navMesh->createTile();
+	//	m_navMesh->setStartPos(m_NavMeshes.at(0)->getInfo());
+
+
+	//	for(int i=0; i <m_currentRoom->getTorchMesh().size(); i++)
+	//	{
+	//		Vec3 testvert=m_currentRoom->getTorchMesh().at(i).vertices.at(0).position;
+	//		XMFLOAT3 tempvert(testvert.x, testvert.y, testvert.z);
+	//		m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
+	//	}
+	//	
+	//	//m_le->ExecuteFile("SetupMaze.lua");
+	//	currentLevel++;
+	//	drawLoadScreen=false;
+	//	loadNextLevelNextFrame=false;
+	//	return;
+	//}
 	if(currentLevel==1)
 	{
 		LuaWrapper::Instance()->InitDungeonMeta();
@@ -843,9 +846,11 @@ void Game::loadNextLevel()
 			m_particle->addParticleEffect(tempvert,XMFLOAT3(0.2f, 0.0, 0.2f),L"menuPics/particle.dds");
 		}
 		
+		m_camera->RotateY(XMConvertToRadians(180));
 		currentLevel++;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
+		m_gameTime->Tick();
 		return;
 	}
 	if(currentLevel==2)
@@ -885,6 +890,7 @@ void Game::loadNextLevel()
 		currentLevel=0;
 		drawLoadScreen=false;
 		loadNextLevelNextFrame=false;
+		m_gameTime->Tick();
 		return;
 	}
 }
@@ -944,12 +950,20 @@ int Game::Run()
 	 m_checkRClicked=false;
 	 menuState=MENU;
 	 m_checkClicked=false;
+	 isMute=true;
+	 drawEndScreen=false;
 
+	 drawLetter=false;
+
+	 currentLevel=1;
+
+	 hasInitMaze=false;
 	 pickRange=1.5f;
+	 doorPickRange=10000.0f;
 	  drawLoadScreen=false;
 	 loadNextLevelNextFrame=false;
 	//-----------------------------
-	 currentLevel=1;
+
 	//-------GATE CONTROLS---------
 	bool  isOpening = false;
 	bool  isClosing = false;
@@ -959,7 +973,7 @@ int Game::Run()
 	//---------ANIMATION-----------
 	 animationTimer = 0.0f;
 	//-----------------------------
-
+	 
 
 	while ( WM_QUIT != msg.message )
 	{

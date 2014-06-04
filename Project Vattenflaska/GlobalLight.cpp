@@ -22,6 +22,7 @@ GlobalLight::~GlobalLight()
 
 void GlobalLight::Update( float deltaTime )
 {
+	
 	if( m_positionAndRange.w <= m_intensity)
 	{
 		m_positionAndRange.w += deltaTime * 1.5f;

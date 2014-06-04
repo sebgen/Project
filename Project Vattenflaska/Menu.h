@@ -4,21 +4,12 @@
 #include "3DLibs.h"
 //#include "Application.h"
 #include <memory>
-//#include "XTK\Inc\SpriteBatch.h"
-//#include "XTK\Inc\SpriteFont.h"
-//#include "XTK\Inc\DDSTextureLoader.h"
-
-
 
 #include "DDSTextureLoader.h"
 #include "SpriteBatch.h"
 #include "SpriteFont.h"
 
 
-//#include "../DirectXTK/Inc/DDSTextureLoader.h"
-//#include "../DirectXTK/Inc/SpriteBatch.h"
-//#include "../DirectXTK/Inc/SpriteFont.h"
-//#include "../DirectXTK/Inc/Audio.h"
 
 class Menu
 {
@@ -33,6 +24,8 @@ private:
 	ID3D11ShaderResourceView*	thumbIcon;
 	ID3D11ShaderResourceView*	cursor;
 	ID3D11ShaderResourceView*	loadscreen;
+	ID3D11ShaderResourceView*	EndScreen;
+	ID3D11ShaderResourceView*	letter;
 
 	ID3D11DeviceContext*		m_deviceContext;
 	ID3D11Device*				m_device;		
@@ -63,11 +56,12 @@ public:
 	Menu();
 	~Menu();
 	void init(ID3D11DeviceContext* &m_deviceContext, ID3D11Device* &device);
-	void Render(int x, int y,float pointX, float pointY, bool m_mouseHit, int fps);
+	void Render();
 	void setMenuState(int state);
 	void setThumbState(int state);
 	void DrawLoadScreen();
+	void DrawLetter();
+	void DrawEndScreen();
 	void shutDown();
-	float dist;
 };
 #endif

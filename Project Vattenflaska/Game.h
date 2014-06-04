@@ -71,13 +71,18 @@ class Game : public Application
 
 		bool drawLoadScreen;
 		bool loadNextLevelNextFrame;
+		bool drawLetter;
+		bool drawEndScreen;
+
+		bool isMute;
+		bool hasInitMaze;
 		//templösning för picka door
 		std::vector<MeshInfo> doorMesh;
 		
 		//picking stuff
 		bool m_checkRClicked;
 		float pickRange;
-		float pickvalue;
+		float doorPickRange;
 
 		//-------
 		// Game |

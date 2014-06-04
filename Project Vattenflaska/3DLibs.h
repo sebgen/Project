@@ -53,6 +53,9 @@ using namespace DirectX;
 	static const int PAUS=9;
 	static const int PAUS_RESUME=10;
 	static const int PAUS_EXIT=11;
+	//endScreen
+	static const int ENDSCREEN=12;
+	static const int ENDSCREEN_RESUME=13;
 
 struct MeshInfo
 {

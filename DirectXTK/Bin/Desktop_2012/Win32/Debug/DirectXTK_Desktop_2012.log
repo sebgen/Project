@@ -1,9 +1,32 @@
-﻿Build started 2014-06-01 19:30:09.
+﻿Build started 2014-06-03 12:09:53.
      1>Project "C:\Users\linuz\git\DirectXTK\DirectXTK_Desktop_2012.vcxproj" on node 2 (Build target(s)).
      1>Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"Bin\Desktop_2012\Win32\Debug\DirectXTK.lib" /NOLOGO Bin\Desktop_2012\Win32\Debug\AlphaTestEffect.obj
+         Bin\Desktop_2012\Win32\Debug\BasicEffect.obj
+         Bin\Desktop_2012\Win32\Debug\CommonStates.obj
+         Bin\Desktop_2012\Win32\Debug\DDSTextureLoader.obj
+         Bin\Desktop_2012\Win32\Debug\DGSLEffect.obj
+         Bin\Desktop_2012\Win32\Debug\DGSLEffectFactory.obj
+         Bin\Desktop_2012\Win32\Debug\DualTextureEffect.obj
+         Bin\Desktop_2012\Win32\Debug\BinaryReader.obj
+         Bin\Desktop_2012\Win32\Debug\EffectCommon.obj
+         Bin\Desktop_2012\Win32\Debug\EffectFactory.obj
+         Bin\Desktop_2012\Win32\Debug\EnvironmentMapEffect.obj
+         Bin\Desktop_2012\Win32\Debug\GeometricPrimitive.obj
+         Bin\Desktop_2012\Win32\Debug\Model.obj
+         Bin\Desktop_2012\Win32\Debug\ModelLoadCMO.obj
+         Bin\Desktop_2012\Win32\Debug\ModelLoadSDKMESH.obj
+         Bin\Desktop_2012\Win32\Debug\pch.obj
+         Bin\Desktop_2012\Win32\Debug\ScreenGrab.obj
+         Bin\Desktop_2012\Win32\Debug\SkinnedEffect.obj
+         Bin\Desktop_2012\Win32\Debug\SpriteBatch.obj
+         Bin\Desktop_2012\Win32\Debug\PrimitiveBatch.obj
+         Bin\Desktop_2012\Win32\Debug\SpriteFont.obj
+         Bin\Desktop_2012\Win32\Debug\VertexTypes.obj
+         Bin\Desktop_2012\Win32\Debug\WICTextureLoader.obj
          DirectXTK_Desktop_2012.vcxproj -> C:\Users\linuz\git\DirectXTK\Bin\Desktop_2012\Win32\Debug\DirectXTK.lib
      1>Done Building Project "C:\Users\linuz\git\DirectXTK\DirectXTK_Desktop_2012.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.08
+Time Elapsed 00:00:01.17

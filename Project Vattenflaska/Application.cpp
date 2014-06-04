@@ -54,7 +54,7 @@ LRESULT CALLBACK Application::WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			switch( wParam )
 			{
 				case VK_ESCAPE:
-					PostQuitMessage( 0 );
+					//PostQuitMessage( 0 );
 					break;
 			}
 			return 0;
@@ -294,7 +294,7 @@ HRESULT Application::InitializeDirectX11()
 	sd.BufferUsage							= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.OutputWindow							= m_hWnd;
 	sd.SampleDesc.Count						= 1;
-	sd.Windowed								= TRUE;
+	sd.Windowed								= FALSE;
 
 	D3D_FEATURE_LEVEL featureLevelsToTry[] = { D3D_FEATURE_LEVEL_11_0 };
 	D3D_FEATURE_LEVEL initiatedFeatureLevel;

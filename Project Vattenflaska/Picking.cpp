@@ -129,106 +129,106 @@ bool Picking::testNavMesh(XMFLOAT3 eyepos, std::vector<BoundingBox> info, float&
 	
 	return false;*/
 }
-bool Picking::testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin)
-{
-	updateMatrix(_projMatrix, _viewMatrix, _worldMatrix, _orgin);
-	testIntersect(mouseX, mouseY);
-
-	XMFLOAT2 corner1(164 ,131);
-	XMFLOAT2 corner2(321, 197);
-
-	XMFLOAT2 Max, Min;
-	
-	float tMax=FLT_MAX;
-	float tMin= -FLT_MIN;
-	
-	Min.x=min(corner1.x, corner2.x);
-	Min.y=min(corner1.y, corner2.y);
-
-
-	Max.x=max(corner1.x, corner2.x);
-	Max.y=max(corner1.y, corner2.y);
-	
-	
-	//check x
-	if(p_rayDirection.x==0 && p_rayOrgin.x < Min.x && p_rayOrgin.x >Max.x)
-	{
-		//parallel
-		OutputDebugString("paralell x\n");
-		return false;
-	}
-	else
-	{
-		
-		float t1=(Min.x-p_rayOrgin.x)/p_rayDirection.x;
-		float t2=(Max.x-p_rayOrgin.x)/p_rayDirection.x;
-
-		if(t1 > t2)
-		{
-			std::swap(t1,t2);
-		}
-
-		if(t1 > tMin)
-		{
-			tMin=t1;
-		}
-		if(t2 > tMax)
-		{
-			tMax=t2;
-		}
-	//	tMax=tMax;
-		if(tMin > tMax)
-		{
-			OutputDebugString("fail in x tmin >tmax\n");
-			return false;
-
-		}
-		if(tMax < 0)
-		{
-			OutputDebugString("fail in x tmax < 0\n");
-			return false;
-		}
-	}
-	
-	//check y
-	if(p_rayDirection.y==0 && p_rayOrgin.y < Min.y && p_rayOrgin.y >Max.y)
-	{
-		//parallel
-		OutputDebugString("paralell y\n");
-		return false;
-	}
-	else
-	{
-		float t1=(Min.y-p_rayOrgin.y)/p_rayDirection.y;
-		float t2=(Max.y-p_rayOrgin.y)/p_rayDirection.y;
-
-		if(t1>t2)
-		{
-			std::swap(t1,t2);
-		}
-
-		if(t1 > tMin)
-		{
-			tMin=t1;
-		}
-		if(t2 > tMax)
-		{
-			tMax=t2;
-		}
-		if(tMin > tMax)
-		{
-			OutputDebugString("fail in y tmin >tmax\n");
-			return false;
-		}
-		if(tMax < 0)
-		{
-			OutputDebugString("fail in y tmax < 0\n");
-			return false;
-		}
-	}
-
-	return true;
-}
+//bool Picking::testIntersectBox(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin)
+//{
+//	updateMatrix(_projMatrix, _viewMatrix, _worldMatrix, _orgin);
+//	testIntersect(mouseX, mouseY);
+//
+//	XMFLOAT2 corner1(164 ,131);
+//	XMFLOAT2 corner2(321, 197);
+//
+//	XMFLOAT2 Max, Min;
+//	
+//	float tMax=FLT_MAX;
+//	float tMin= -FLT_MIN;
+//	
+//	Min.x=min(corner1.x, corner2.x);
+//	Min.y=min(corner1.y, corner2.y);
+//
+//
+//	Max.x=max(corner1.x, corner2.x);
+//	Max.y=max(corner1.y, corner2.y);
+//	
+//	
+//	//check x
+//	if(p_rayDirection.x==0 && p_rayOrgin.x < Min.x && p_rayOrgin.x >Max.x)
+//	{
+//		//parallel
+//		OutputDebugString("paralell x\n");
+//		return false;
+//	}
+//	else
+//	{
+//		
+//		float t1=(Min.x-p_rayOrgin.x)/p_rayDirection.x;
+//		float t2=(Max.x-p_rayOrgin.x)/p_rayDirection.x;
+//
+//		if(t1 > t2)
+//		{
+//			std::swap(t1,t2);
+//		}
+//
+//		if(t1 > tMin)
+//		{
+//			tMin=t1;
+//		}
+//		if(t2 > tMax)
+//		{
+//			tMax=t2;
+//		}
+//	//	tMax=tMax;
+//		if(tMin > tMax)
+//		{
+//			OutputDebugString("fail in x tmin >tmax\n");
+//			return false;
+//
+//		}
+//		if(tMax < 0)
+//		{
+//			OutputDebugString("fail in x tmax < 0\n");
+//			return false;
+//		}
+//	}
+//	
+//	//check y
+//	if(p_rayDirection.y==0 && p_rayOrgin.y < Min.y && p_rayOrgin.y >Max.y)
+//	{
+//		//parallel
+//		OutputDebugString("paralell y\n");
+//		return false;
+//	}
+//	else
+//	{
+//		float t1=(Min.y-p_rayOrgin.y)/p_rayDirection.y;
+//		float t2=(Max.y-p_rayOrgin.y)/p_rayDirection.y;
+//
+//		if(t1>t2)
+//		{
+//			std::swap(t1,t2);
+//		}
+//
+//		if(t1 > tMin)
+//		{
+//			tMin=t1;
+//		}
+//		if(t2 > tMax)
+//		{
+//			tMax=t2;
+//		}
+//		if(tMin > tMax)
+//		{
+//			OutputDebugString("fail in y tmin >tmax\n");
+//			return false;
+//		}
+//		if(tMax < 0)
+//		{
+//			OutputDebugString("fail in y tmax < 0\n");
+//			return false;
+//		}
+//	}
+//
+//	return true;
+//}
 bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix, XMFLOAT4X4 _viewMatrix,XMFLOAT4X4 _worldMatrix, XMFLOAT3 _orgin, std::vector<MeshInfo> info, int &hitMesh, float& _dist)
 {
 	updateMatrix(_projMatrix, _viewMatrix, _worldMatrix, _orgin);
@@ -247,14 +247,9 @@ bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix,
 			p1=XMFLOAT3 (vertexinfo.at(k+1).position.x, vertexinfo.at(k+1).position.y, vertexinfo.at(k+1).position.z);
 			p2=XMFLOAT3 (vertexinfo.at(k+2).position.x, vertexinfo.at(k+2).position.y, vertexinfo.at(k+2).position.z);
 
-			/*if(TriangleTests::Intersects(XMLoadFloat3(&p_rayOrgin),XMLoadFloat3(&p_rayDirection),XMLoadFloat3(&p0),XMLoadFloat3(&p1),XMLoadFloat3(&p2),dist))
-			{
-				testWhatMesh(info.at(i).groupName);
-				return true;
-			}*/
+
 			if(testIntersectTri(p_rayDirection, p_rayOrgin, p0, p1, p2,dist))
 			{
-				testWhatMesh(info.at(i).groupName);
 				_dist=dist;
 				hitMesh=i;
 				return true;
@@ -264,18 +259,7 @@ bool Picking::testIntersectTriXM(int mouseX, int mouseY, XMFLOAT4X4 _projMatrix,
 	dist=1000.0f;
 	return false;
 }
-void Picking::testWhatMesh(std::string name)
-{
-	std::string names[4]={"boilerWheelShape1","boilerWheelShape3","boilerWheelShape4","boilerWheelShape5"};
-	for(int i=0; i<4; i++)
-	{
-		if(names[i]==name)
-		{
-			OutputDebugString(names[i].c_str());
-			OutputDebugString("\n");
-		}
-	}
-}
+
 void Picking::testIntersect(int mouseX, int mouseY)
 
 {
@@ -292,7 +276,7 @@ void Picking::testIntersect(int mouseX, int mouseY)
 	pointX =(+2.0f * (float) mouseX / m_windowWidth -1.0f);
 	pointY =(-2.0f * (float) mouseY / m_windowHeight +1.0f);
 	//ändra points med projMatrix för aspect o viewport
-	//projMatrix = m_Camera->getProjection();
+	
 	pointX /= projMatrix._11;
 	pointY /= projMatrix._22;
 
@@ -307,12 +291,11 @@ void Picking::testIntersect(int mouseX, int mouseY)
 	direction.y = (pointX* inverseViewMatrix._12) + (pointY* inverseViewMatrix._22) + inverseViewMatrix._32;
 	direction.z	= (pointX* inverseViewMatrix._13) + (pointY* inverseViewMatrix._23) + inverseViewMatrix._33;
 
-	//get orgin from camera
-	//orgin = m_Camera->getPosition();
+	
 
 
 	//get worldMatrix and translate to the object
-	//worldMatrix = m_Camera->getWorld();
+
 	tempM = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 	XMStoreFloat4x4(&translateMatrix, tempM);
 
@@ -348,28 +331,40 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 
 	if(state==MENU)
 	{
-		//Play
-		topright.x=164;
-		topright.y=131;
+		////Play
+		// 1280*720
+		//topright.x=164;
+		//topright.y=131;
 
-		topleft.x=321;
-		topleft.y=131;
+		//topleft.x=321;
+		//topleft.y=131;
 
-		botright.x=164;
-		botright.y=197;
+		//botright.x=164;
+		//botright.y=197;
 
-		botleft.x=321;
-		botleft.y=197;
+		//botleft.x=321;
+		//botleft.y=197;
 
-	
-		if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+		topright.x=495;
+		topright.y=192;
+
+		topleft.x=228;
+		topleft.y=192;
+
+		botright.x=495;
+		botright.y=353;
+
+		botleft.x=228;
+		botleft.y=353;	
+
+		if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 		{
-			OutputDebugString("gonna return start_play\n");
 			return START_PLAY;
 		}
 	
 		//option
-		topright.x=180;
+		// 1280*720
+		/*topright.x=180;
 		topright.y=302;
 
 		topleft.x=402;
@@ -379,14 +374,27 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 		botright.y=373;
 
 		botleft.x=402;
-		botleft.y=373;
+		botleft.y=373;*/
+		topright.x=603;
+		topright.y=442;
 
-		if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+		topleft.x=145;
+		topleft.y=442;
+
+		botright.x=603;
+		botright.y=588;
+
+		botleft.x=145;
+		botleft.y=588;	
+
+
+		if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 		{
 			return START_OPTION;
 		}
 		//eixt
-		topright.x=174;
+		// 1280*720
+	/*	topright.x=174;
 		topright.y=482;
 
 		topleft.x=309;
@@ -396,9 +404,20 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 		botright.y=548;
 
 		botleft.x=309;
-		botleft.y=548;
+		botleft.y=548;*/
+		topright.x=470;
+		topright.y=721;
 
-		if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+		topleft.x=240;
+		topleft.y=721;
+
+		botright.x=470;
+		botright.y=849;
+
+		botleft.x=240;
+		botleft.y=849;	
+
+		if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 		{
 			return START_EXIT;
 		}
@@ -408,7 +427,8 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 	else if(state==OPTION)
 	{
 		//mute
-		topright.x=147;
+		// 1280*720
+		/*topright.x=147;
 		topright.y=184;
 
 		topleft.x=339;
@@ -418,15 +438,28 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 		botright.y=250;
 
 		botleft.x=339;
-		botleft.y=250;
+		botleft.y=250;*/
 
-		if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+		topright.x=495;
+		topright.y=276;
+
+		topleft.x=228;
+		topleft.y=276;
+
+		botright.x=495;
+		botright.y=399;
+
+		botleft.x=228;
+		botleft.y=339;	
+
+		if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 		{
 			return OPTION_MUTE;
 		}
 
 		//unmute
-		topright.x=110;
+		// 1280*720
+		/*topright.x=110;
 		topright.y=315;
 
 		topleft.x=383;
@@ -436,15 +469,28 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 		botright.y=387;
 
 		botleft.x=383;
-		botleft.y=387;
+		botleft.y=387;*/
 
-		if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+		topright.x=573;
+		topright.y=471;
+
+		topleft.x=166;
+		topleft.y=471;
+
+		botright.x=573;
+		botright.y=596;
+
+		botleft.x=166;
+		botleft.y=596;	
+
+		if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 		{
 			return OPTION_UNMUTE;
 		}
 
 		//option back
-		topright.x=165;
+		// 1280*720
+		/*topright.x=165;
 		topright.y=458;
 
 		topleft.x=338;
@@ -454,9 +500,21 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 		botright.y=524;
 
 		botleft.x=338;
-		botleft.y=524;
+		botleft.y=524;*/
 
-		if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+		topright.x=491;
+		topright.y=684;
+
+		topleft.x=252;
+		topleft.y=684;
+
+		botright.x=491;
+		botright.y=801;
+
+		botleft.x=252;
+		botleft.y=801;	
+
+		if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 		{
 			return OPTION_BACK;
 		}
@@ -464,7 +522,8 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 	else if(state==PAUS)
 	{
 			//resume
-			topright.x=198;
+		// 1280*720
+			/*topright.x=198;
 			topright.y=489;
 
 			topleft.x=414;
@@ -474,15 +533,28 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 			botright.y=544;
 
 			botleft.x=414;
-			botleft.y=544;
+			botleft.y=544;*/
 
-			if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+			topright.x=620;
+			topright.y=724;
+
+			topleft.x=300;
+			topleft.y=724;
+
+			botright.x=620;
+			botright.y=896;
+
+			botleft.x=300;
+			botleft.y=896;	
+
+			if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 			{
 				return PAUS_RESUME;
 			}
 
 			//exit
-			topright.x=885;
+			// 1280*720
+			/*topright.x=885;
 			topright.y=490;
 
 			topleft.x=1012;
@@ -492,13 +564,57 @@ int Picking::testIntersectMenu(int mouseX, int mouseY, int state)
 			botright.y=540;
 
 			botleft.x=1012;
-			botleft.y=540;
+			botleft.y=540;*/
 
-			if(mouseX >topright.x && mouseX < botleft.x && mouseY > topright.y && mouseY < botleft.y)
+			topright.x=1542;
+			topright.y=733;
+
+			topleft.x=1302;
+			topleft.y=733;
+
+			botright.x=1542;
+			botright.y=905;
+
+			botleft.x=1302;
+			botleft.y=905;	
+
+			if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
 			{
 				return PAUS_EXIT;
 			}
 
+	}
+	else if(state==ENDSCREEN)
+	{
+		//resume
+		// 1280*720
+		/*	topright.x=950;
+			topright.y=565;
+
+			topleft.x=804;
+			topleft.y=565;
+
+			botright.x=950;
+			botright.y=654;
+
+			botleft.x=804;
+			botleft.y=654;*/
+			topright.x=1425;
+			topright.y=847;
+
+			topleft.x=1206;
+			topleft.y=847;
+
+			botright.x=1425;
+			botright.y=981;
+
+			botleft.x=1206;
+			botleft.y=981;	
+
+			if(mouseX < topright.x && mouseX > botleft.x && mouseY > topright.y && mouseY < botleft.y)
+			{
+				return ENDSCREEN_RESUME;
+			}
 	}
 	return -1;
 }

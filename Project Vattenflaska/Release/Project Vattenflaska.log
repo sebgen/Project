@@ -1,9 +1,74 @@
-﻿Build started 2014-06-02 16:24:55.
+﻿Build started 2014-06-04 13:22:50.
      1>Project "C:\Users\linuz\git\Project Vattenflaska\Project Vattenflaska.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Particle.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Application.cpp Camera.cpp Door.cpp DrawableObject.cpp Game.cpp ImportReader.cpp Input.cpp Lever.cpp LuaWrapper.cpp Menu.cpp NavMesh.cpp NavMeshObject.cpp Particle.cpp ParticleHandler.cpp Picking.cpp Room.cpp Sound.cpp TestObject.cpp Torch.cpp Wheel.cpp main.cpp
+         Application.cpp
+         Camera.cpp
+         Door.cpp
+     1>Door.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+         DrawableObject.cpp
+         Game.cpp
+     1>Game.cpp(541): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(544): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Game.cpp(563): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(751): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(842): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(880): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(911): warning C4018: '<' : signed/unsigned mismatch
+     1>Game.cpp(926): warning C4101: 'p' : unreferenced local variable
+     1>Game.cpp(1021): warning C4018: '<' : signed/unsigned mismatch
+         ImportReader.cpp
+     1>ImportReader.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(157): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(195): warning C4018: '<' : signed/unsigned mismatch
+     1>ImportReader.cpp(226): warning C4018: '<' : signed/unsigned mismatch
+         Input.cpp
+         Lever.cpp
+         LuaWrapper.cpp
+     1>LuaWrapper.cpp(11): warning C4002: too many actual parameters for macro 'lua_tointeger'
+     1>LuaWrapper.cpp(32): warning C4002: too many actual parameters for macro 'lua_tostring'
+     1>LuaWrapper.cpp(42): warning C4002: too many actual parameters for macro 'lua_tostring'
+         Menu.cpp
+         NavMesh.cpp
+     1>NavMesh.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
+         NavMeshObject.cpp
          Particle.cpp
      1>Particle.cpp(67): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+         ParticleHandler.cpp
+     1>ParticleHandler.cpp(228): warning C4018: '<' : signed/unsigned mismatch
+     1>ParticleHandler.cpp(240): warning C4018: '<' : signed/unsigned mismatch
+     1>ParticleHandler.cpp(275): warning C4018: '<' : signed/unsigned mismatch
+     1>ParticleHandler.cpp(280): warning C4018: '<' : signed/unsigned mismatch
+     1>ParticleHandler.cpp(298): warning C4018: '<' : signed/unsigned mismatch
+         Picking.cpp
+     1>Picking.cpp(96): warning C4018: '<' : signed/unsigned mismatch
+     1>Picking.cpp(237): warning C4018: '<' : signed/unsigned mismatch
+     1>Picking.cpp(270): warning C4101: 'intersect' : unreferenced local variable
+     1>Picking.cpp(270): warning C4101: 'hr' : unreferenced local variable
+         Room.cpp
+     1>Room.cpp(119): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(128): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(141): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(151): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(174): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(189): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(201): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(315): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(318): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(321): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(324): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(327): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(339): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(342): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(345): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(348): warning C4018: '<' : signed/unsigned mismatch
+     1>Room.cpp(351): warning C4018: '<' : signed/unsigned mismatch
+         Sound.cpp
+         TestObject.cpp
+         Torch.cpp
+         Wheel.cpp
+         Compiling...
+         main.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\linuz\git\Release\Project Vattenflaska.exe" /NOLOGO Lua.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\linuz\git\Release\Project Vattenflaska.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\linuz\git\Release\Project Vattenflaska.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
          Release\Camera.obj
@@ -34,11 +99,29 @@
          Release\Wheel.obj
          C:\Users\linuz\git\DirectXTK\Audio\Bin\Desktop_2012\Win32\Release\DirectXTKAudioDX.lib
          C:\Users\linuz\git\DirectXTK\Bin\Desktop_2012\Win32\Release\DirectXTK.lib
-         Generating code
-         Finished generating code
-         Project Vattenflaska.vcxproj -> C:\Users\linuz\git\Release\Project Vattenflaska.exe
-     1>Done Building Project "C:\Users\linuz\git\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)).
+     1>Camera.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Door.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>DrawableObject.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Game.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>ImportReader.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Input.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Lever.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>LuaWrapper.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>main.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Menu.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>NavMesh.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>NavMeshObject.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Particle.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>ParticleHandler.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Picking.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Room.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Sound.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>TestObject.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Torch.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>Wheel.obj : error LNK2005: "bool isMute" (?isMute@@3_NA) already defined in Application.obj
+     1>C:\Users\linuz\git\Release\Project Vattenflaska.exe : fatal error LNK1169: one or more multiply defined symbols found
+     1>Done Building Project "C:\Users\linuz\git\Project Vattenflaska\Project Vattenflaska.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:05.13
+Time Elapsed 00:00:26.99

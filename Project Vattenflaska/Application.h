@@ -27,8 +27,8 @@
 #include "Input.h"
 #include "GameTime.h"
 
-const unsigned int SCREEN_WIDTH		=	1280;
-const unsigned int SCREEN_HEIGHT	=	720;
+const unsigned int SCREEN_WIDTH		=	1920;//1280;
+const unsigned int SCREEN_HEIGHT	=	1080;//720;
 
 class Application
 {

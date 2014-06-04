@@ -26,8 +26,8 @@ Wheel::Wheel( ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshInfo
 
 	m_sound = new Sound();
 	m_sound->init();
-	m_sound->addSoundEffect( L"lever_pull.wav", "rotateSound" );
-	m_sound->addSoundEffect( L"startMusicPlayer.wav", "startMusicPlayer" );
+	m_sound->addSoundEffect( L"wheelTurn.wav", "rotateSound" );
+	m_sound->addSoundEffect( L"musicPlayerActive.wav", "startMusicPlayer" );
 
 	// Blow sounds
 	m_sound->addSoundEffect( L"cave_blowSound1.wav", "blowSound1" );
